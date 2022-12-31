@@ -11,6 +11,14 @@ const count = ref(0)
 <template>
   <h1>{{ msg }}</h1>
 
+  <button class="btn btn-primary">
+    <slot name="btn">TEST 01</slot>
+  </button>
+
+  <button class="bs-success">
+    <slot>TEST 01</slot>
+  </button>
+
   <div class="card">
     <button type="button" @click="count++">count is {{ count }}</button>
     <p>
