@@ -2,10 +2,10 @@
         <header>
             <slot name="header"></slot>
         </header>
-        <main>
+        <main class="bg-primary">
             <slot></slot>
         </main>
-        <footer>
+        <footer class="bg-success">
             <slot name="footer"></slot>
         </footer>     
 </template>
