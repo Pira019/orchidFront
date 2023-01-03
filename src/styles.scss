@@ -1,0 +1,10 @@
+// Define variable defaults
+$green:  #00874E;
+$yellow: #E8CF00;
+
+
+$success : $green;
+$warning: $yellow;
+
+// Import all of Bootstrap's CSS
+@import "~bootstrap/scss/bootstrap";

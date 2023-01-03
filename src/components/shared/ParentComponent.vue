@@ -12,11 +12,12 @@
 
 <script>
 import BaseLayout from './BaseLayout.vue';
-import Footer from './Footer.vue';
-import Menu from './Menu.vue';
+import Footer from './footer/Footer.vue';
+import Menu from './Menu/Menu.vue';
+
 
 export default{
     name: "ParentComponet",
-    components: { BaseLayout, Menu, Footer }
+    components: { BaseLayout, Footer, Menu }
 }
 </script>

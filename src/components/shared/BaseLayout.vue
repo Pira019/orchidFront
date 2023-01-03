@@ -5,7 +5,7 @@
         <main class="bg-primary">
             <slot></slot>
         </main>
-        <footer class="bg-success">
+        <footer>
             <slot name="footer"></slot>
         </footer>     
 </template>

@@ -10,7 +10,7 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
     <ul class="navbar-nav navbar-right">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Études <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">Études</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Qui sommes-nous</a>
@@ -46,10 +46,29 @@
 </template>
 
 <script>
-import Button from './Menu/Button.vue';
+import Button from './Button.vue';
+ 
 
 export default {
     name: "Menu",
     components: { Button }
 }
+
 </script>
+
+<style scoped>
+ li a {
+   color : white;
+ }
+
+ li a:hover {
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 3px;
+  color : white;
+ }
+
+ li:hover {
+  background-color: red;
+ }
+</style>
