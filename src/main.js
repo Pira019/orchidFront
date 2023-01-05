@@ -6,8 +6,7 @@ import "bootstrap/dist/css/bootstrap.css"
 // Import our custom CSS
 import './styles.scss'
 
-// Import all of Bootstrap's JS
-import "bootstrap/dist/js/bootstrap.js"
+ 
 
  
 createApp(App).mount('#app')

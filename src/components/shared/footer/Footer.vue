@@ -74,7 +74,7 @@ export default{
     },
 
     mounted(){     
-      this.links=useFullLinks;
+      //this.links=useFullLinks;
       console.log(this.links)
     }
 }
