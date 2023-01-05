@@ -2,7 +2,7 @@
         <header>
             <slot name="header"></slot>
         </header>
-        <main class="bg-primary">
+        <main>
             <slot></slot>
         </main>
         <footer>
