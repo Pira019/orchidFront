@@ -1,9 +1,9 @@
 <template>
-    <button class="btn btn-warning border border-white">
+    <a class="btn btn-warning border border-white">
         <slot>
             Assistance
         </slot>
-    </button>
+    </a>
 </template>
 
 <script>
