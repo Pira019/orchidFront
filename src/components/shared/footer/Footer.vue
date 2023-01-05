@@ -27,7 +27,7 @@
           <h6 class="text-uppercase fw-bold mb-4" >
             Useful links
           </h6>
-          <p v-for="link in links">
+          <p>
             <a href="#!" class="text-reset">Pricing</a>
           </p> 
         </div>

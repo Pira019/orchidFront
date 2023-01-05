@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-warning">
+    <button class="btn btn-warning border border-white">
         <slot>
             Assistance
         </slot>
