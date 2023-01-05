@@ -34,7 +34,7 @@
       </li>
 
       <li class="nav-item py-2">
-        <Button></Button>
+        <button-component></button-component>
       </li>
     </ul>
  
@@ -44,13 +44,13 @@
     </div>
 </template>
 
-<script>
-import Button from './Button.vue';
+<script> 
+import ButtonComponent from './ButtonComponent.vue';
  
 
 export default {
     name: "Menu",
-    components: { Button }
+    components: {ButtonComponent  }
 }
 </script>
 
