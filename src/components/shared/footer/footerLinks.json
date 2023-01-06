@@ -1,0 +1,43 @@
+{
+    "//comment":  "useFullLinks.",
+    "useFull": [ 
+        {"title" : "Notre histoire"},
+        {
+            "title":"Politique de confidentialité"
+        },
+        {
+            "title":"Besoin d’assistance"
+        },
+        {
+            "title":"Question populaire"
+        },
+        {
+            "title":"Système d'éducation"
+        },
+        {
+            "title":"Limitation légale"
+        }
+    ],
+
+    "//contact":  "contact",
+    "contact" : [
+        
+        {
+            "icon" :"square-whatsapp", 
+            "prefix" :"fab",
+            "content" : "+21205665552"
+        },
+        {
+            "icon" :"envelope",  
+            "prefix" :"fas",          
+            "content" : "contact@orchid-campus.com"
+        },
+        {
+            "icon" :"square-instagram", 
+            "prefix" :"fab",           
+            "content" : "Orchid-campus"
+        }
+        
+    ]
+
+}
