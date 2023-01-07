@@ -28,7 +28,7 @@
             liens utiles
           </h6>
           <p v-for="(link,index) in footerLinks" :key="index">
-            <a href="#!" class="text-reset">{{link.title}}</a>
+            <a href="#!" class="text-decoration-none text-reset">{{link.title}}</a>
           </p> 
         </div>
         <!-- Grid column -->
@@ -39,7 +39,7 @@
           <h6 class="text-uppercase fw-bold mb-4">Contact</h6>           
           <p v-for="(contact,index) in contactLinks" :key="index">           
             <font-awesome-icon :icon="[contact.prefix,contact.icon]" class="me-3"></font-awesome-icon>
-           <a href="#" class="text-reset">{{contact.content}}</a>
+           <a href="#" class="text-decoration-none text-reset">{{contact.content}}</a>
           </p>
            </div>
         <!-- Grid column -->
@@ -77,3 +77,9 @@ export default{
     }
 }
 </script>
+
+<style scoped>
+.text-reset:hover{
+  text-decoration: underline !important;
+}
+</style>
