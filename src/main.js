@@ -15,9 +15,9 @@ import "bootstrap/dist/css/bootstrap.css"
 import './styles.scss'
 
 /* import specific icons */  
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { faInstagramSquare, faMailchimp, faWhatsapp, faWhatsappSquare } from '@fortawesome/free-brands-svg-icons'
+import {faBullseye, faEnvelope, faHandshake, faHeartCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import { faInstagramSquare, faMailchimp, faWhatsappSquare } from '@fortawesome/free-brands-svg-icons'
 
  
-library.add(faWhatsappSquare,faEnvelope,faInstagramSquare,faMailchimp) 
+library.add(faWhatsappSquare,faEnvelope,faInstagramSquare,faMailchimp,faHandshake,faBullseye,faHeartCircleCheck) 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app');

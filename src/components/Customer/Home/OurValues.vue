@@ -2,9 +2,10 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 my-2">
   <div class="col" v-for="(value,index) in valuesList" :key="index">
     <div class="card h-100">
-      <img src="..." class="card-img-top" alt="...">
+      <font-awesome-icon :icon="[value.icon.prefix,value.icon.name]" class="card-img-top pt-2" size="3x"></font-awesome-icon>
+      <!--<img src="..." class="card-img-top" alt="...">-->
       <div class="card-body">
-        <h5 class="card-title text-center text-success">{{ value.tile}}</h5>
+        <h5 class="card-title text-center text-success">{{ value.tile}}</h5> 
         <p class="card-text">{{ value.desc}}</p>
       </div>
     </div>

@@ -1,9 +1,9 @@
 <template >
-    <button class="btn border border-white" :class="[variantStyle]">
+    <a href="#" class="btn border border-white" :class="[variantStyle]">
         <slot>
             Assistance
         </slot>
-    </button>
+      </a>
 </template>
 
 <script>
