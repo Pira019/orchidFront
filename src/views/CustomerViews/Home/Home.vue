@@ -7,13 +7,14 @@
       <!--Our values-->
       <Our-values></Our-values>
     </div>
-      <div class="bg-secondary text-center p-4 mb-4 mt-4">
+      <div class="bg-info text-center p-4 mb-4 mt-4">
         <div class="container">
-          <p>En parfaite conformité avec les lois des pays concernés, Orichid Campus propose des services d'assistance. En plus des vidéos tutorielles que nous fournissons, nous proposons également un service d'accompagnement dont le but est la réalisation de votre projet académique plutôt que de gagner de l'argent.</p>
-          <ButtonComponent></ButtonComponent>
+          <p class="text-success">En parfaite conformité avec les lois des pays concernés, Orchid Campus propose des services d'assistance numérique. En plus des vidéos tutorielles que nous fournissons, nous proposons également un service d'accompagnement dont le but est la réalisation de votre projet académique plutôt que de gagner de l'argent.</p>
+          <ButtonComponent :variantStyle="btnStyle">
+         Tutoriel pour étudier à l'étranger
+          </ButtonComponent>
         </div>
-           </div>
-    
+           </div>    
    </parent-component> 
 </template>
 
@@ -26,18 +27,10 @@ import ParentComponent from '../../../components/shared/ParentComponent.vue'
 export default{
   data () {
     return {
-      nameApp :  {
-        type : String,
-        default : 10
-      }
+      btnStyle:'bg-success text-white'
     }
-  },
-
-  mounted (){
-    console.log(import.meta.env.APP_TITLE)
-   // this.nameApp = import.meta.env.APP_TITLE
-  },   
-  
+    
+  }, 
   components: { ParentComponent, Carousel, OurValues, ButtonComponent },
  
     name : 'Home'
