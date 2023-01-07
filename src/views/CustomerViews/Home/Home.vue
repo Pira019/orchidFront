@@ -27,7 +27,7 @@ import ParentComponent from '../../../components/shared/ParentComponent.vue'
 export default{
   data () {
     return {
-      btnStyle:'bg-success text-white'
+      btnStyle:'btn-success text-white'
     }
     
   }, 
