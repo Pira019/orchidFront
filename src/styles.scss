@@ -1,16 +1,20 @@
 // Define variable defaults
 $green:  #00874E;
 $yellow: #E8CF00;
+$info : #EEF7F3;
 
 
 $success : $green;
 $warning: $yellow;
+$info :$info;
 
 
 :root {
-    --bs-body-font-family : 'Noto Sans', sans-serif
+    --bs-body-font-family : 'Noto Sans', sans-serif,
+   
 }
 
 
-
+// Then import Bootstrap and BootstrapVue SCSS files (order is important)
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
 
