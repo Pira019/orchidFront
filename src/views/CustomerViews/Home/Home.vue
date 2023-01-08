@@ -2,7 +2,7 @@
    <parent-component>
     <Carousel></Carousel>
 
-    <div class="container">
+    <div class="container mt-5">
       <h2 class="text-center">Nos valeurs</h2>
       <!--Our values-->
       <Our-values></Our-values>
