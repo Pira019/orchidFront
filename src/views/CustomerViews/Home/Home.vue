@@ -1,7 +1,5 @@
-<template>
-   <parent-component>
+<template>  
     <Carousel></Carousel>
-
     <div class="container mt-5">
       <h2 class="text-center">Nos valeurs</h2>
       <!--Our values-->
@@ -15,14 +13,13 @@
           </ButtonComponent>
         </div>
            </div>    
-   </parent-component> 
+ 
 </template>
 
 <script>
 import Carousel from '../../../components/Customer/Home/Carousel.vue';
 import OurValues from '../../../components/Customer/Home/OurValues.vue'; 
-import ButtonComponent from '../../../components/shared/Menu/ButtonComponent.vue';
-import ParentComponent from '../../../components/shared/ParentComponent.vue'
+import ButtonComponent from '../../../components/shared/Menu/ButtonComponent.vue'; 
  
 export default{
   data () {
@@ -31,7 +28,7 @@ export default{
     }
     
   }, 
-  components: { ParentComponent, Carousel, OurValues, ButtonComponent },
+  components: { Carousel, OurValues, ButtonComponent },
  
     name : 'Home'
 }
