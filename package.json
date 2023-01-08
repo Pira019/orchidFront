@@ -2,7 +2,7 @@
   "name": "orchid-campus",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "//type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -18,7 +18,8 @@
     "@fortawesome/vue-fontawesome": "^3.0.2",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",

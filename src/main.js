@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
 
+//router file 
+import router from "@/router"
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -20,4 +22,4 @@ import { faInstagramSquare, faMailchimp, faWhatsappSquare } from '@fortawesome/f
 
  
 library.add(faWhatsappSquare,faEnvelope,faInstagramSquare,faMailchimp,faHandshake,faBullseye,faHeartCircleCheck) 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app');
+createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app');
