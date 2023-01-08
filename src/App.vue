@@ -1,8 +1,9 @@
 <script setup>
-import Home from './views/CustomerViews/Home/Home.vue';  
+import ParentComponent from '@/components/shared/ParentComponent.vue';  
 </script>
-
 <template>
-<Home></Home>
+<parent-component>
+    <router-view></router-view>
+</parent-component>
 </template>
  
