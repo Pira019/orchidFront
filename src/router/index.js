@@ -1,16 +1,18 @@
-import FaqVue from "@/views/CustomerViews/Faq.vue";
-import HomeVue from "@/views/CustomerViews/Home/Home.vue";
+  
 import {createRouter,createWebHistory} from "vue-router" 
 
 //routes list
 const routes = [
-    {path : '/', name: 'home', component: HomeVue }
+    {path : '/', name: 'home', component:() => import('@/views/CustomerViews/Home/Home.vue') },
+    {path : '/faq', name: 'faq', component:() => import('@/views/CustomerViews/Faq.vue') }
+
 ]
 
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    linkActiveClass:'active-link',
 })
 
 export default router

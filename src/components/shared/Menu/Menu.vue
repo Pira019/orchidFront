@@ -2,7 +2,7 @@
     <div class="bg-success">
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark"> 
-    <a class="navbar-brand" href="#">Navbar</a>
+    <router-link to="/" class="navbar-brand">Navbar</router-link>      
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,7 +26,7 @@
           </ul>
         </li>-->
       <li class="nav-item   px-2 py-2">
-        <a class="nav-link" href="#">Faq</a>
+        <router-link :to="{name:'faq'}" class="nav-link" title="Questions populaires">Faq</router-link>
       </li>
 
       <li class="nav-item px-2 py-2">
@@ -56,6 +56,9 @@ export default {
 
 <style scoped>
 
+.active-link{
+  color: #000;
+}
 .nav-link{
  position: relative;
 } 
