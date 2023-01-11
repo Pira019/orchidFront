@@ -1,0 +1,12 @@
+{
+    "faqs" : [
+        {
+            "question":"Pour quels pays proposez-vous votre service d'accompagnement ?",
+            "answer" : "Actuellement, nous pouvons vous aider à remplir les documents nécessaires par vidéos tutorielles pour le Canada "
+        },
+        {
+            "question":"Que dois-je faire pour demander une admission et un visa pour étudier à l'étranger ?",
+            "answer" : "Vous devez d'abord décider dans quel(s) pays vous souhaitez étudier avant de pouvoir faire une demande d'admission et de visa. L'étape suivante consiste à choisir une université et à soumettre une demande d'admission. Une fois votre demande d'admission approuvée, vous pouvez introduire une demande de visa. Nous offrons des vidéos tutorielles bien détails qui vous  montreront comment faire tout depuis chez vous en étant autonome et une assistance si vous rencontrez de soucis"
+        }
+    ]
+}
