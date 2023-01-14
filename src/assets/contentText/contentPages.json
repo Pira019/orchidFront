@@ -1,12 +1,29 @@
 {
     "faqs" : [
+
         {
             "question":"Pour quels pays proposez-vous votre service d'accompagnement ?",
-            "answer" : "Actuellement, nous pouvons vous aider à remplir les documents nécessaires par vidéos tutorielles pour le Canada "
+            "//patern": ":country // for contry list",
+            "answer" : "Actuellement, nous pouvons vous aider à remplir les documents nécessaires par des vidéos tutorielles pour :country"
         },
         {
             "question":"Que dois-je faire pour demander une admission et un visa pour étudier à l'étranger ?",
-            "answer" : "Vous devez d'abord décider dans quel(s) pays vous souhaitez étudier avant de pouvoir faire une demande d'admission et de visa. L'étape suivante consiste à choisir une université et à soumettre une demande d'admission. Une fois votre demande d'admission approuvée, vous pouvez introduire une demande de visa. Nous offrons des vidéos tutorielles bien détails qui vous  montreront comment faire tout depuis chez vous en étant autonome et une assistance si vous rencontrez de soucis"
+            "answer" : "Vous devez d'abord décider dans quel(s) pays vous souhaitez étudier avant de pouvoir faire une demande d'admission et de visa. L'étape suivante consiste à choisir une université et à soumettre une demande d'admission. Une fois votre demande d'admission approuvée, vous pouvez introduire une demande de visa. Nous offrons des vidéos tutorielles bien détails qui vous  montreront comment faire tout depuis chez vous en étant autonome et une assistance gratuite si vous rencontrez de soucis."
+        },
+        {
+            "question":"Faut-il payer pour accéder aux vidéos tutorielles des démarches offertes par Orchid Campus ?",
+            "answer":"Oui, nos tutoriels, et accompagnements sont payants, 150 $(USD)."
+        },
+        {
+            "question":"Quelles sont les conditions d'admission ?",
+            "answer":"Les exigences varient fréquemment en fonction de l'université et/ou du programme pour lequel vous postulez. En général, il est nécessaire d'avoir de bonnes notes et des cours complets liés au programme choisi. Par exemple, quelqu'un qui a étudié la sociologie pourrait trouver difficile de s'intégrer au département d'informatique. Afin d'augmenter vos chances d'être accepté, nous vous accompagnerons dans votre demande d'admission dans 2 universités."
+        },
+        {
+            "question":"Existe-t-il des bourses pour étudier à l'étranger ?",
+            "answer":"En fait, il existe des bourses d'études disponibles pour ceux qui choisissent d'étudier à l'étranger. Certains sont tout compris, couvrant toutes vos dépenses, tandis que d'autres sont partiels, ne couvrant qu'une partie de vos frais académiques ou offrant une réduction sur les frais académiques. Cependant, ceux qui poursuivent des études supérieures ou doctorales, comme la maîtrise ou le doctorat, sont beaucoup plus susceptibles de se qualifier pour ces bourses."
         }
+        
     ]
 }
+
+
