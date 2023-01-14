@@ -30,7 +30,7 @@
       </li>
 
       <li class="nav-item px-2 py-2">
-        <a class="nav-link" href="#">Contact</a>
+        <router-link class="nav-link" :to="{name:'contact'}">Contact</router-link> 
       </li>
 
       <li class="nav-item py-2">
