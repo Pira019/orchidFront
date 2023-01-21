@@ -41,7 +41,7 @@
             <font-awesome-icon :icon="[contact.prefix,contact.icon]" class="me-3"></font-awesome-icon>
            <a href="#" class="text-decoration-none text-reset">{{contact.content}}</a>
           </p>
-           </div>
+         </div>
         <!-- Grid column -->
       </div>
       <!-- Grid row -->
