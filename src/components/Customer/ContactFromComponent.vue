@@ -1,8 +1,8 @@
 <template>
-    <!--Grid row -->
-    <div class="row mt-5 gx-5">
+    <!--Grid row -->    
+    <div class="row justify-content-around m-5">
         <!--Grid column-->
-        <div class="col-md-6 bg-success">
+        <div class="col col-md-6 col-sm-12 mb-3">
             <form class="group-form">
                 <div class="input-group input-group-lg mb-3">    
                     <input type="text" required class="form-control rounded-0" name="_name" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nom *">
@@ -18,7 +18,7 @@
     <!--Grid column-->
 
     <!--Grid column-->
-     <div class="col-md-6 bg-info">
+     <div class="col col-md-auto col-sm-12">
         <div class="d-flex flex-column">
         <div class="p-2" v-for="(contact,index) in contactList" :key="index">
            <a href="" class="text-reset"><font-awesome-icon :icon="[contact.prefix,contact.icon]" class="me-3"></font-awesome-icon>{{contact.content}}</a>
