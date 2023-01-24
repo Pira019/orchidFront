@@ -37,9 +37,8 @@
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
           <!-- Links -->
           <h6 class="text-uppercase fw-bold mb-4">Contact</h6>           
-          <p v-for="(contact,index) in contactLinks" :key="index">           
-            <font-awesome-icon :icon="[contact.prefix,contact.icon]" class="me-3"></font-awesome-icon>
-           <a href="#" class="text-decoration-none text-reset">{{contact.content}}</a>
+          <p v-for="(contact,index) in contactLinks" :key="index">       
+           <a :href="contact.link ?? '#'" class="text-decoration-none text-reset"> <font-awesome-icon :icon="[contact.prefix,contact.icon]" class="me-3"></font-awesome-icon>{{contact.content}}</a>
           </p>
          </div>
         <!-- Grid column -->
