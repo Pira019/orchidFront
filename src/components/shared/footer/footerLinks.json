@@ -25,17 +25,20 @@
         {
             "icon" :"square-whatsapp", 
             "prefix" :"fab",
-            "content" : "+21205665552"
+            "content" : "+21205665552",
+            "link":"https://wa.me/18196394833"
         },
         {
             "icon" :"envelope",  
             "prefix" :"fas",          
-            "content" : "contact@orchid-campus.com"
+            "content" : "contact@orchid-campus.com",
+            "link":"mailto:contact@orchid-campus.com"
         },
         {
             "icon" :"square-instagram", 
             "prefix" :"fab",           
-            "content" : "Orchid-campus"
+            "content" : "Orchid-campus",
+            "link":"https://www.instagram.com/orchid_campus/"
         }
         
     ]

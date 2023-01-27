@@ -3,7 +3,7 @@
         <h1 class="text-center text-success">Contact</h1>
         <div class="mt-5 text-center">
           <p>Avez-vous des questions ou avez-vous besoin d'informations supplémentaires? <br>
-S'il vous plaît n'hésitez pas à nous contacter.</p>
+            <strong>S'il vous plaît n'hésitez pas à nous contacter.</strong> </p>
         </div>
         <contact-from-component></contact-from-component>
     </div>
