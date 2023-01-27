@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "//start": "vite",
+    "//test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
