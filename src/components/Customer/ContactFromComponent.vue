@@ -5,7 +5,7 @@
         <div class="col col-md-6 col-sm col-xs-12 mb-3">
             <form class="group-form">
                 <div class="input-group input-group-lg mb-3">    
-                    <input type="text" required class="form-control rounded-0" name="name" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nom *">
+                    <input type="text" required class="form-control rounded-0" v-model="Conctact.namnjhe" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nom *">
                 </div>
                 <div class="form-group input-group-lg mb-3">    
                     <input type="email" required class="form-control rounded-0" name="email" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Email *">
@@ -37,9 +37,20 @@
 <script>
 import contacts from "../shared/footer/footerLinks.json"
 export default{
+  methods: {
+    submitForm(){
+
+    }
+  },
   data () {
     return {
-        contactList : contacts.contact
+        contactList : contacts.contact,
+        Conctact :{
+            namnjhe:{
+                required : true,
+                type : String
+            }
+        }
     }
   },
     name:"ContactFromComponent"
