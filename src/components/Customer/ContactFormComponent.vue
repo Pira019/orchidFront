@@ -14,6 +14,9 @@
                     <textarea class="form-control" required rows="3"></textarea>
                 </div>
                 <div class="mb-3">
+                    <recaptcha-component></recaptcha-component>
+                </div>
+                <div class="mb-3">
                     <button class="btn btn-success btn-lg" type="submit">Envoyer</button>
                 </div>
           </form>
@@ -36,13 +39,15 @@
 </template>
 <script>
 import contacts from "../shared/footer/footerLinks.json"
+import RecaptchaComponent from '../shared/RecaptchaComponent.vue'
 export default{
+  components: { RecaptchaComponent },
   data () {
     return {
         contactList : contacts.contact
     }
   },
-    name:"ContactFromComponent"
+    name:"ContactFormComponent"
 }
 </script>
 

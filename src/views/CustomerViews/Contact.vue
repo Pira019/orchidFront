@@ -5,14 +5,15 @@
           <p>Avez-vous des questions ou avez-vous besoin d'informations supplémentaires? <br>
             <strong>S'il vous plaît n'hésitez pas à nous contacter.</strong> </p>
         </div>
-        <contact-from-component></contact-from-component>
+        <contact-form-component></contact-form-component>
     </div>
 </template>
 
 <script>
-import ContactFromComponent from '@/components/Customer/ContactFromComponent.vue'
+import ContactFormComponent from '@/components/Customer/ContactFormComponent.vue'
+ 
 export default {
-  components: { ContactFromComponent },
+  components: { ContactFormComponent }, 
   data () {
     return {
         id:this.id
