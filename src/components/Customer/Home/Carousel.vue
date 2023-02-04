@@ -18,11 +18,7 @@
         </div> 
       </div>       
       </div> 
-  </div>
- 
- 
- 
- 
+  </div> 
 <!-- Background image -->
 </template>
 
