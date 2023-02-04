@@ -34,7 +34,7 @@
       </li>
 
       <li class="nav-item py-2">
-        <button-component></button-component>
+        <button-component path="login"></button-component>
       </li>
     </ul>
  
