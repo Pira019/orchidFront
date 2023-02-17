@@ -13,7 +13,9 @@ import imgLogin from '@/assets/img/graduation.jpg';
 
 export default  {
   data () {
-    return { imgLogin: { backgroundImage: `url('${imgLogin}')`} };
+    return { 
+      imgLogin: { backgroundImage: `url('${imgLogin}')`} 
+  };
   },
     name: "Login",
     components: { FormLogin }

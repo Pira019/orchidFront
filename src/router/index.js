@@ -20,9 +20,7 @@ const routes = [
      meta : {
         title : 'Contact'
      },
-    },
-
-     
+    },     
     {
       path : '/login', name: 'login', component:() => import('@/views/CustomerViews/Login/Login.vue'),
       meta:
@@ -36,6 +34,17 @@ const routes = [
         ]
     }
     },
+    {
+      path:'/register', name:'register', component:()=> import('@/views/CustomerViews/register/Register.vue'),
+      meta:{
+        title:'Créez votre compte',
+        metaTags:[{
+          name:'Description inscription',
+          content:'Content'
+        }]
+      }
+    },
+
 
   {
       path:'/:pathMatch(.*)*',
