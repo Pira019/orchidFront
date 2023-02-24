@@ -13,15 +13,17 @@
 </template>
 
 <script>
-import imgRegister from '@/assets/img/graduation.jpg';
-import registerForm from './registerForm.vue';
+import imgRegister from '@/assets/img/register.jpg';
+import registerForm from './registerForm.vue';   
 export default{
   components: { registerForm },
   data () {
-    return {
-        imgRegister: { backgroundImage: `url('${imgRegister}')`} 
-    };
+    return {  
+        imgRegister: { backgroundImage: `url('${imgRegister}')`} ,         
+    }; 
   },
+ 
+  
     name: 'Register'
 }
 </script>

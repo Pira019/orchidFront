@@ -1,6 +1,6 @@
 <template>  
 <!-- Background image -->
-<div class="p-5" style="background-image: url('../../../src/assets/img/graduation-orchid-campus.jpg');  background-position: center;   background-size: cover"> 
+<div class="p-5" :style="imgRegister"  style="background-position: center;background-size: cover"> 
      
     <div class="container text-white m-md-5 p-md-5">      
       <div class="row justify-content-md-center">
@@ -23,11 +23,13 @@
 </template>
 
 <script>
-import ButtonComponent from '../../shared/Menu/ButtonComponent.vue';  
+import ButtonComponent from '../../shared/Menu/ButtonComponent.vue';
+import imgBg from '@/assets/img/bg_carousel.jpg'
 export default{
   data () {
     return {      
       btnStyle:'btn-light border border-warning', 
+      imgRegister: { backgroundImage: `url('${imgBg}')`} 
    
     }
   },
