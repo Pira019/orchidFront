@@ -2,6 +2,17 @@ import { createApp } from 'vue'
 
 //create store for vuejs
 import store from '@/store/index'
+/*
+//vuefify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+const vuetify = createVuetify({
+    components,
+    directives,
+  })*/
 
 //router file 
 import router from "@/router"

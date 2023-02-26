@@ -6,9 +6,12 @@ export default {
         phone:'',
         birthDate:'',
         sex:'',
-        residenceContry:0,
-        citezenship:0,
-        password:''
+        residenceContry:'',
+        citezenship:'',
+        password: {
+            password :'',
+            confirm :''
+        }
     }
 }
 }
