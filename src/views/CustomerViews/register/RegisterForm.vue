@@ -66,12 +66,12 @@
 
         <div class="row mb-3">
             <div class="col">
-                <input type="tel" :class="[v$.user.phone.$error ? 'is-invalid' : '']" name="tel" autocomplete="tel" title="Numéro tél" class="form-control rounded-0"  v-model="state.user.phone" placeholder="Télephone">
-               <!-- <div class="invalid-feedback" v-if="v$.user.phone.$error">
+                <input type="tel" :class="[v$.user.phone.$error ? 'is-invalid' : '']" name="tel" autocomplete="tel" title="Numéro téléphone" class="form-control rounded-0"  v-model="state.user.phone" placeholder="Téléphone">
+                 <div class="invalid-feedback" v-if="v$.user.phone.$error">
                     <span v-for="(error,index) of v$.user.phone.$errors" :key="index" >
                     {{ error.$message }}
                     </span>
-                 </div> -->
+                 </div>
             </div>            
         </div>
 
