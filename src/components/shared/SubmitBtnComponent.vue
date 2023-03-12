@@ -1,23 +1,23 @@
 <template>
-    <button type="submit" :disabled="disabled">
+    <button type="submit" v-if="!loading">
         <slot>Envoyer</slot>
     </button>
+    <ButtonLoading v-else></ButtonLoading>
 </template>
 
 <script>
+import ButtonLoading from './ButtonLoading.vue';
+
 export default {
-  props: {
-    disabled : {
-        type: Boolean,
-        default : false
-    }
-  },
-  data () {
-    return {
-        
-    }
-  },
-    
-    name :'BtnSubmit'
+    props: {
+        loading: {
+            type: Boolean, 
+        }
+    },
+    data() {
+        return {};
+    },
+    name: "BtnSubmit",
+    components: { ButtonLoading }
 }
 </script>
