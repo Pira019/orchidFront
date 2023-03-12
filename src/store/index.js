@@ -1,5 +1,5 @@
  import Vuex from 'vuex'
- import user from '@/store/modules/User'
+ import user from '@/store/modules/User/user'
  
 export default new Vuex.Store({
 
@@ -8,7 +8,7 @@ export default new Vuex.Store({
     },
 
     state : {
-        test : "noko"
+       
     },
     mutations:{
 
