@@ -1,4 +1,5 @@
 <template>
+    <success-modal-component></success-modal-component>
     <div class="container">
         <div class="text-center mb-5">
             <h1 class="text-success">Créer un compte</h1>
@@ -15,8 +16,9 @@
 <script>
 import imgRegister from '@/assets/img/register.jpg';
 import registerForm from './registerForm.vue';   
+import SuccessModalComponent from '@/components/modal/SuccessModalComponent.vue';
 export default{
-  components: { registerForm },
+  components: { registerForm, SuccessModalComponent },
   data () {
     return {  
         imgRegister: { backgroundImage: `url('${imgRegister}')`} ,         

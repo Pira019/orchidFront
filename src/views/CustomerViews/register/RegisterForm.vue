@@ -106,10 +106,10 @@
         </div>
         <div class="row">
             <div class="col">
-                <SubmitBtnComponent :loading="loading" @click="submitForm" class="btn btn-success">Créer mon compte</SubmitBtnComponent> 
+                <SubmitBtnComponent :loading="loading" @click="submitForm" data-toggle="modal" :data-target="'#' + modal" class="btn btn-success">Créer mon compte</SubmitBtnComponent> 
             </div>
         </div>
-    
+    <ModalComponent :modal="modal"></ModalComponent>
     </div>
 </form>
 </template>
@@ -118,7 +118,9 @@ import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
 import {required,email,sameAs} from '@vuelidate/validators' 
 import useVuelidate from '@vuelidate/core';
 import { computed, reactive } from 'vue';
-import { mapActions, mapGetters, mapState, useStore } from 'vuex'; 
+import { mapActions, mapGetters, mapState, useStore } from 'vuex';  
+import ModalComponent from '@/components/modal/ModalComponent.vue';
+import { ModalTypeEnum } from '@/enums';
 
 export default{
     setup(){
@@ -153,7 +155,8 @@ export default{
 }, 
     data(){
         return {
-            loading : false
+            loading : false,
+            modal : ''
         }
     },
  
@@ -163,18 +166,19 @@ export default{
     },
     methods:{
          submitForm(){  
-            this.loading =true;
+            //this.loading =true;
             this.v$.$validate()
-            if(!this.v$.$error){                
-                this.$store.dispatch('user/saveUser', this.state.user);
+            if(!this.v$.$error){   
+                this.modal = ModalTypeEnum.REGISTER             
+               /* this.$store.dispatch('user/saveUser', this.state.user);
                 this.loading = false;
                 return true;
-              //console.log(this.state.user)
+              //console.log(this.state.user)*/
             } 
         }
         
         },
     name: "RegisterForm",
-    components: { SubmitBtnComponent }
+    components: { SubmitBtnComponent, ModalComponent }
 }
 </script>
