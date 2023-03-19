@@ -3,7 +3,7 @@
     <div>  
         <div class="row mb-3 no-gutter">
             <div class="col">   
-                <input type="text" class="form-control rounded-0" autocomplete="family-name" name="first_name" :class="[v$.user.first_name.$error ? 'is-invalid' : '']" v-model.trim="state.user.first_name" placeholder="Prénom*" title="Prénom*" required>
+                <input type="text" class="form-control rounded-0" maxlength="255" autocomplete="family-name" name="first_name" :class="[v$.user.first_name.$error ? 'is-invalid' : '']" v-model.trim="state.user.first_name" placeholder="Prénom*" title="Prénom*" required>
                 <div class="invalid-feedback" v-if="v$.user.first_name.$error">
                     <span v-for="(error,index) of v$.user.first_name.$errors" :key="index" >
                     {{ error.$message }}
@@ -11,7 +11,7 @@
                  </div>                
             </div>
             <div class="col">
-                <input type="text" class="form-control rounded-0" name="name" autocomplete="family-name" :class="[v$.user.name.$error ? 'is-invalid' : '']" v-model.trim="state.user.name" placeholder="Nom*" title="Nom*"  required>
+                <input type="text" class="form-control rounded-0" name="name" maxlength="255" autocomplete="family-name" :class="[v$.user.name.$error ? 'is-invalid' : '']" v-model.trim="state.user.name" placeholder="Nom*" title="Nom*"  required>
                 <div class="invalid-feedback" v-if="v$.user.name.$error">
                     <span v-for="(error,index) of v$.user.name.$errors" :key="index" >
                     {{ error.$message }}
@@ -33,7 +33,12 @@
                  </div> 
             </div>
             <div class="col">
-                <input type="date" class="form-control rounded-0" placeholder="Date de naissance" onfocus="(this.type='date')" onblur="this.type='text'" v-model="state.user.birth_date"  title="Date de naissance">
+                <input type="text" class="form-control rounded-0" placeholder="Date de naissance"  onfocus="(this.type='date')" onblur="this.type='text'" v-model="state.user.birth_date"  title="Date de naissance*">
+                <div class="invalid-feedback" v-if="v$.user.birth_date.$error">
+                    <span v-for="(error,index) of v$.user.birth_date.$errors" :key="index" >
+                    {{ error.$message }}
+                    </span>
+                 </div> 
             </div>
         </div>     
         
@@ -98,9 +103,9 @@
             <div class="col">
                 <input type="password" class="form-control rounded-0" required :class="[v$.user.password_confirmation.$error ? 'is-invalid' : '']" v-model="state.user.password_confirmation" placeholder="Confirmer le mot de passe *" title="Confirmer le mot de passe *">
                 <div class="invalid-feedback" v-if="v$.user.password_confirmation.$error">
-                    <span v-for="(error,index) of v$.user.password_confirmation.$errors" :key="index" >
+                    <span v-for="(error,index) of v$.user.password_confirmation.$errors" :key="index" class="d-block">
                     {{ error.$message }}
-                    </span>
+                    </span><br>
                  </div> 
             </div>
         </div>
@@ -115,7 +120,7 @@
 </template>
 <script>
 import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
-import {required,email,sameAs} from '@vuelidate/validators' 
+import {required,email,sameAs,maxLength,minValue,maxValue} from '@vuelidate/validators' 
 import useVuelidate from '@vuelidate/core';
 import { computed, reactive } from 'vue';
 import { mapActions, mapGetters, mapState, useStore } from 'vuex';  
@@ -130,10 +135,10 @@ export default{
     const rules = computed(()=> {
      return {         
            user:{ 
-            name : {required},
-            first_name : {required},
-            sex : {required},
-            birth_date:{},
+            name : {required, maxLength : maxLength(255) },
+            first_name : {required,maxLength : maxLength(255) },
+            sex : {required,maxLength : maxLength(2)},
+            birth_date:{required},
             residenceContry : {},
             sex : {required},
             citezenship : {}, 

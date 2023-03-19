@@ -5,7 +5,7 @@ export default {
     //api_url : import.meta.env.VITE_APP_API_URL,
     state :{
       User: {
-       name : 'Pires',
+       name : '',
         first_name:'',
         phone:'',
         birth_date:'',
@@ -31,9 +31,7 @@ export default {
             commit('setUser',newUser)
 
          let response= axios.post(import.meta.env.VITE_APP_API_URL + endPoint,
-                rootGetters['user/getUser']);
-
-                console.log((await response).data);  
+                rootGetters['user/getUser']);         
 
         }
 
