@@ -10,8 +10,8 @@ export default {
         phone:'',
         birth_date:'',
         sex:'',
-        residenceContry:'',
-        citezenship:'',
+        residence_contry:'',
+        citizenship:'',
         password: '',
         password_confirm :''  
      }
@@ -28,14 +28,10 @@ export default {
       async saveUser({state,commit,rootState,rootGetters},newUser){
 
             const endPoint = 'register'
-            commit('setUser',newUser)
-
+            commit('setUser',newUser) 
          let response= axios.post(import.meta.env.VITE_APP_API_URL + endPoint,
-                rootGetters['user/getUser']);         
-
-        }
-
-        
+                rootGetters['user/getUser']);     
+        },
     },
 
     mutations : {

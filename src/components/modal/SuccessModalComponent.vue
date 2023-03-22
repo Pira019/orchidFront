@@ -10,7 +10,7 @@
             <h5>Félicitations ! Nous sommes ravis de vous compter parmi nous.</h5> 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button> 
+            <button type="button" class="btn btn-secondary" @click="rootTologin" data-dismiss="modal">Fermer</button> 
           </div>
         </div>
       </div>
@@ -22,6 +22,11 @@ import { ModalTypeEnum } from '@/enums';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
+  methods: {
+    rootTologin(){
+      this.$router.push('/login');
+    }
+  },
   data () {
     return {
       modalName : ModalTypeEnum.REGISTER
