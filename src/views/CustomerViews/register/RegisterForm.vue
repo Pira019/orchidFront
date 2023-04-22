@@ -26,7 +26,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <select class="form-select form-control rounded-0" autocomplete="sex" name="sex"
-                        :class="[v$.user.sex.$error ? 'is-invalid' : '']" v-model="state.user.sex" title="Sexe" required>
+                        :class="[v$.user.sex.$error ? 'is-invalid' : '']" v-model="state.user.sex" title="Sexe*" required>
                         <option selected value="">Sexe ...</option>
                         <option value="M">Masculin</option>
                         <option value="F">Féminin</option>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control rounded-0" placeholder="Date de naissance"
+                    <input type="text" class="form-control rounded-0" placeholder="Date de naissance *"
                         onfocus="(this.type='date')" onblur="this.type='text'" v-model="state.user.birth_date"
                         title="Date de naissance*">
                     <div class="invalid-feedback" v-if="v$.user.birth_date.$error">
@@ -54,7 +54,7 @@
                     <select class="form-select form-control rounded-0" name="country" autocomplete="on"
                         :class="[v$.user.residence_contry.$error ? 'is-invalid' : '']" v-model="state.user.residence_contry"
                         title="Pays de résidence *">
-                        <option selected value="">Pays de résidence ...</option>
+                        <option selected value="">Pays de résidence *...</option>
                         <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}
                         </option>
                     </select>
@@ -68,7 +68,7 @@
                     <select class="form-select form-control rounded-0" name="citizenship" autocomplete="on"
                         :class="[v$.user.citizenship.$error ? 'is-invalid' : '']" title="Pays de citoyenneté *"
                         v-model="state.user.citizenship">
-                        <option selected value="">Pays de la citoyenneté ...</option>
+                        <option selected value="">Pays de la citoyenneté *...</option>
                         <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}
                         </option>
                     </select>
