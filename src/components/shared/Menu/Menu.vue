@@ -2,7 +2,9 @@
     <div class="bg-success">
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark"> 
-    <router-link to="/" class="navbar-brand">Orchid campus</router-link>      
+    <router-link to="/" class="navbar-brand">
+      <img :src="logoOrchid" alt="" width="100">
+    </router-link>      
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -46,9 +48,15 @@
 
 <script> 
 import ButtonComponent from './ButtonComponent.vue';
+import logo from '@/assets/img/logo-orchid-campus.png';
  
 
 export default {
+  data () {
+    return {
+      logoOrchid : logo
+    }
+  },
     name: "Menu",
     components: {ButtonComponent  }
 }
