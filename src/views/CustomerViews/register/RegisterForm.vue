@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control rounded-0" placeholder="Date de naissance *"
+                    <input type="text" class="form-control rounded-0" placeholder="Date de naissance *" :class="[v$.user.birth_date.$error || invalidData?.birth_date ? 'is-invalid' : '']"
                         onfocus="(this.type='date')" onblur="this.type='text'" v-model="state.user.birth_date"
                         title="Date de naissance*">
                     <div class="invalid-feedback" v-if="v$.user.birth_date.$error">
@@ -96,19 +96,19 @@
             <div class="row mb-3">
                 <div class="col">
                     <input type="email" class="form-control rounded-0" autocomplete="email" name="email"
-                        placeholder="Email*" title="Email*" :class="[v$.user.email.$error ? 'is-invalid' : '']"
+                        placeholder="Email*" title="Email*" :class="[v$.user.email.$error || invalidData?.email ? 'is-invalid' : '']"
                         v-model.lazy="state.user.email" required>
                     <div class="invalid-feedback" v-if="v$.user.email.$error">
-                        <span v-for="(error, index) of v$.user.email.$errors" :key="index">
-                            {{ error.$message }}
-                        </span>
-                    </div>
+                        <span v-for="(error, index) of v$.user.email.$errors" :key="index" class="d-block">
+                            {{ error.$message}}
+                        </span> 
+                    </div>                    
                 </div>
             </div>
 
             <div class="row mb-3 input-group">
                 <div class="col ">
-                    <input type="password" class="form-control rounded-0"
+                    <input type="password" class="form-control rounded-0" autocomplete="off"
                         :class="[v$.user.password.$error ? 'is-invalid' : '']" v-model="state.user.password"
                         placeholder="Mot de passe *" title="Mot de passe *" required>
                     <div class="invalid-feedback" v-if="v$.user.password.$error">
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <input type="password" class="form-control rounded-0" required
+                    <input type="password" class="form-control rounded-0" required autocomplete="off"
                         :class="[v$.user.password_confirmation.$error ? 'is-invalid' : '']"
                         v-model="state.user.password_confirmation" placeholder="Confirmer le mot de passe *"
                         title="Confirmer le mot de passe *">
@@ -135,18 +135,17 @@
                         :data-target="'#' + modal" class="btn btn-success">Créer mon compte</SubmitBtnComponent>
                 </div>
             </div>
-            <ModalComponent :modal="modal"></ModalComponent>
         </div>
     </form>
 </template>
 <script>
 import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
-import { required, email, sameAs, maxLength, minValue, maxValue } from '@vuelidate/validators'
+import { required, email, sameAs, maxLength} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core';
-import { computed, reactive } from 'vue';
-import { mapActions, mapGetters, mapState, useStore } from 'vuex';
+import { computed,reactive } from 'vue';
+import { mapGetters, useStore } from 'vuex';
 import ModalComponent from '@/components/modal/ModalComponent.vue';
-import { ModalTypeEnum } from '@/enums';
+import { StatusCodeEnum } from '@/enums';
 
 export default {
     setup() {
@@ -183,6 +182,7 @@ export default {
         return {
             loading: false,
             modal: '',
+            invalidData: ''
         }
     },
 
@@ -198,15 +198,28 @@ export default {
         getCountries() {
             this.$store.dispatch('country/getCoutries');
         },
-        submitForm() {
-            this.loading = true;
+        submitForm() {            
             this.v$.$validate()
             if (!this.v$.$error) {
-                this.modal = ModalTypeEnum.REGISTER
-                this.$store.dispatch('user/saveUser', this.state.user);
-                this.loading = false;
+                this.loading = true;
+                // call fonction save user
+                this.$store.dispatch('user/saveUser', this.state.user).then(()=> {  
+                this.$router.push('/login');
+                }).catch((error) => { 
+                   this.handleFormErrors(error.response.status,error.response.data.errors) 
+                    this.loading = false;
+                }); 
+            }
+        },
+        
+        handleFormErrors(codesStatus,responseData=''){
+            if(codesStatus === StatusCodeEnum.INVALIDATA){
+                this.invalidData = responseData;
+                this.$emit('handleFormErrors',responseData);
             }
         }
+
+
 
     },
     name: "RegisterForm",
