@@ -26,11 +26,9 @@ export default {
 
     actions:{
       async saveUser({state,commit,rootState,rootGetters},newUser){
-
             const endPoint = 'register'
             commit('setUser',newUser) 
-         let response= axios.post(import.meta.env.VITE_APP_API_URL + endPoint,
-                rootGetters['user/getUser']);     
+        return axios.post(import.meta.env.VITE_APP_API_URL + endPoint, rootGetters['user/getUser']);     
         },
     },
 
