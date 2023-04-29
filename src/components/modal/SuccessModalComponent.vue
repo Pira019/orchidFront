@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 export default {
   methods: {
     rootTologin(){
-      this.$router.push('/login');
+      
     }
   },
   data () {
