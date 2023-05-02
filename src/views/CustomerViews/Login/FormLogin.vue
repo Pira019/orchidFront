@@ -2,7 +2,7 @@
     <div>
         <div>
             <h1 class="text-success">Bienvenue</h1>
-            <router-link :to="{name:'register'}" class="text-decoration-none font-weight-bold text-success">Créer un compte</router-link>
+            <a href="/register" class="text-decoration-none font-weight-bold text-success">Créer un compte</a>
         </div>        
         <div class="mt-5">
             <form action="">

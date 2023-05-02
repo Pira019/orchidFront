@@ -1,5 +1,5 @@
 <template>
-    <form novalidate v-on:submit.prevent="onsubmit">
+    <form novalidate v-on:submit.prevent="onsubmit" ref="form">
         <div>
             <div class="row mb-3 no-gutter">
                 <div class="col">
@@ -82,7 +82,7 @@
 
             <div class="row mb-3">
                 <div class="col">
-                    <input type="tel" :class="[v$.user.phone.$error ? 'is-invalid' : '']" name="tel" autocomplete="tel"
+                    <input type="tel" :class="[v$.user.phone.$error ? 'is-invalid' : '']" name="tel" autocomplete="tel" v-mask="'(###) ###-###-###'"
                         title="Numéro téléphone" class="form-control rounded-0" v-model.trim="state.user.phone"
                         placeholder="Téléphone">
                     <div class="invalid-feedback" v-if="v$.user.phone.$error">
@@ -146,8 +146,10 @@ import { computed,reactive } from 'vue';
 import { mapGetters, useStore } from 'vuex';
 import ModalComponent from '@/components/modal/ModalComponent.vue';
 import { StatusCodeEnum } from '@/enums';
+import {mask} from 'vue-the-mask'
 
 export default {
+    directives : {mask},
     setup() {
         const state = reactive({
             user: computed(() => useStore().state.user.User),
@@ -198,12 +200,13 @@ export default {
         getCountries() {
             this.$store.dispatch('country/getCoutries');
         },
-        submitForm() {            
+        submitForm() {     
             this.v$.$validate()
             if (!this.v$.$error) {
                 this.loading = true;
                 // call fonction save user
-                this.$store.dispatch('user/saveUser', this.state.user).then(()=> {  
+                this.$store.dispatch('user/saveUser', this.state.user).then(()=> {   
+                this.$refs.form.reset();
                 this.$router.push('/login');
                 }).catch((error) => { 
                    this.handleFormErrors(error.response.status,error.response.data.errors) 
