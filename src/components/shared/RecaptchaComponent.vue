@@ -1,37 +1,31 @@
-<template>
-    <VueRecaptcha
-      :sitekey="siteKey"
-      :load-recaptcha-script="true"
-      @verify="handleSuccess"
-      @error="handleError"
-    ></VueRecaptcha>
-  </template>
+<template> 
+<vue-recaptcha
+            :sitekey="sitekey"
+            :loadRecaptchaScript="true"
+            ref="recaptcha" 
+            type="invisible"
+            @verify="onCaptchaVerified"
+            @expired="onCaptchaExpired"
+          >
+     </vue-recaptcha>
+</template>
 
 <script>
-import { computed } from '@vue/runtime-core'
-import { VueRecaptcha} from 'vue-recaptcha'
-export default{
-    components : {VueRecaptcha},
-    setup(){
-        const siteKey = computed(() => {
-            return "6Lcm2z0kAAAAAJL-i0M_-FufN5qXLHlcru4TjYlv"
-        });
-
-    const handleError = () => {
-      // Do some validation
-    };
-
-    const handleSuccess = (response) => {
-     // Do some validation
-    };
-
+import {VueRecaptcha} from 'vue-recaptcha'  
+export default{ 
+  data () {
     return {
-      handleSuccess,
-      handleError,
-      siteKey,
-    };
+        sitekey : import.meta.env.VITE_RECAPTCHA_SITE_KEY
+    }
+  },
+  methods: {
+    onCaptchaExpired(){
+        this.$refs.recaptcha.reset();
     },
-    name : 'RecaptchaComponent'
-
+    onCaptchaVerified(recaptchaToken){
+        this.$emit('recaptcha',recaptchaToken) 
+    }
+  }, 
+    components : {'vue-recaptcha' : VueRecaptcha}, 
 }
 </script>

@@ -129,13 +129,17 @@
                     </div>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col">
+                    <!--start component recaptcha-->
+                    <recaptcha-component @recaptcha="getToken"></recaptcha-component>
+                     <!--end component recaptcha-->
                     <SubmitBtnComponent :loading="loading" @click="submitForm" data-toggle="modal"
-                        :data-target="'#' + modal" class="btn btn-success">Créer mon compte</SubmitBtnComponent>
+                        :data-target="'#' + modal" class="btn btn-success mt-2">Créer mon compte</SubmitBtnComponent>
                 </div>
             </div>
-        </div>
+        </div> 
     </form>
 </template>
 <script>
@@ -147,6 +151,7 @@ import { mapGetters, useStore } from 'vuex';
 import ModalComponent from '@/components/modal/ModalComponent.vue';
 import { StatusCodeEnum } from '@/enums';
 import {mask} from 'vue-the-mask'
+import RecaptchaComponent from '@/components/shared/RecaptchaComponent.vue';
 
 export default {
     directives : {mask},
@@ -167,7 +172,8 @@ export default {
                     email: { required, email },
                     phone: {},
                     password: { required },
-                    password_confirmation: { required, sameAs: sameAs(state.user.password) }
+                    password_confirmation: { required, sameAs: sameAs(state.user.password)},
+                    recaptcha : {}
                 }
 
             }
@@ -184,29 +190,38 @@ export default {
         return {
             loading: false,
             modal: '',
-            invalidData: ''
+            invalidData: '',
+            recaptcha:''
         }
     },
 
     computed: {
         ...mapGetters('country', {
             countries: 'getCountries'
-        }),
+        })
     },
     created() {
         this.getCountries();
     },
     methods: {
+        getToken: function (recaptchaToken) {
+           this.recaptcha = recaptchaToken
+            },
+             
         getCountries() {
             this.$store.dispatch('country/getCoutries');
         },
         submitForm() {     
-            this.v$.$validate()
+            this.v$.$validate(); 
             if (!this.v$.$error) {
                 this.loading = true;
+                //put recaptcha value
+                this.$store.commit('user/setRecaptcha',this.recaptcha) 
                 // call fonction save user
                 this.$store.dispatch('user/saveUser', this.state.user).then(()=> {   
                 this.$refs.form.reset();
+                //reset token
+                this.$store.commit('user/setRecaptcha','') 
                 this.$router.push('/login');
                 }).catch((error) => { 
                    this.handleFormErrors(error.response.status,error.response.data.errors) 
@@ -226,6 +241,6 @@ export default {
 
     },
     name: "RegisterForm",
-    components: { SubmitBtnComponent, ModalComponent }
+    components: { SubmitBtnComponent, ModalComponent, RecaptchaComponent }
 }
 </script>

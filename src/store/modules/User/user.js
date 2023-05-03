@@ -13,7 +13,8 @@ export default {
         residence_contry:'',
         citizenship:'',
         password: '',
-        password_confirm :''  
+        password_confirm :'',
+        recaptcha:''  
      }
     },
 
@@ -35,6 +36,9 @@ export default {
     mutations : {
        setUser(state,user){
         state.User = user;
+       }, 
+       setRecaptcha(state,recaptchaToken){
+        state.User.recaptcha = recaptchaToken;
        } 
     }
 }
