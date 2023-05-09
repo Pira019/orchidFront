@@ -211,18 +211,25 @@ export default {
         getCountries() {
             this.$store.dispatch('country/getCoutries');
         },
-        submitForm() {     
+        submitForm() {              
             this.v$.$validate(); 
             if (!this.v$.$error) {
                 this.loading = true;
                 //put recaptcha value
                 this.$store.commit('user/setRecaptcha',this.recaptcha) 
                 // call fonction save user
-                this.$store.dispatch('user/saveUser', this.state.user).then(()=> {   
+                this.$store.dispatch('user/saveUser', this.state.user).then(()=> {  
+
                 this.$refs.form.reset();
+                
+                //set for showing a modal
+                this.$store.commit('setIsSucceed',true) 
+
                 //reset token
                 this.$store.commit('user/setRecaptcha','') 
+
                 this.$router.push('/login');
+
                 }).catch((error) => { 
                    this.handleFormErrors(error.response.status,error.response.data.errors) 
                     this.loading = false;
@@ -230,14 +237,13 @@ export default {
             }
         },
         
-        handleFormErrors(codesStatus,responseData=''){
+        handleFormErrors(codesStatus,responseData='')
+        {
             if(codesStatus === StatusCodeEnum.INVALIDATA){
                 this.invalidData = responseData;
                 this.$emit('handleFormErrors',responseData);
             }
         }
-
-
 
     },
     name: "RegisterForm",
