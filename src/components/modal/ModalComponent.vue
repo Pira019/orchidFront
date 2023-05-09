@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import SuccessModalComponent from './SuccessModalComponent.vue'
+import SuccessModalComponent from './RegisterSuccessModalComponent.vue'
 import { ModalTypeEnum } from '@/enums';
 export default {
   data () {
