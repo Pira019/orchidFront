@@ -20,11 +20,9 @@ export default  {
     //test and show the de modal if user is created else hide succeed modal     
     if(this.$store.getters.getState){
       this.showSucceedModal=true      
-      this.$store.commit('setIsSucceed',false) 
-      console.log(this.showSucceedModal)
+      this.$store.commit('setIsSucceed',false)  
     }else{
-     this.showSucceedModal=false;
-     console.log(this.showSucceedModal)
+     this.showSucceedModal=false; 
     }   
   },
   data () {
