@@ -27,7 +27,7 @@
                 <div class="col">
                     <select class="form-select form-control rounded-0" autocomplete="sex" name="sex"
                         :class="[v$.user.sex.$error ? 'is-invalid' : '']" v-model="state.user.sex" title="Sexe*" required>
-                        <option selected value="">Sexe ...</option>
+                        <option selected value="">Sexe * ...</option>
                         <option value="M">Masculin</option>
                         <option value="F">Féminin</option>
                     </select>
