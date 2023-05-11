@@ -42,7 +42,7 @@
                         onfocus="(this.type='date')" onblur="this.type='text'" v-model="state.user.birth_date"
                         title="Date de naissance*">
                     <div class="invalid-feedback" v-if="v$.user.birth_date.$error">
-                        <span v-for="(error, index) of v$.user.birth_date.$errors" :key="index">
+                        <span v-for="(index) of v$.user.birth_date.$errors" :key="index">
                             {{customMessageMinDate()}}
                         </span>
                     </div>
@@ -112,7 +112,7 @@
                         :class="[v$.user.password.$error ? 'is-invalid' : '']" v-model="state.user.password"
                         placeholder="Mot de passe *" title="Mot de passe *" required>
                     <div class="invalid-feedback" v-if="v$.user.password.$error">
-                        <span v-for="(error, index) of v$.user.password.$errors" :key="index">
+                        <span v-for="(error, index) of v$.user.password.$errors" :key="index" class="d-block">
                             {{ error.$message }}
                         </span>
                     </div>
@@ -123,9 +123,9 @@
                         v-model="state.user.password_confirmation" placeholder="Confirmer le mot de passe *"
                         title="Confirmer le mot de passe *">
                     <div class="invalid-feedback" v-if="v$.user.password_confirmation.$error">
-                        <span v-for="(error, index) of v$.user.password_confirmation.$errors" :key="index" class="d-block">
-                            {{ error.$message }}
-                        </span><br>
+                        <span class="d-block">
+                            {{ customMessageConfirmPassword() }}
+                        </span>
                     </div>
                 </div>
                 
@@ -135,8 +135,7 @@
                     <!--start component recaptcha-->
                     <recaptcha-component @recaptcha="getToken"></recaptcha-component>
                      <!--end component recaptcha-->
-                    <SubmitBtnComponent :loading="loading" @click="submitForm" data-toggle="modal"
-                        :data-target="'#' + modal" class="btn btn-success mt-2">Créer mon compte</SubmitBtnComponent>
+                    <SubmitBtnComponent :loading="loading" @click="submitForm" class="btn btn-success mt-2">Créer mon compte</SubmitBtnComponent>
                 </div>
             </div>
         </div> 
@@ -144,7 +143,7 @@
 </template>
 <script>
 import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
-import { required, email,sameAs, maxLength} from '@vuelidate/validators'
+import { required,sameAs, maxLength,helpers} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core';
 import { computed,reactive } from 'vue';
 import { mapGetters, useStore } from 'vuex';
@@ -152,7 +151,9 @@ import ModalComponent from '@/components/modal/ModalComponent.vue';
 import { StatusCodeEnum } from '@/enums';
 import {mask} from 'vue-the-mask'
 import RecaptchaComponent from '@/components/shared/RecaptchaComponent.vue';
-import minDate from '@/Utils/Date'
+import minDate from '@/Utils/Date';
+import goodPassword from '@/Utils/CustomValidation'
+import customMessage from '@/Utils/validationMessages'
 
 export default {
     directives : {mask},
@@ -163,17 +164,16 @@ export default {
         const rules = computed(() => {
             return {
                 user: {
-                    name: { required, maxLength: maxLength(255) },
-                    first_name: { required, maxLength: maxLength(255) },
-                    sex: { required, maxLength: maxLength(2) },
+                    name: {maxLength: maxLength(255),required:customMessage("name",'required')},
+                    first_name: {maxLength: maxLength(255),required:customMessage("first_name",'required')},
+                    sex: { required, maxLength: maxLength(2),required:customMessage("sex",'required')},
                     birth_date: {minValue: (value) => { return new Date(value) <= new Date(minDate())}},
-                    residence_contry: { required },
-                    sex: { required },
-                    citizenship: { required },
-                    email: { required, email },
+                    residence_contry: {required:customMessage("residence_contry",'required') }, 
+                    citizenship: { required,required:customMessage("citizenship",'required')},
+                    email: {required:customMessage("email",'required'),email:customMessage("email",'email')},
                     phone: {},
-                    password: { required },
-                    password_confirmation: { required, sameAs: sameAs(state.user.password,'password')},
+                    password: {goodPassword:(password) => { return goodPassword(password)},goodPassword: helpers.withMessage(customMessage("password","goodPassword"), goodPassword)},
+                    password_confirmation: { sameAs: sameAs(state.user.password)},
                     recaptcha : {}
                 }
 
@@ -209,7 +209,9 @@ export default {
         customMessageMinDate(){
             return 'L\'âge minimum requis est de 15 ans. Veuillez entrer une valeur inférieur ou égale à '+ this.minDate_;
         },
-
+        customMessageConfirmPassword(){
+            return 'La confirmation du mot de passe ne correspond pas';
+        },
         getToken: function (recaptchaToken) {
            this.recaptcha = recaptchaToken
             },
@@ -217,8 +219,7 @@ export default {
         getCountries() {
             this.$store.dispatch('country/getCoutries');
         },
-        submitForm() {   
-            console.log(this.v$)
+        submitForm() {    
             this.v$.$validate(); 
             if (!this.v$.$error) {
                 this.loading = true;
