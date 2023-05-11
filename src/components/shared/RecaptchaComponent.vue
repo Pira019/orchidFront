@@ -20,7 +20,7 @@ export default{
   },
   methods: {
     onCaptchaExpired(){
-        this.$refs.recaptcha.reset();
+        this.$refs.form.recaptcha.reset();
     },
     onCaptchaVerified(recaptchaToken){
         this.$emit('recaptcha',recaptchaToken) 
