@@ -38,12 +38,12 @@
                     </div>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control rounded-0" placeholder="Date de naissance *" :class="[v$.user.birth_date.$error || invalidData?.birth_date ? 'is-invalid' : '']"
+                    <input type="text" class="form-control rounded-0" :max="minDate_" placeholder="Date de naissance *" :class="[v$.user.birth_date.$error || invalidData?.birth_date ? 'is-invalid' : '']"
                         onfocus="(this.type='date')" onblur="this.type='text'" v-model="state.user.birth_date"
                         title="Date de naissance*">
                     <div class="invalid-feedback" v-if="v$.user.birth_date.$error">
                         <span v-for="(error, index) of v$.user.birth_date.$errors" :key="index">
-                            {{ error.$message }}
+                            {{customMessageMinDate()}}
                         </span>
                     </div>
                 </div>
@@ -128,8 +128,8 @@
                         </span><br>
                     </div>
                 </div>
-            </div>
-            
+                
+            </div>             
             <div class="row">
                 <div class="col">
                     <!--start component recaptcha-->
@@ -144,7 +144,7 @@
 </template>
 <script>
 import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
-import { required, email, sameAs, maxLength} from '@vuelidate/validators'
+import { required, email,sameAs, maxLength} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core';
 import { computed,reactive } from 'vue';
 import { mapGetters, useStore } from 'vuex';
@@ -152,6 +152,7 @@ import ModalComponent from '@/components/modal/ModalComponent.vue';
 import { StatusCodeEnum } from '@/enums';
 import {mask} from 'vue-the-mask'
 import RecaptchaComponent from '@/components/shared/RecaptchaComponent.vue';
+import minDate from '@/Utils/Date'
 
 export default {
     directives : {mask},
@@ -165,14 +166,14 @@ export default {
                     name: { required, maxLength: maxLength(255) },
                     first_name: { required, maxLength: maxLength(255) },
                     sex: { required, maxLength: maxLength(2) },
-                    birth_date: { required },
+                    birth_date: {minValue: (value) => { return new Date(value) <= new Date(minDate())}},
                     residence_contry: { required },
                     sex: { required },
                     citizenship: { required },
                     email: { required, email },
                     phone: {},
                     password: { required },
-                    password_confirmation: { required, sameAs: sameAs(state.user.password)},
+                    password_confirmation: { required, sameAs: sameAs(state.user.password,'password')},
                     recaptcha : {}
                 }
 
@@ -191,7 +192,8 @@ export default {
             loading: false,
             modal: '',
             invalidData: '',
-            recaptcha:''
+            recaptcha:'',
+            minDate_:minDate()
         }
     },
 
@@ -204,6 +206,10 @@ export default {
         this.getCountries();
     },
     methods: {
+        customMessageMinDate(){
+            return 'L\'âge minimum requis est de 15 ans. Veuillez entrer une valeur inférieur ou égale à '+ this.minDate_;
+        },
+
         getToken: function (recaptchaToken) {
            this.recaptcha = recaptchaToken
             },
@@ -211,7 +217,8 @@ export default {
         getCountries() {
             this.$store.dispatch('country/getCoutries');
         },
-        submitForm() {              
+        submitForm() {   
+            console.log(this.v$)
             this.v$.$validate(); 
             if (!this.v$.$error) {
                 this.loading = true;
