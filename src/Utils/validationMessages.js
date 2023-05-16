@@ -12,6 +12,9 @@ export default function customeMessage(attribute,validatorName)
         if(validatorName === 'goodPassword'){
             return validationMessage.validations.goodPassword;
          }
+         if(validatorName === 'recaptcha'){
+            return validationMessage.validations.recaptcha;
+         } 
 
         
 }

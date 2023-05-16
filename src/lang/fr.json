@@ -9,7 +9,8 @@
 "validations":{
     "required" : "est obligatoire" ,
     "email" : "Veuillez entrer une adresse e-mail valide" , 
-    "goodPassword" : "Le mot de passe doit être fort : au moins 8 caractères avec une combinaison de lettres majuscules, lettres minuscules, chiffres et caractères spéciaux(#?!@$%^&*-)"
+    "goodPassword" : "Le mot de passe doit être fort : au moins 8 caractères avec une combinaison de lettres majuscules, lettres minuscules, chiffres et caractères spéciaux(#?!@$%^&*-)",
+    "recaptcha" :"Veuillez effectuer la vérification reCAPTCHA."
     
 }
 }
