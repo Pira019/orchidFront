@@ -6,8 +6,8 @@
            
         </div>   
         <div class="mt-5">
-            <error-alert :show="showAlertErrors && this.errors.length !== 0" :response="errors"></error-alert>
-            <form novalidate v-on:submit.prevent="onsubmit">
+            <error-alert :show="showAlertErrors && this.errors?.length !== 0" :response="errors"></error-alert>
+            <form novalidate v-on:submit.prevent="onsubmit" ref="formLogin">
                 <div class="form-group input-group-lg mb-3 col-10">
                     <label for="email" class="my-1">Email</label>
                     <input type="email" autocomplete="email" v-model.trim="state.email" name="email" :class="[v$.email.$error ? 'is-invalid' : '']"  class="form-control rounded-0" id="email" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Entrer votre email"> 
@@ -47,7 +47,7 @@
                 </div>
                 <input type="hidden" v-model="state.reCAPTCHAToken" >
                 <div class="form-group input-group-lg mb-3 col-10">
-                    <submit-btn-component class="btn btn-success" @click="onsubmit">Connecter</submit-btn-component>
+                    <submit-btn-component class="btn btn-success" :loading="loadingBtn" @click="submitForm()">Connecter</submit-btn-component>
                 </div>
             </form>
         </div>
@@ -61,6 +61,7 @@ import {useVuelidate} from '@vuelidate/core'
 import { reactive } from 'vue'
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
 import customMessage from '@/Utils/validationMessages'
+import ErrorService from '@/Services/ErrorService';
 export default {
   
   setup() {
@@ -79,15 +80,33 @@ export default {
     return {state,v$}
   },
   methods: {
-    onsubmit(){
-
+    submitForm(){
+       
         this.errors = this.recaptcha.length === 0 ? this.errors=[[this.messageErrorRecaptcha]] : [];          
-        this.v$.$validate();
-        if(this.errors.length === 0 && !this.v$.$error){
-            
+        this.v$.$validate();  
+        if(this.errors.length === 0 && !this.v$.$error)
+        {
+            this.loadingBtn =true;
+            this.state.recaptcha = this.recaptcha;  
+               // call action to authentificate the user
+              this.$store.dispatch('user/authentificate',this.state).then((value)=> { 
+                //reset form
+              this.state = {...this.formFieldsCopy}
+              this.loadingBtn = false;    
+
+               }).catch((error)=> {
+               this.showAlertErrors =true 
+               let error_=ErrorService.handleErrorHttp(error.response?.status,error.response?.data.errors)                                       
+                this.errors=error_.errorMessage;
+                
+               this.loadingBtn=false; 
+               })
+               
         }else{
             this.showAlertErrors = true
         }   
+        grecaptcha.reset()
+        this.recaptcha =''
     },
     geTreCAPTCHAToken(token){
         this.recaptcha=token;
@@ -96,13 +115,19 @@ export default {
         this.showPassword = !this.showPassword
     }
   },
+  
+  mounted() {
+        this.formFieldsCopy = { ...this.state};
+    },
   data () {
     return {    
         showPassword :false,
         recaptcha:'',
         errors : [],
         messageErrorRecaptcha : customMessage("","recaptcha"),
-        showAlertErrors : false
+        showAlertErrors : false,
+        loadingBtn : false, 
+        formFieldsCopy :{}
     }
   },
   components: { SubmitBtnComponent, RecaptchaComponent, ErrorAlert },
