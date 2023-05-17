@@ -31,6 +31,11 @@ export default {
             commit('setUser',newUser) 
         return axios.post(import.meta.env.VITE_APP_API_URL + endPoint, rootGetters['user/getUser']);     
         },
+
+        async authentificate({state,commit,rootState,rootGetters},credentials){
+            const endPoint = 'login' 
+        return axios.post(import.meta.env.VITE_APP_API_URL + endPoint,credentials);     
+        },
     },
 
     mutations : {
