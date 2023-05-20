@@ -42,7 +42,7 @@
                         </label>
                     </div>
                     <div>
-                       <router-link :to="{name:'home'}" class="text-decoration-none font-weight-bold text-success">Mot de passe oublié ?</router-link>
+                       <router-link :to="{name:'forgot-password'}" class="text-decoration-none font-weight-bold text-success">Mot de passe oublié ?</router-link>
                     </div>
                 </div>
                 <input type="hidden" v-model="state.reCAPTCHAToken" >
