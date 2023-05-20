@@ -45,6 +45,17 @@ const routes = [
       }
     },
 
+    {
+      path:'/mot-de-passe-oublie', name:'forgot-password', component:()=> import('@/views/ForgorPassword/ForgetPassword.vue'),
+      meta:{
+        title:'Récupération de mot de passe oublié',
+        metaTags:[{
+          name:'description',
+          content:'Besoin d\'aide pour récupérer votre mot de passe oublié sur Orchid Campus ? Suivez nos étapes simples pour réinitialiser votre mot de passe et accéder à votre compte'
+        }]
+      }
+    },
+
 
   {
       path:'/:pathMatch(.*)*',
