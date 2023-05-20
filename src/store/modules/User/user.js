@@ -1,3 +1,4 @@
+import UserService from '@/Services/UserService';
 import axios, * as others from 'axios';
 
 export default {
@@ -35,6 +36,10 @@ export default {
         async authentificate({state,commit,rootState,rootGetters},credentials){
             const endPoint = 'login' 
         return axios.post(import.meta.env.VITE_APP_API_URL + endPoint,credentials);     
+        },
+
+        async forgotPassword({},email){
+            return UserService.forgotPassword(email);    
         },
     },
 
