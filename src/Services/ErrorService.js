@@ -14,6 +14,8 @@ export default class ErrorService {
         if (error) {
             return {errorMessage :error }
         } 
+
+        return false;
     }
 
 }
