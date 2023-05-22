@@ -37,9 +37,9 @@ export default {
             const endPoint = 'login' 
         return axios.post(import.meta.env.VITE_APP_API_URL + endPoint,credentials);     
         },
-
-        async forgotPassword({},email){
-            return UserService.forgotPassword(email);    
+        //requestBody (email,rechapcha)
+        async forgotPassword({},requestBody){
+            return UserService.forgotPassword(requestBody);    
         },
     },
 
