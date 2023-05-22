@@ -11,9 +11,9 @@ export default class UserService{
     constructor() {}
     
    
-    static async forgotPassword(email){
+    static async forgotPassword(requestBody){
         const endPoind =this.baseApiUrl + 'forgot-password'
-        return axios.post(endPoind,email);  
+        return axios.post(endPoind,requestBody);  
     }
 
 }
