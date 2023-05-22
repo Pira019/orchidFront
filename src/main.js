@@ -18,9 +18,9 @@ import App from './App.vue'
 import './styles.scss'
 
 /* import specific icons */  
-import {faBullseye, faCircleCheck, faEnvelope, faEye, faEyeSlash, faHandshake, faHeartCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import {faBullseye, faCircleCheck, faEnvelope, faEye, faEyeSlash, faHandshake, faHeartCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { faInstagramSquare, faMailchimp, faWhatsappSquare} from '@fortawesome/free-brands-svg-icons'
 
  
-library.add(faWhatsappSquare,faEnvelope,faInstagramSquare,faMailchimp,faHandshake,faBullseye,faHeartCircleCheck,faCircleCheck,faEye,faEyeSlash) 
+library.add(faWhatsappSquare,faEnvelope,faInstagramSquare,faMailchimp,faHandshake,faBullseye,faHeartCircleCheck,faCircleCheck,faEye,faEyeSlash,faTriangleExclamation) 
 createApp(App).use(router).use(store).component('font-awesome-icon', FontAwesomeIcon).mount('#app');
