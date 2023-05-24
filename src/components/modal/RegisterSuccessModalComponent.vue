@@ -7,7 +7,8 @@
             <font-awesome-icon icon="fa-circle-check" class="modal-title w-100 text-center text-success" size="3x" beat></font-awesome-icon>  
           </div>
           <div class="modal-body text-center border-0">
-            <h5>Félicitations ! Nous sommes ravis de vous compter parmi nous.</h5> 
+            <h5><slot> Félicitations ! Nous sommes ravis de vous compter parmi nous.</slot></h5> 
+            <slot name="footer"></slot>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button> 
