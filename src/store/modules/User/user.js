@@ -37,10 +37,10 @@ export default {
         return axios.post(import.meta.env.VITE_APP_API_URL + endPoint, rootGetters['user/getUser']);     
         },
 
-        async authentificate({state,commit,rootState,rootGetters},credentials){
-            const endPoint = 'login' 
-        return axios.post(import.meta.env.VITE_APP_API_URL + endPoint,credentials);     
+        async authentificate({},credentials){
+        return UserService.login(credentials)     
         },
+        
         //requestBody (email,rechapcha)
         async forgotPassword({},requestBody){
             return UserService.forgotPassword(requestBody);    
