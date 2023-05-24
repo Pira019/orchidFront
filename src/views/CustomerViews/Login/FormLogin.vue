@@ -63,6 +63,13 @@ import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
 import customMessage from '@/Utils/validationMessages'
 import ErrorService from '@/Services/ErrorService';
 export default {
+  props: {
+    //email when user asked to reset email
+    emailReset:{
+        default : '',
+        type : String
+    }
+ },
   
   setup() {
     const state = reactive({
@@ -118,6 +125,7 @@ export default {
   
   mounted() {
         this.formFieldsCopy = { ...this.state};
+        this.state.email = this.emailReset;
     },
   data () {
     return {    
