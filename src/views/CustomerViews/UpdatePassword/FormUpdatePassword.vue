@@ -58,7 +58,6 @@ import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue'
 import { computed, reactive } from 'vue';
 import customMessage from '@/Utils/validationMessages'
 import useVuelidate from '@vuelidate/core';
-import UserService from '@/Services/UserService'; 
 import goodPassword from '@/Utils/CustomValidation'
 import { helpers, sameAs } from '@vuelidate/validators';
 import RecaptchaComponent from '@/components/shared/RecaptchaComponent.vue' 
@@ -66,7 +65,7 @@ import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
 import ErrorService from '@/Services/ErrorService';
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
 
-export default({
+export default{
   data () {
     return {
         showPassword : false,
@@ -102,19 +101,24 @@ export default({
   },
   
   methods:{
+   shareResponseToModal(response){
+     //set for showing a modal info
+     this.$store.commit('setIsSucceed',true) 
+     this.$store.commit('setResponse',response) 
+   },
+
     submitForm(){
-        console.log(this.state)
         this.errors = this.state.recaptcha.length === 0 ? this.errors=[[this.messageErrorRecaptcha]] : [];  
-        this.v$.$validate(); 
-
-        if(this.errors.length === 0 && !this.v$.$error){
+       this.v$.$validate();        
+        if(this.errors.length === 0 && !this.v$.$error){            
             this.loadingBtn=true;
-
-            this.$store.dispatch('user/updatePassword',this.state).then(()=>{
+            this.$store.dispatch('user/updatePassword',this.state).then((response)=>{
                 this.errors=[]
                 this.state={...this.formFieldsCopy}
-                this.loadingBtn=false;
-                grecaptcha.reset()
+                this.loadingBtn=false; 
+
+                this.shareResponseToModal(response.data)    
+                this.$router.push('/login');
 
             }).catch((error)=> {
 
@@ -124,15 +128,15 @@ export default({
                 if(!errors_){
                 this.unexpectedError=true;  
             }  
-
                 this.errors=errors_?.errorMessage;
-                this.showAlertErrors=true;    
-                grecaptcha.reset()                   
+                this.showAlertErrors=true;                            
                 
             });
+            grecaptcha.reset();  
         }else{
             this.showAlertErrors=true;
         }
+        grecaptcha.reset();      
         this.state.recaptcha=''
         this.unexpectedError=false;
     },
@@ -157,4 +161,4 @@ export default({
     components: { SubmitBtnComponent,RecaptchaComponent,ErrorAlert,ErrorModalComponent},
     name : 'FormUpdatePassword'
 
-})</script>
+}</script>
