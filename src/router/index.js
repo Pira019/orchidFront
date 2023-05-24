@@ -57,7 +57,7 @@ const routes = [
     },
 
     {
-      path:'/modifier-mot-de-passe/:token', name:'update-password', component:()=> import('@/views/CustomerViews/UpdatePassword/UpdatePassword.vue'),
+      path:'/modifier-mot-de-passe/', name:'update-password', component:()=> import('@/views/CustomerViews/UpdatePassword/UpdatePassword.vue'),
       meta:{
         title:'Modifier le mot de passe',
         metaTags:[{
