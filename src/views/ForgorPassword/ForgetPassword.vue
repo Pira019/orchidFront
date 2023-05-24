@@ -40,7 +40,7 @@
 import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue'
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
 import customMessage from '@/Utils/validationMessages'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import ErrorService from '@/Services/ErrorService'
 import RecaptchaComponent from '@/components/shared/RecaptchaComponent.vue' 
@@ -54,10 +54,12 @@ export default {
             recaptcha:''
         })
 
-        const rules = {
+        const rules = computed(() => {
+            return {
             email : {required:customMessage("email",'required'),email:customMessage("email",'email')},
             recaptcha : {},
-        }
+            }
+        })
 
         const v$ = useVuelidate(rules,state);
         
