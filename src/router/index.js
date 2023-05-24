@@ -25,11 +25,11 @@ const routes = [
       path : '/login', name: 'login', component:() => import('@/views/CustomerViews/Login/Login.vue'),
       meta:
       {
-        title: 'Login',
+        title: 'Connexion',
         metaTags: [
             {
-                name:'Login',
-                content : 'Login'
+                name:'description',
+                content : 'Connectez-vous à votre compte ORCHID-CAMPUS pour accéder à nos tutoriels et préparez-vous à étudier à l\'étranger. Apprenez les meilleures pratiques pour maximiser vos chances de réussite dans un nouvel environnement d\'apprentissage.'
             }
         ]
     }
