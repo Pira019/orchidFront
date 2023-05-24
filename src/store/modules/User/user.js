@@ -23,6 +23,10 @@ export default {
 
         getUser (state,getters,rootState,rootGetters){
             return state.User;
+        },
+
+        getEmail(state){
+            return state.User.email;
         }
     },
 
@@ -41,6 +45,12 @@ export default {
         async forgotPassword({},requestBody){
             return UserService.forgotPassword(requestBody);    
         },
+
+        //requestBody (email,rechapcha,token,password_confirmation,password)
+        async updatePassword({commit},requestBody){
+             commit('setEmail',requestBody?.email) 
+            return UserService.updatePassword(requestBody);    
+        },
     },
 
     mutations : {
@@ -49,6 +59,10 @@ export default {
        }, 
        setRecaptcha(state,recaptchaToken){
         state.User.recaptcha = recaptchaToken;
+       },
+
+       setEmail(state,email){
+        state.User.email = email;
        } 
     }
 }
