@@ -16,9 +16,9 @@ export default class UserService{
         return axios.post(endPoind,requestBody);  
     }
 
-    static async getEmailByResetPasswordToken(token){
-        const endPoind =this.baseApiUrl + 'get-email-reset-token/'
-        return axios.get(endPoind + token);  
+    static async updatePassword(requestBody){
+        const endPoind =this.baseApiUrl + 'update-password'
+        return axios.post(endPoind,requestBody);  
     }
 
 }
