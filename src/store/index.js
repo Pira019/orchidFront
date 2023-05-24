@@ -10,15 +10,22 @@ export default new Vuex.Store({
     },
     getters: {
         getState(state) {
-            return state.isSucceed;
+            return state;
         }
     },
     state: {
-        isSucceed: ''
+        isSucceed: '',
+        response : ''
     },
     mutations: {
         setIsSucceed(state,isSucceed_) {
             state.isSucceed = isSucceed_
+        },
+
+        setResponse(state,response) {
+            state.response = response
         }
+
+        
     },
 })

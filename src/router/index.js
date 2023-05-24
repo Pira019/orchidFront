@@ -25,11 +25,11 @@ const routes = [
       path : '/login', name: 'login', component:() => import('@/views/CustomerViews/Login/Login.vue'),
       meta:
       {
-        title: 'Login',
+        title: 'Connexion',
         metaTags: [
             {
-                name:'Login',
-                content : 'Login'
+                name:'description',
+                content : 'Connectez-vous à votre compte ORCHID-CAMPUS pour accéder à nos tutoriels et préparez-vous à étudier à l\'étranger. Apprenez les meilleures pratiques pour maximiser vos chances de réussite dans un nouvel environnement d\'apprentissage.'
             }
         ]
     }
@@ -41,6 +41,28 @@ const routes = [
         metaTags:[{
           name:'Description inscription',
           content:'Content'
+        }]
+      }
+    },
+
+    {
+      path:'/mot-de-passe-oublie', name:'forgot-password', component:()=> import('@/views/ForgorPassword/ForgetPassword.vue'),
+      meta:{
+        title:'Récupération de mot de passe oublié',
+        metaTags:[{
+          name:'description',
+          content:'Besoin d\'aide pour récupérer votre mot de passe oublié sur Orchid Campus ? Suivez nos étapes simples pour réinitialiser votre mot de passe et accéder à votre compte'
+        }]
+      }
+    },
+
+    {
+      path:'/modifier-mot-de-passe/', name:'update-password', component:()=> import('@/views/CustomerViews/UpdatePassword/UpdatePassword.vue'),
+      meta:{
+        title:'Modifier le mot de passe',
+        metaTags:[{
+          name:'description',
+          content:'Modifier facilement votre mot de passe sur notre site. Suivez nos instructions pour protéger votre compte en toute sécurité.'
         }]
       }
     },

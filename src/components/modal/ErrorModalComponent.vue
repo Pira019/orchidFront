@@ -1,14 +1,14 @@
 <template> <!-- Button trigger modal --> 
     <!-- Modal -->
-    <div class="modal fade" :id="modalName" tabindex="-1" role="dialog" :aria-labelledby="modalName" aria-hidden="true">
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModal" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header m-3">            
-            <font-awesome-icon icon="fa-circle-check" class="modal-title w-100 text-center text-success" size="3x" beat></font-awesome-icon>  
+            <font-awesome-icon icon="fa-solid fa-triangle-exclamation" class="modal-title w-100 text-center text-danger" size="3x" beat></font-awesome-icon>  
           </div>
           <div class="modal-body text-center border-0">
-            <h5><slot> Félicitations ! Nous sommes ravis de vous compter parmi nous.</slot></h5> 
-            <slot name="footer"></slot>
+            <h5>Erreur inattendue</h5> 
+            <p>Une erreur inattendue s'est produite. Veuillez réessayer ultérieurement.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button> 
@@ -26,7 +26,7 @@ export default {
   created(){
     //show the modal
     $(document).ready(function(){
-		$("#"+ ModalTypeEnum.REGISTER).modal('show');
+		$("#errorModal").modal('show');
 	});
   },
   methods: { 
@@ -36,7 +36,7 @@ export default {
       modalName : ModalTypeEnum.REGISTER
     }
   },
-    name: "RegisterSuccessModalComponent",
+    name: "ErrorModalComponent",
     components: { FontAwesomeIcon }
 }
  

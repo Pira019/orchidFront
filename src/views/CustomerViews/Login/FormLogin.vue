@@ -2,14 +2,14 @@
     <div>
         <div>
             <h1 class="text-success">Bienvenue</h1>
-            <h5> veuillez vous connecter ou  <a href="/register" class="text-decoration-none font-weight-bold text-success">Créer un compte</a></h5>
+            <h5>Veuillez vous connecter ou  <a href="/register" class="text-decoration-none font-weight-bold text-success">Créer un compte</a></h5>
            
         </div>   
         <div class="mt-5">
             <error-alert :show="showAlertErrors && this.errors?.length !== 0" :response="errors"></error-alert>
             <form novalidate v-on:submit.prevent="onsubmit" ref="formLogin">
                 <div class="form-group input-group-lg mb-3 col-10">
-                    <label for="email" class="my-1">Email</label>
+                    <label for="email" class="my-1 fw-bold">Email</label>
                     <input type="email" autocomplete="email" v-model.trim="state.email" name="email" :class="[v$.email.$error ? 'is-invalid' : '']"  class="form-control rounded-0" id="email" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Entrer votre email"> 
                     <div class="invalid-feedback" v-if="v$.email.$error">
                         <span v-for="(error, index) of v$.email.$errors" :key="index">
@@ -18,10 +18,10 @@
                     </div>
                 </div> 
                 <div class="mb-3 col-10">
-                    <label for="password" class="my-1">Mot de passe</label>
+                    <label for="password" class="my-1 fw-bold">Mot de passe</label>
                     <div class="input-group input-group-lg">
                         <div class="input-group-prepend">
-                        <span class="input-group-text p-2 rounded-0"  @click="togglePasswordVisibility" id="password"><font-awesome-icon  :icon="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" size="2x"></font-awesome-icon></span>
+                        <span class="input-group-text p-2 rounded-0"  @click="togglePasswordVisibility" id="password"><font-awesome-icon  :icon="showPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'" size="2x"></font-awesome-icon></span>
                         </div>
                         <input :type="showPassword ? 'text' : 'password'" :class="[v$.password.$error ? 'is-invalid' : '']"   autocomplete="off" v-model="state.password"  class="form-control rounded-0" id="password" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="**********"> 
                         <div class="invalid-feedback" v-if="v$.password.$error">
@@ -42,12 +42,12 @@
                         </label>
                     </div>
                     <div>
-                       <router-link :to="{name:'home'}" class="text-decoration-none font-weight-bold text-success">Mot de passe oublié ?</router-link>
+                       <router-link :to="{name:'forgot-password'}" class="text-decoration-none font-weight-bold text-success">Mot de passe oublié ?</router-link>
                     </div>
                 </div>
                 <input type="hidden" v-model="state.reCAPTCHAToken" >
                 <div class="form-group input-group-lg mb-3 col-10">
-                    <submit-btn-component class="btn btn-success" :loading="loadingBtn" @click="submitForm()">Connecter</submit-btn-component>
+                    <submit-btn-component class="btn btn-success" :loading="loadingBtn" @click="submitForm()">Se connecter</submit-btn-component>
                 </div>
             </form>
         </div>
@@ -63,6 +63,13 @@ import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
 import customMessage from '@/Utils/validationMessages'
 import ErrorService from '@/Services/ErrorService';
 export default {
+  props: {
+    //email when user asked to reset email
+    emailReset:{
+        default : '',
+        type : String
+    }
+ },
   
   setup() {
     const state = reactive({
@@ -118,6 +125,7 @@ export default {
   
   mounted() {
         this.formFieldsCopy = { ...this.state};
+        this.state.email = this.emailReset;
     },
   data () {
     return {    
