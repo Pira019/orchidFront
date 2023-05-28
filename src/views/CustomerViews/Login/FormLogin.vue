@@ -2,9 +2,7 @@
     <div>
         <div>
             <h1 class="text-success">Bienvenue</h1>
-            <h5>Veuillez vous connecter ou <a href="/register"
-                    class="text-decoration-none font-weight-bold text-success">Créer un compte</a></h5>
-
+            <h5>Veuillez vous connecter ou <router-link :to="{ name: 'register' }" class="text-decoration-none font-weight-bold text-success">Créer un compte?</router-link></h5>
         </div>
         <div class="mt-5">
             <error-modal-component v-if="unexpectedError"></error-modal-component>
