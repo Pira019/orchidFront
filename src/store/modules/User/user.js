@@ -14,7 +14,7 @@ export default {
         residence_contry:'',
         citizenship:'',
         password: '',
-        password_confirm :'',
+        password_confirmation :'',
         recaptcha:''  
      }
     },
@@ -31,10 +31,10 @@ export default {
     },
 
     actions:{
-      async saveUser({state,commit,rootState,rootGetters},newUser){
-            const endPoint = 'register'
-            commit('setUser',newUser) 
-        return axios.post(import.meta.env.VITE_APP_API_URL + endPoint, rootGetters['user/getUser']);     
+      async saveUser({state,commit,rootState,rootGetters},newUser){          
+        commit('setEmail',newUser?.email) 
+       // return axios.post(import.meta.env.VITE_APP_API_URL + endPoint, rootGetters['user/getUser']);  
+       return UserService.saveUser(newUser)   
         },
 
         async authentificate({},credentials){
@@ -55,7 +55,7 @@ export default {
 
     mutations : {
        setUser(state,user){
-        state.User = user;
+        state.User= user;
        }, 
        setRecaptcha(state,recaptchaToken){
         state.User.recaptcha = recaptchaToken;
@@ -63,6 +63,19 @@ export default {
 
        setEmail(state,email){
         state.User.email = email;
+       },
+
+       resetState(state){
+        state.User.name = '';
+        state.User.first_name = '';
+        state.User.phone = '';
+        state.User.birth_date = '';
+        state.User.sex = '';
+        state.User.residence_contry = '';
+        state.User.citizenship = '';
+        state.User.password = '';
+        state.User.password_confirmation = '';
+        state.User.recaptcha = '';
        } 
     }
 }
