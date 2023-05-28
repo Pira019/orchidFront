@@ -26,4 +26,10 @@ export default class UserService{
         return axios.post(endPoind,requestBody);  
     }
 
+    static async saveUser(requestBody){
+        const endPoind =this.baseApiUrl + 'register'
+        return axios.post(endPoind,requestBody);  
+    }
+
+
 }
