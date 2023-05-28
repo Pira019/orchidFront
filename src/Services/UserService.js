@@ -20,5 +20,16 @@ export default class UserService{
         const endPoind =this.baseApiUrl + 'update-password'
         return axios.post(endPoind,requestBody);  
     }
+        
+    static async login(requestBody){
+        const endPoind =this.baseApiUrl + 'login'
+        return axios.post(endPoind,requestBody);  
+    }
+
+    static async saveUser(requestBody){
+        const endPoind =this.baseApiUrl + 'register'
+        return axios.post(endPoind,requestBody);  
+    }
+
 
 }
