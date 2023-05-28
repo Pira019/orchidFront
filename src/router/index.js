@@ -35,12 +35,12 @@ const routes = [
     }
     },
     {
-      path:'/register', name:'register', component:()=> import('@/views/CustomerViews/register/Register.vue'),
+      path:'/creer-compte', name:'register', component:()=> import('@/views/CustomerViews/register/Register.vue'),
       meta:{
-        title:'Créez votre compte',
+        title:'Créer votre compte',
         metaTags:[{
-          name:'Description inscription',
-          content:'Content'
+          name:'description',
+          content:'Créez un compte gratuit sur notre plateforme de tutoriels pour étudier à l\'étranger. Apprenez à effectuer vos démarches autonomes grâce à nos ressources complètes et personnalisées. Débutez votre aventure internationale dès aujourd\'hui !'
         }]
       }
     },
