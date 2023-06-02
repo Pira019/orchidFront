@@ -67,6 +67,17 @@ const routes = [
       }
     },
 
+    {
+      path:'/qui-sommes-nous/', name:'about-us', component:()=> import('@/views/CustomerViews/AboutUs.vue'),
+      meta:{
+        title:'À propos d\'Orchid Campus - Votre guide pour étudier à l\'étranger',
+        metaTags:[{
+          name:'description',
+          content:'Découvrez qui nous sommes et comment Orchid Campus peut vous aider à réaliser votre rêve d\'étudier à l\'étranger. Obtenez des conseils, des ressources et des tutoriels pour une expérience d\'apprentissage internationale enrichissante'
+        }]
+      }
+    },
+
 
   {
       path:'/:pathMatch(.*)*',
