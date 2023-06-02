@@ -16,12 +16,7 @@ $accordion-button-active-icon: url("data:image/svg+xml,<svg  aria-hidden='true' 
  
 // for checkbox
 $component-active-bg: $green;
-
-:root {
-    --bs-body-font-family : 'Noto Sans', sans-serif,
-   
-}
-
+ 
 
 // Then import Bootstrap and BootstrapVue SCSS files (order is important)
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
