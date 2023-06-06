@@ -15,7 +15,8 @@ export default new Vuex.Store({
     },
     state: {
         isSucceed: '',
-        response : ''
+        response : '',
+        routhPath : ''
     },
     mutations: {
         setIsSucceed(state,isSucceed_) {
@@ -24,8 +25,11 @@ export default new Vuex.Store({
 
         setResponse(state,response) {
             state.response = response
-        }
+        },
 
+        setRoutePath(state,route) {
+            state.routhPath = route
+        }
         
     },
 })

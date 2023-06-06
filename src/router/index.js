@@ -1,8 +1,8 @@
   
 import {createRouter,createWebHistory} from "vue-router" 
-
+import managerRoutes from '@/router/ManagerRoutes'
 //routes list
-const routes = [
+const routes_ = [
     {path : '/', name: 'home', component:() => import('@/views/CustomerViews/Home/Home.vue'),},
 
     {path : '/faq', name: 'faq', component:() => import('@/views/CustomerViews/Faq.vue'),
@@ -86,11 +86,13 @@ const routes = [
 
 ]
 
+const baseRoutes=[];
+const routes = baseRoutes.concat(routes_,managerRoutes);
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    linkActiveClass:'active-link',
+    linkActiveClass:'active',
 })
 
 
