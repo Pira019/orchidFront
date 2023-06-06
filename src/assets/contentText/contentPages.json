@@ -2,25 +2,44 @@
     "faqs" : [
 
         {
-            "question":"Pour quels pays proposez-vous votre service d'accompagnement ?",
-            "//patern": ":country // for contry list",
-            "answer" : "Actuellement, nous pouvons vous aider à remplir les documents nécessaires par des vidéos tutorielles pour :country"
+            "question":"Qu'est-ce qu'Orchid Campus ?", 
+            "answer" : "Orchid Campus est un site proposant des tutoriels payants pour vous aider dans vos démarches pour étudier à l'étranger. Nous fournissons des informations détaillées et des conseils pratiques pour faciliter votre processus d'études à l'étranger."
+        },
+        {
+            "question":"Quels types de tutoriels proposez-vous ?",
+            "answer" : " Nos tutoriels payants comprennent une vaste gamme de sujets liés aux démarches pour étudier à l'étranger. Vous trouverez des informations détaillées sur la recherche de programmes d'études, la préparation des documents d'admission, la rédaction de lettres de motivation, la préparation aux entretiens d'admission, les conseils sur le choix des destinations, et bien plus encore. Nos ressources sont conçues pour vous aider à maximiser vos chances de réussite dans votre projet d'études à l'étranger."
+        },
+        {
+            "question":"Comment puis-je accéder aux tutoriels ?",
+            "answer" : "Pour accéder à nos tutoriels, vous devez vous inscrire sur notre site, sélectionner l'université ou le collège ainsi que le programme qui vous intéresse, puis effectuer le paiement du montant indiqué. Après la confirmation de votre paiement, vous aurez un accès complet à notre bibliothèque de tutoriels. Vous pourrez suivre les tutoriels à votre rythme et les consulter autant de fois que vous le désirez."
+        },
+        {
+            "question":"Quels sont les modes de paiement acceptés ?",
+            "answer" : "Vous avez la possibilité d'effectuer vos paiements en utilisant votre carte de crédit ou de débit, ainsi que les services de mobile banking tels que M-Pesa et Airtel Money. Notre plateforme de paiement sécurisée vous garantit une transaction en toute sécurité. Il est important de noter que les paiements sont traités instantanément, ce qui vous permet d'accéder immédiatement aux tutoriels dès que votre paiement est confirmé."
+        },
+        {
+            "question":"Pouvez-vous garantir l'obtention d'un visa d'étudiant ?",
+            "answer" : "Non, nous ne pouvons pas garantir l'obtention d'un visa d'étudiant. L'octroi d'un visa dépend des lois et réglementations en vigueur dans le pays d'accueil, ainsi que de la satisfaction des critères d'admissibilité spécifiques. Nous vous recommandons de vous renseigner auprès des ambassades ou des consulats du pays où vous souhaitez étudier pour obtenir les informations les plus récentes et précises."
         },
         {
             "question":"Que dois-je faire pour demander une admission et un visa pour étudier à l'étranger ?",
             "answer" : "Vous devez d'abord décider dans quel(s) pays vous souhaitez étudier avant de pouvoir faire une demande d'admission et de visa. L'étape suivante consiste à choisir une université et à soumettre une demande d'admission. Une fois votre demande d'admission approuvée, vous pouvez introduire une demande de visa. Nous offrons des vidéos tutorielles bien détails qui vous  montreront comment faire tout depuis chez vous en étant autonome et une assistance gratuite si vous rencontrez de soucis."
-        },
-        {
-            "question":"Faut-il payer pour accéder aux vidéos tutorielles des démarches offertes par Orchid Campus ?",
-            "answer":"Oui, nos tutoriels, et accompagnements sont payants, 150 $(USD)."
-        },
+        }, 
         {
             "question":"Quelles sont les conditions d'admission ?",
-            "answer":"Les exigences varient fréquemment en fonction de l'université et/ou du programme pour lequel vous postulez. En général, il est nécessaire d'avoir de bonnes notes et des cours complets liés au programme choisi. Par exemple, quelqu'un qui a étudié la sociologie pourrait trouver difficile de s'intégrer au département d'informatique. Afin d'augmenter vos chances d'être accepté, nous vous accompagnerons dans votre demande d'admission dans 2 universités."
+            "answer":"Les critères d'admission peuvent varier fréquemment en fonction de l'université et du programme auquel vous postulez. En règle générale, il est important d'avoir de bonnes notes et d'avoir suivi des cours pertinents liés au programme choisi. Par exemple, il pourrait être difficile pour quelqu'un ayant étudié la sociologie de s'intégrer au département d'informatique. Afin de maximiser vos chances d'acceptation, nous vous offrons notre soutien pour soumettre votre demande d'admission dans deux universités."
         },
         {
             "question":"Existe-t-il des bourses pour étudier à l'étranger ?",
-            "answer":"En fait, il existe des bourses d'études disponibles pour ceux qui choisissent d'étudier à l'étranger. Certains sont tout compris, couvrant toutes vos dépenses, tandis que d'autres sont partiels, ne couvrant qu'une partie de vos frais académiques ou offrant une réduction sur les frais académiques. Cependant, ceux qui poursuivent des études supérieures ou doctorales, comme la maîtrise ou le doctorat, sont beaucoup plus susceptibles de se qualifier pour ces bourses."
+            "answer":"Effectivement, il existe des bourses d'études disponibles pour ceux qui décident de poursuivre leurs études à l'étranger. Certaines bourses sont complètes, ce qui signifie qu'elles couvrent l'ensemble de vos dépenses, tandis que d'autres sont partielles, ne couvrant qu'une partie des frais académiques ou offrant des réductions sur ces frais. Cependant, il est important de noter que les étudiants qui se lancent dans des études supérieures ou doctorales, tels qu'une maîtrise ou un doctorat, ont beaucoup plus de chances de remplir les critères d'admissibilité à ces bourses."
+        },
+        {
+            "question":"Offrez-vous des services de demande de visa ?",
+            "answer":"Non, Orchid Campus ne fournit pas de services de demande de visa. Nous sommes une plateforme d'information et de conseils pour les étudiants internationaux. Nous vous fournirons des informations générales sur les démarches pour obtenir un visa d'étudiant, mais il est de votre responsabilité de suivre les procédures appropriées et de contacter les autorités compétentes pour obtenir votre visa. Cependant, nous proposons des liens utiles vers les sites officiels des gouvernements, où vous pourrez obtenir des informations sur les procédures de visa spécifiques au pays dans lequel vous souhaitez étudier."
+        },
+        {
+            "question":"Puis-je poser des questions supplémentaires ou demander de l'aide supplémentaire ?",
+            "answer":"Absolument ! Nous sommes là pour vous aider à chaque étape de votre processus d'études à l'étranger. Vous pouvez nous contacter via notre formulaire de contact ou par e-mail, et notre équipe de support dédiée se fera un plaisir de répondre à vos questions et de vous fournir l'assistance dont vous avez besoin."
         }
         
     ]
