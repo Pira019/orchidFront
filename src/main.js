@@ -20,7 +20,8 @@ import './styles.scss'
 /* import specific icons */  
 import {faBars, faBullseye, faCircleCheck, faEnvelope, faEye, faEyeSlash, faHandshake, faHeartCircleCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { faInstagramSquare, faMailchimp, faWhatsappSquare} from '@fortawesome/free-brands-svg-icons'
+import { faFolderOpen } from '@fortawesome/free-regular-svg-icons'
 
  
-library.add(faWhatsappSquare,faEnvelope,faInstagramSquare,faMailchimp,faHandshake,faBullseye,faHeartCircleCheck,faCircleCheck,faEye,faEyeSlash,faTriangleExclamation,faBars) 
+library.add(faWhatsappSquare,faEnvelope,faInstagramSquare,faMailchimp,faHandshake,faBullseye,faHeartCircleCheck,faCircleCheck,faEye,faEyeSlash,faTriangleExclamation,faBars,faFolderOpen) 
 createApp(App).use(router).use(store).component('font-awesome-icon', FontAwesomeIcon).mount('#app');

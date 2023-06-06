@@ -2,16 +2,13 @@
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar" :class="{ active: isSidebarActive }">
-            <div class="sidebar-header">
-                <h3>Bootstrap Sidebar</h3>
-            </div>
-
+           
             <ul class="list-unstyled components">
                 <p>Dummy Heading</p>
-                <li class="active">
+                <li class="active nav-item">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
+                        <li class="">
                             <a href="#">Home 1</a>
                         </li>
                         <li>

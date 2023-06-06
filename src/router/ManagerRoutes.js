@@ -4,11 +4,11 @@ let routes = [
     {
     path : prefix, name: 'managerHome', component:() => import('@/views/ManagerViews/Home.vue'),
     meta:{
-        title: 'Faq',
+        title: 'Administration',
         metaTags: [
             {
-                name:'description faq',
-                content : 'test'
+                name:'description',
+                content : 'Bienvenue sur la page d\'administration d\'Orchid Campus. Gérez facilement votre site et accédez à tous les outils nécessaires'
             }
         ]
     }
