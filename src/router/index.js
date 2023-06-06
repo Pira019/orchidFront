@@ -7,11 +7,11 @@ const routes_ = [
 
     {path : '/faq', name: 'faq', component:() => import('@/views/CustomerViews/Faq.vue'),
         meta:{
-            title: 'Faq',
+            title: 'Foire aux questions (FAQ)',
             metaTags: [
                 {
-                    name:'description faq',
-                    content : 'test'
+                    name:'description',
+                    content : 'Bienvenue sur la page FAQ de Orchid Campus ! Nous avons rassemblé ici quelques questions fréquemment posées par nos utilisateurs pour vous aider à mieux comprendre notre site de tutoriels payants pour étudier à l\'étranger.'
                 }
             ]
         }
