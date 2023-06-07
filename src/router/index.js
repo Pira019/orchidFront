@@ -18,7 +18,13 @@ const routes_ = [
      },
     {path : '/contact', name: 'contact', component:() => import('@/views/CustomerViews/Contact.vue'),
      meta : {
-        title : 'Contact'
+        title : 'Contactez-nous',
+        metaTags: [
+          {
+              name:'description',
+              content : 'Contactez-nous pour toute question, commentaire ou demande de renseignements. Remplissez notre formulaire de contact et nous vous répondrons dans les plus brefs délais.'
+          }
+      ]
      },
     },     
     {
