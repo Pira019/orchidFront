@@ -15,6 +15,9 @@ export default function customeMessage(attribute,validatorName)
          if(validatorName === 'recaptcha'){
             return validationMessage.validations.recaptcha;
          } 
+         if(validatorName === 'success'){
+            return validationMessage.messageSuccess.message;
+         } 
 
         
 }
