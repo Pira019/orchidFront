@@ -1,6 +1,7 @@
 
 {
 "name" : "Le nom ",
+"message" : "Le message ",
 "first_name" : "Le prénom ",
 "sex" : "Le sexe ",
 "residence_contry" : "Le pays de résidence ",
@@ -17,6 +18,9 @@
 },
 "error":{
     "credentials_do_not_match" : "Email ou mot de passe incorrect. Veuillez réessayer."
+},
+"messageSuccess":{
+    "message" : "Nous vous remercions d'avoir pris le temps de nous contacter via ce formulaire. Nous souhaitons vous informer que nous avons bien reçu votre message et que nous l'étudierons avec attention dans les plus brefs délais."
 }
 
 }

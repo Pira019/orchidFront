@@ -1,11 +1,14 @@
 import Vuex from 'vuex'
 import user from '@/store/modules/User/user'
 import country from '@/store/modules/Country/country'
+import contact from '@/store/modules/Contact/Contact'
 
 export default new Vuex.Store({ 
     modules: {
         user,
-        country
+        country,
+        contact
+
 
     },
     getters: {

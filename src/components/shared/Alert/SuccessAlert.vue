@@ -1,6 +1,6 @@
 <template >
        <div class="alert alert-success" role="alert" v-if="show"> 
-         <h4 class="alert-heading">Réinitialisation du mot de passe</h4>
+         <h4 class="alert-heading"><slot>Réinitialisation du mot de passe</slot></h4>
          <p>{{ response }}</p>
         </div>
 </template>

@@ -1,20 +1,37 @@
-<template>
-    <error-alert :show="showAlertErrors && this.errors?.length !== 0 && !unexpectedError" :response="errors" class="text-center"></error-alert>
+<template>  
+        <error-alert :show="showAlertErrors && this.errors?.length !== 0 && !unexpectedError" :response="errors" class="text-center"></error-alert>
+        <error-modal-component v-if="unexpectedError"></error-modal-component>
+       <SuccessAlert :show="isEmailSend" :response="response" class="text-center"> Confirmation de réception de votre message</SuccessAlert>
     <!--Grid row -->
     <div class="row justify-content-around m-5">
         <!--Grid column-->
         <div class="col col-md-6 mb-3 order-2">
-            <form class="group-form" v-on:submit.prevent="onsubmit">
+            <form class="group-form" v-on:submit.prevent="onsubmit" novalidate ref="form">
                 <div class="input-group mb-3">
-                    <input type="text" required class="form-control rounded-0" aria-label="Large" v-model.trim="state.name"
+                    <input type="text" required class="form-control rounded-0" aria-label="Large" name="name" autocomplete="family-name" :class="[v$.name.$error ? 'is-invalid' : '']"  v-model.trim="state.name"
                         aria-describedby="inputGroup-sizing-sm" placeholder="Nom *">
+                    <div class="invalid-feedback" v-if="v$.name.$error">
+                        <span v-for="(error, index) of v$.name.$errors" :key="index" class="d-block">
+                            {{ error.$message }}
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <input type="email" required v-model.trim="state.email" class="form-control rounded-0" name="email"
+                    <input type="email" v-model.trim="state.email" class="form-control rounded-0" name="email" :class="[v$.email.$error ? 'is-invalid' : '']" autocomplete="email"
                         aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Votre email *">
+                     <div class="invalid-feedback" v-if="v$.email.$error">
+                        <span v-for="(error, index) of v$.email.$errors" :key="index" class="d-block">
+                            {{ error.$message }}
+                        </span>
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" v-model.trim="state.message" required rows="3"></textarea>
+                    <textarea class="form-control" v-model.trim="state.message" :class="[v$.message.$error ? 'is-invalid' : '']"  required rows="3" placeholder="Votre message *"></textarea>
+                        <div class="invalid-feedback" v-if="v$.message.$error">
+                            <span v-for="(error, index) of v$.message.$errors" :key="index" class="d-block">
+                                {{ error.$message }}
+                            </span>
+                        </div>
                 </div>
                 <div class="mb-3">
                     <recaptcha-component @recaptcha="getReCAPTCHAToken"></recaptcha-component>
@@ -42,7 +59,8 @@
         <!--End contact-->
 
         <!--End Grid row -->
-    </div>
+    </div> 
+ 
 </template>
 <script>
 import contacts from "../shared/footer/footerLinks.json"
@@ -52,28 +70,61 @@ import useVuelidate from '@vuelidate/core'
 import SubmitBtnComponent from "../shared/SubmitBtnComponent.vue"
 import customeMessage from "@/Utils/validationMessages"
 import ErrorAlert from '../shared/Alert/ErrorAlert.vue'
+import ErrorService from "@/Services/ErrorService"
+import SuccessAlert from '@/components/shared/Alert/SuccessAlert.vue'
+import ErrorModalComponent from '../modal/ErrorModalComponent.vue'
 export default {
     methods: {
         getReCAPTCHAToken(token) {
             this.state.recaptcha = token;
         },
 
-        submitForm() {
+        resetForm(){
+            this.state.email=''
+            this.state.name=''
+            this.state.recaptcha=''
+            this.state.message=''
+        },
+        submitForm() {    
 
-            this.errors = this.state.recaptcha.length === 0 ? this.errors = [[this.messageErrorRecaptcha]] : [];
+           this.errors = this.state.recaptcha.length === 0 ? this.errors = [[this.messageErrorRecaptcha]] : [];
             this.v$.$validate();
 
             if (this.errors.length === 0 && !this.v$.$error) {
                 this.btnSubmitLoading = true;
+                
+                this.$store.dispatch('contact/question',this.state).then(()=>{
+                    this.btnSubmitLoading=false;
+
+                    this.isEmailSend=true; 
+                     this.resetForm()
+                    grecaptcha.reset();  
+                     
+
+                }).catch((error)=>{
+                    this.btnSubmitLoading=false;
+                    let errors_ = ErrorService.handleErrorHttp(error.response?.status,error.response?.data.errors);
+
+                    if(!errors_){
+                            this.unexpectedError=true;  
+                        }
+                    this.isEmailSend=false;    
+                    this.errors=errors_?.errorMessage;
+                    this.showAlertErrors=true;   
+                    
+                    this.state.recaptcha=''
+                    grecaptcha.reset();   
+                })
+
             } else {
+                this.isEmailSend=false;    
                 this.showAlertErrors = true;
             }
 
             this.unexpectedError = false;
         }
     },
-    components: { RecaptchaComponent, SubmitBtnComponent, ErrorAlert },
-
+    components: { RecaptchaComponent, SubmitBtnComponent, ErrorAlert, ErrorModalComponent , SuccessAlert}, 
     setup() {
         const state = reactive({
             name: '',
@@ -84,10 +135,10 @@ export default {
 
         const rules = computed(() => {
             return {
-                name: '',
-                email: '',
+                name:  {required:customeMessage("name",'required')},
+                email:  {required:customeMessage("email",'required'),email:customeMessage("email",'email')},
                 recaptcha: '',
-                message: ''
+                message: {required:customeMessage("message",'required')},
             }
         })
         const v$ = useVuelidate(rules, state)
@@ -100,9 +151,13 @@ export default {
             showAlertErrors: false,
             unexpectedError: false,
             errors: [],
+            initialForm:{},
+            isEmailSend:false,
+            response:customeMessage("", "success"),
             messageErrorRecaptcha: customeMessage("", "recaptcha"),
         }
     },
+  
     name: "ContactFormComponent"
 }
 </script>
