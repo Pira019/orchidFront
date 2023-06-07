@@ -13,12 +13,7 @@
 import ContactFormComponent from '@/components/Customer/ContactFormComponent.vue'
  
 export default {
-  components: { ContactFormComponent }, 
-  data () {
-    return {
-        id:this.id
-    }
-  },
+  components: { ContactFormComponent },  
    
     name: "Contact"
 }
