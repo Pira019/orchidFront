@@ -2,56 +2,24 @@
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar" :class="{ active: isSidebarActive }">
-           
-            <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
-                <li class="active nav-item">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li class="">
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+            <ul class="nav flex-column">
+                <li class="nav-item ">
+                    <a class="nav-link m-1 fw-bold " href="#">Active</a>
                 </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                <li class="nav-item "> 
+                    <router-link class="nav-link m-1 fw-bold " :to="{name:'ManagerTutoHome'}">
+                        <font-awesome-icon icon="fa-person-chalkboard" size="1x"/>
+                        <span class="px-2">Tutoriels</span>
+                    </router-link>
                 </li>
-            </ul>
+                <li class="nav-item">
+                    <a class="nav-link m-1 fw-bold " href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link m-1 fw-bold " href="#">Disabled</a>
+                </li>
+            </ul> 
         </nav>
 
         <!-- Page Content  -->
