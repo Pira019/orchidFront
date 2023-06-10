@@ -5,10 +5,8 @@
         </template>       
         <ManagerSlidebar :isSidebarActive="isSidebarActive__">
             <template #content> 
-                <!--content-->
-                <div class="content">
-                    <slot></slot>
-                </div>
+                <!--content--> 
+                    <slot></slot> 
             </template>
         </ManagerSlidebar>       
     </BaseLayout> 
