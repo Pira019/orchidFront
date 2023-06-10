@@ -4,11 +4,10 @@
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm" id="sidebarToggle" @click="toggleSidebar">
             <font-awesome-icon icon="fa-bars" class="m-1" size="2x" style="color: #fafafa;"></font-awesome-icon>
-        </button>
-     
-        <a class="navbar-brand" href="#">
+        </button> 
+        <router-link  class="navbar-brand" :to="{name:'managerHome'}">
             <img src="@/assets/img/svg/logoOrchid.svg" class="img-fluid" width="80" height="20" alt="logo orchid campus">
-        </a>
+        </router-link >
         <ul class="navbar-nav ms-auto">
             <li class="nav-item text-white">Nenette Mbombo</li>
         </ul>
