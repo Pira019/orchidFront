@@ -17,7 +17,7 @@ let routes = [
  {
     path : prefix+'tutoriels', name: 'ManagerTutoHome', component:() => import('@/views/ManagerViews/Tutorials/Index.vue'),
     meta:{
-        title: 'Administration',
+        title: 'Tutoriels',
         metaTags: [
             {
                 name:'description',
