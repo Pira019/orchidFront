@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid">
+        <header-tuto></header-tuto>
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="..." alt="Drapeau pays">
             <div class="card-body">
@@ -14,14 +15,17 @@
                 <li class="list-group-item">Dérniere modification :</li>
             </ul>
             <div class="card-body">
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="#" class="btn btn-success">Go somewhere</a>
             </div>
         </div>
+        
     </div>
 </template>
 
 <script>
+import HeaderTuto from '@/components/managerComponents/HeaderTuto.vue'
 export default {
+  components: { HeaderTuto },
     name: "ManagerTutoHome"
 }
 </script>
