@@ -78,13 +78,12 @@ ul ul a {
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
-       
+        margin-left: -250px;  
     }
     #sidebar.active {
-        margin-left: 0;
-    }
-    #sidebarCollapse span {
-        display: none;
-    }
+        margin-left: 0;  
+        z-index: 1; 
+        position: absolute;
+        height: 100%;
+    } 
 }
