@@ -40,6 +40,6 @@ let routes = [
         ]
     },
  }, 
-  // End routes tutorials
+  // Endroutes tutorials
 ] 
 export default routes;
