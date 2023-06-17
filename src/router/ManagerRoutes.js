@@ -29,7 +29,7 @@ let routes = [
  }, 
 
  {
-    path : prefix+'tutoriels/ajouter', name: 'ManagerAddTutoriel', component:() => import('@/views/ManagerViews/Tutorials/AddTutorial.vue'),
+    path : prefix+'tutoriels/ajouter', name: 'ManagerAddTutoriel', component:() => import('@/views/ManagerViews/Tutorials/AddTutoriel/AddTutorial.vue'),
     meta:{
         title: 'Ajouter des tutoriels',
         metaTags: [
@@ -39,6 +39,33 @@ let routes = [
             }
         ]
     },
+
+    children:[
+        {
+            path : 'pays', name: 'ManagerAddTutorielCountry', component:() => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountryForm.vue'),
+            meta:{
+                title: 'Ajouter des tutoriels pays',
+                metaTags: [
+                    {
+                        name:'description',
+                        content : 'Ajouter tutoriels'
+                    }
+                ]
+            },
+        },
+        {
+            path : 'procedure', name: 'ManagerAddTutorielSteps', component:() => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountrySteps.vue'),
+            meta:{
+                title: 'Etapes générales',
+                metaTags: [
+                    {
+                        name:'description',
+                        content : 'Ajouter tutoriels'
+                    }
+                ]
+            },
+        }
+    ]
  }, 
   // Endroutes tutorials
 ] 
