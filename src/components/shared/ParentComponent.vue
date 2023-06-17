@@ -32,7 +32,7 @@ export default{
     '$route.path'(newPath) {
        const test= newPath.includes(import.meta.env.VITE_MANAGER_PATH);
       const routeExists = this.$router.options.routes.some(
-        (route) => route.path === newPath
+        (route) => route.path.includes(import.meta.env.VITE_MANAGER_PATH)
       );
       this.showManager = test && routeExists
     },
