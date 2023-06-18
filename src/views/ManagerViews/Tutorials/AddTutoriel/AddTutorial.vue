@@ -5,7 +5,7 @@
         <div class="mt-5 container-fluid">
             <nav class="nav nav-pills nav-justified nav-tabs">
                 <router-link class="nav-item nav-link fw-bold" :to="{ name: 'ManagerAddTutorielCountry' }">Pays</router-link>
-                <router-link class="nav-item nav-link fw-bold" disable :to="{ name: 'ManagerAddTutorielSteps' }">Procedure génerale</router-link>
+                <router-link class="nav-item nav-link fw-bold" disable :to="{ name: 'ManagerAddTutorielSteps' }">Procedure génerale(Nom pays)</router-link>
                 <a class="nav-item nav-link" href="#">Université</a>
             </nav>
 
