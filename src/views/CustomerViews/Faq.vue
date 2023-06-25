@@ -15,11 +15,7 @@
 <script>
 import FaqComponent from '@/components/Customer/FaqComponent.vue'
 import content from '@/assets/contentText/contentPages.json'
-export default{
-  methods: {
-  },
-  methods: {
-  },
+export default{ 
   data () {
     return {
         contentFaqs : content.faqs
