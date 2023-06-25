@@ -8,6 +8,7 @@
 "citizenship" : "Le pays de citoyenneté ",
 "email" : "L'email ",
 "password" : "Le mot de passe ",
+"country" : "Le pays ",
 "password_confirmation" : "Le mot de passe de confirmation ",
 "validations":{
     "required" : "est obligatoire" ,
