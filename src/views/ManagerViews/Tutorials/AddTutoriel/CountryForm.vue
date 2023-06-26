@@ -6,7 +6,7 @@
                 <label for="country" class="col-sm-2 col-form-label fw-bold">Selectionner le pays*</label>
                 <div class="col-sm-4 mb-3">
                     <select class="form-select" id="country" :class="[v$.country.$error ? 'is-invalid' : '']" v-model="state.country">
-                        <option selected value="" disabled>Selectionner un pays</option>
+                        <option  value="" disabled>Selectionner un pays</option>
                         <option v-for="country in listOfCoutries" :key="country.id" :value="country">{{ country.name }}</option>
                     </select>
                     <div class="invalid-feedback" v-if="v$.country.$error">
@@ -29,14 +29,24 @@ import CountryStepsService from '@/Services/Manager/CountryStepsService';
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
 import { computed, reactive } from 'vue';
 import customeMessage from '@/Utils/validationMessages';
-import useVuelidate from '@vuelidate/core';
+import useVuelidate from '@vuelidate/core'; 
+import { mapGetters } from 'vuex';
 
 export default {
     methods: {
         submit() {
             this.v$.$validate();
-            this.$store.commit('countryStep/setSelectedCoutry',this.state) 
+            this.$store.commit('countryStep/setSelectedCoutry', this.state)
+            if (!this.v$.$error) {
+                this.$router.push({ name: 'ManagerAddTutorielSteps' });
+            }
         }
+    },
+
+    computed: {
+        ...mapGetters('countryStep', {
+            countrySelected: 'getCountrySelected'
+        }),
     },
     name: "CountryFormTuto",
     components: { SubmitBtnComponent },
@@ -70,6 +80,9 @@ export default {
         }).catch(() => {
             this.unexpectedError = true;
         });
+
+        if (this.countrySelected)
+            this.state.country = this.countrySelected
     },
     components: { SubmitBtnComponent, ErrorModalComponent },
 }
