@@ -4,7 +4,7 @@
             <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">{{
                 countrySelected?.name }}</span></h2>
 
-            <section>
+            <section v-if="countrySteps.length">
                 <table class="table caption-top table-hover">
                     <caption>Nombre d'étapes : <span class="fw-semibold">{{ countrySteps.length }}</span></caption>
                     <thead class="table-dark">
@@ -21,8 +21,8 @@
                             <td>{{step.title}}</td>
                             <td>{{ step.description }}</td> 
                             <td>
-                                <button class="btn btn-warning m-1">d</button>
-                                <button class="btn btn-danger m-1" @click="deleteStep(index)">del</button> 
+                                <button class="btn btn-warning m-1" title="Modifier cette étape"><font-awesome-icon icon="fa-pen" style="color: #f0f0f0;"/></button>
+                                <button class="btn btn-danger m-1" @click="deleteStep(index)" title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button> 
                             </td> 
                         </tr> 
                     </tbody>
@@ -30,11 +30,16 @@
             </section>
         </div>
 
-        <form novalidate v-on:submit.prevent="onsubmit">
+        <form novalidate v-on:submit.prevent="saveSteps">
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label for="Titre" class="fw-bold">Titre *</label>
-                    <input type="text" id="Titre" class="form-control" v-model="state.title">
+                    <input type="text" id="Titre" class="form-control" :class="[v$.title.$error ? 'is-invalid' : '']" v-model.trim="state.title">
+                    <div class="invalid-feedback" v-if="v$.title.$error">
+                        <span v-for="(error, index) of v$.title.$errors" :key="index">
+                            {{ error.$message }}
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label for="stepNum" class="fw-bold">Numéro étape *</label>
@@ -45,8 +50,8 @@
                     <textarea class="form-control" id="Description" rows="5" v-model="state.description"></textarea>
                 </div>
                 <div class="form-group mt-3">
-                    <button class="btn btn-primary" @click="addSteps()">Ajouter une étape</button>
-                    <button class="btn btn-success mx-1">Enregister</button>
+                    <button class="btn btn-primary" @click.self="addSteps">Ajouter une étape</button>
+                    <button class="btn btn-success mx-1" @click="saveSteps">Enregister</button>
                 </div>
             </div>
         </form>
@@ -62,8 +67,19 @@ import useVuelidate from '@vuelidate/core';
 export default {
     methods: {
         addSteps() {
+            this.v$.$validate(); 
+            if(!this.v$.$error){
             this.countrySteps.push(this.createCoutryStepModel())
             this.state.order++
+
+            this.state.title=''
+            event.target.reset();
+        }        
+        },
+        saveSteps() { 
+          
+            this.$store.dispatch('countryStep/saveSteps',this.countrySteps);
+           
         },
         deleteStep(index) {
             this.countrySteps.splice(index,1); 
@@ -73,6 +89,7 @@ export default {
                 title: this.state.title,
                 order: this.state.order,
                 description: this.state.description,
+                country_id: this.countrySelected?.id, 
             }
         }
     },
@@ -87,13 +104,12 @@ export default {
         const state = reactive({
             title: '',
             order: 1,
-            description: '',
+            description: '', 
         })
 
         const rules = computed(() => {
             return {
-                title: { required: customeMessage("email", 'required'), email: customeMessage("email", 'email') },
-                order: { required: customeMessage("email", 'required'), email: customeMessage("email", 'email') },
+                title: { required: customeMessage("title", 'required')}, 
             }
         })
         const v$ = useVuelidate(rules, state);

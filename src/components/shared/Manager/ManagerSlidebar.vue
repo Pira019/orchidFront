@@ -13,6 +13,20 @@
                         <span class="px-2">Tutoriels</span>
                     </router-link>
                 </li>
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link m-1 fw-bold">Home</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link m-1 fw-bold " href="#">Link</a>
                 </li>
@@ -36,3 +50,8 @@ export default {
     name: 'ManagerSlidebar'
 }
 </script>  
+<style scope>
+#homeSubmenu li a{
+    background-color: transparent
+}
+</style>
