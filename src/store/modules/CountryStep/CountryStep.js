@@ -1,3 +1,4 @@
+import CountryStepsService from "@/Services/Manager/CountryStepsService";
 export default {
     namespaced: true,
     state: {
@@ -13,5 +14,11 @@ export default {
         setSelectedCoutry(state, country) {
             state.countrySelected = country;
         }, 
-    }
+    },
+
+    actions: {
+        async saveSteps({},data) {
+            return CountryStepsService.saveSteps(data);
+        },
+    },
 }
