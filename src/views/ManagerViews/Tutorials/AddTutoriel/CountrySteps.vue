@@ -30,7 +30,7 @@
             </section>
         </div>
 
-        <form novalidate v-on:submit.prevent="saveSteps">
+        <form novalidate v-on:submit.prevent="saveSteps" ref="addStepsForm">
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label for="Titre" class="fw-bold">Titre *</label>
@@ -50,7 +50,7 @@
                     <textarea class="form-control" id="Description" rows="5" v-model="state.description"></textarea>
                 </div>
                 <div class="form-group mt-3">
-                    <button class="btn btn-primary" @click.self="addSteps">Ajouter une étape</button>
+                    <button class="btn btn-primary" @click="addSteps">Ajouter une étape</button>
                     <button class="btn btn-success mx-1" @click="saveSteps">Enregister</button>
                 </div>
             </div>
@@ -70,19 +70,31 @@ export default {
             this.v$.$validate(); 
             if(!this.v$.$error){
             this.countrySteps.push(this.createCoutryStepModel())
-            this.state.order++
-
+            this.state.order++ 
+            this.v$.$reset();
             this.state.title=''
-            event.target.reset();
         }        
         },
         saveSteps() { 
           
-            this.$store.dispatch('countryStep/saveSteps',this.countrySteps);
+            //this.$store.dispatch('countryStep/saveSteps',this.countrySteps);
+            console.log(this.countrySteps)
            
         },
         deleteStep(index) {
-            this.countrySteps.splice(index,1); 
+            this.orderSteps(index);
+            this.countrySteps.splice(index,1);
+            this.state.order = this.countrySteps.length + 1 
+        },
+
+        orderSteps(index) {
+            for (var i = 0; i < this.countrySteps.length; i++) {
+                if (this.countrySteps[i].order === index + 1) {
+                    if (this.countrySteps[i + 1]) {
+                        this.countrySteps[i + 1].order = this.countrySteps[i + 1].order - 1
+                    }
+                }
+            }
         },
         createCoutryStepModel() {
             return {
