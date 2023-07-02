@@ -15,5 +15,10 @@ export default class CountryStepsService{
         const endPoind =this.baseApiUrl + 'country-to-add-tuto'
         return axios.get(endPoind);  
     }
+
+    static async saveSteps(data){
+        const endPoind =this.baseApiUrl + 'coutry-steps'
+        return axios.post(endPoind,data);  
+    }
  
 }
