@@ -1,5 +1,4 @@
-import UserService from '@/Services/UserService';
-import axios, * as others from 'axios';
+import UserService from '@/Services/UserService'; 
 
 export default {
     namespaced : true,  
