@@ -1,9 +1,18 @@
 <template>
     <div>
+        <!--modals-->
+        <error-modal-component v-if="unexpectedError">
+            <h5>Erreur {{ codeErreur }} inattendue</h5>
+        </error-modal-component>
+        <register-success-modal-component v-if="isSucceed">
+            <slot>{{ state.order-1 }} Etapes sauvegardées dans le système</slot>
+        </register-success-modal-component>
+        <!--End of modals-->
         <div class="mb-5">
             <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">{{
-                countrySelected?.name }}</span></h2>
 
+                countrySelected?.name }}</span></h2>
+            <ErrorAlert :show="this.errors?.length !== 0 && !unexpectedError" :response="errors"> </ErrorAlert>
             <section v-if="countrySteps.length">
                 <table class="table caption-top table-hover">
                     <caption>Nombre d'étapes : <span class="fw-semibold">{{ countrySteps.length }}</span></caption>
@@ -11,30 +20,33 @@
                         <tr>
                             <th scope="col">N</th>
                             <th scope="col">Titre</th>
-                            <th scope="col">Description</th> 
-                            <th scope="col">Action</th> 
+                            <th scope="col">Description</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(step,index) in countrySteps" :key="index"  >
+                        <tr v-for="(step, index) in countrySteps" :key="index">
                             <th scope="row">{{ step.order }}</th>
-                            <td>{{step.title}}</td>
-                            <td>{{ step.description }}</td> 
+                            <td>{{ step.title }}</td>
+                            <td>{{ step.description }}</td>
                             <td>
-                                <button class="btn btn-warning m-1" title="Modifier cette étape"><font-awesome-icon icon="fa-pen" style="color: #f0f0f0;"/></button>
-                                <button class="btn btn-danger m-1" @click="deleteStep(index)" title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button> 
-                            </td> 
-                        </tr> 
+                                <button class="btn btn-warning m-1" title="Modifier cette étape"><font-awesome-icon
+                                        icon="fa-pen" style="color: #f0f0f0;" /></button>
+                                <button class="btn btn-danger m-1" @click="deleteStep(index)"
+                                    title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </section>
         </div>
 
-        <form novalidate v-on:submit.prevent="saveSteps" ref="addStepsForm">
+        <form novalidate v-on:submit.prevent="onSubmit">
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label for="Titre" class="fw-bold">Titre *</label>
-                    <input type="text" id="Titre" class="form-control" :class="[v$.title.$error ? 'is-invalid' : '']" v-model.trim="state.title">
+                    <input type="text" id="Titre" class="form-control" :class="[v$.title.$error ? 'is-invalid' : '']"
+                        v-model.trim="state.title">
                     <div class="invalid-feedback" v-if="v$.title.$error">
                         <span v-for="(error, index) of v$.title.$errors" :key="index">
                             {{ error.$message }}
@@ -50,8 +62,8 @@
                     <textarea class="form-control" id="Description" rows="5" v-model="state.description"></textarea>
                 </div>
                 <div class="form-group mt-3">
-                    <button class="btn btn-primary" @click="addSteps">Ajouter une étape</button>
-                    <button class="btn btn-success mx-1" @click="saveSteps">Enregister</button>
+                    <button class="btn btn-primary" @click="addStep">Ajouter une étape</button>
+                    <SubmitBtnComponent :loading="btnLoading" class="btn btn-success mx-1" @click="saveSteps" />
                 </div>
             </div>
         </form>
@@ -63,28 +75,51 @@ import { mapGetters } from 'vuex';
 import { computed, reactive } from 'vue';
 import customeMessage from '@/Utils/validationMessages';
 import useVuelidate from '@vuelidate/core';
+import ErrorService from '@/Services/ErrorService';
+import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
+import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
+import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';
 
 export default {
     methods: {
-        addSteps() {
-            this.v$.$validate(); 
-            if(!this.v$.$error){
-            this.countrySteps.push(this.createCoutryStepModel())
-            this.state.order++ 
-            this.v$.$reset();
-            this.state.title=''
-        }        
-        },
-        saveSteps() { 
-          
-            //this.$store.dispatch('countryStep/saveSteps',this.countrySteps);
-            console.log(this.countrySteps)
-           
+        addStep() {
+            this.v$.$validate();
+            if (!this.v$.$error) {
+                this.countrySteps.push(this.createCoutryStepModel())
+                this.state.order++
+                this.v$.$reset();
+                this.state.title = ''
+            }
         },
         deleteStep(index) {
             this.orderSteps(index);
-            this.countrySteps.splice(index,1);
-            this.state.order = this.countrySteps.length + 1 
+            this.countrySteps.splice(index, 1);
+            this.state.order = this.countrySteps.length + 1
+        },
+        saveSteps() {
+
+            if (this.countrySteps.length != 0) {
+                this.btnLoading = true;  
+                this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then(() => {                  
+                    this.isSucceed =true;  
+                    this.btnLoading=false;              
+                })
+                    .catch((error) => {
+                        this.btnLoading = false;
+                        let errors_ = ErrorService.handleErrorHttp(error.response?.status, error.response?.data.errors)
+                        if (!errors_) {
+                            this.unexpectedError = true;
+                            this.codeErreur = error.response?.status;
+                        }
+                        this.errors = errors_?.errorMessage 
+                    });
+
+                    
+              
+                this.unexpectedError = false;                
+                this.countrySteps = [];
+            }
+
         },
 
         orderSteps(index) {
@@ -101,7 +136,7 @@ export default {
                 title: this.state.title,
                 order: this.state.order,
                 description: this.state.description,
-                country_id: this.countrySelected?.id, 
+                country_id: this.countrySelected?.id,
             }
         }
     },
@@ -109,6 +144,11 @@ export default {
     data() {
         return {
             countrySteps: [],
+            btnLoading: false,
+            unexpectedError: false,
+            errors: [],            
+            codeErreur: '',
+            isSucceed : false
         }
     },
 
@@ -116,12 +156,12 @@ export default {
         const state = reactive({
             title: '',
             order: 1,
-            description: '', 
+            description: '',
         })
 
         const rules = computed(() => {
             return {
-                title: { required: customeMessage("title", 'required')}, 
+                title: { required: customeMessage("title", 'required') },
             }
         })
         const v$ = useVuelidate(rules, state);
@@ -137,7 +177,7 @@ export default {
             $('[data-toggle="tooltip"]').tooltip()
         })
     },
-    components: { SubmitBtnComponent }
+    components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent }
 }
 
 

@@ -7,7 +7,7 @@
             <font-awesome-icon icon="fa-solid fa-triangle-exclamation" class="modal-title w-100 text-center text-danger" size="3x" beat></font-awesome-icon>  
           </div>
           <div class="modal-body text-center border-0">
-            <h5>Erreur inattendue</h5> 
+            <slot><h5>Erreur inattendue</h5></slot>
             <p>Une erreur inattendue s'est produite. Veuillez réessayer ultérieurement.</p>
           </div>
           <div class="modal-footer">
