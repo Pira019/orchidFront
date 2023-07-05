@@ -20,5 +20,8 @@ export default {
         async saveSteps({},data) {
             return CountryStepsService.saveSteps(data);
         },
+        async getAllCountry({}) {
+            return CountryStepsService.getCountries();
+        },
     },
 }
