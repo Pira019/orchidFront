@@ -11,7 +11,7 @@
             <slot name="footer"></slot>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button> 
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="close">Fermer</button> 
           </div>
         </div>
       </div>
@@ -29,7 +29,13 @@ export default {
 		$("#"+ ModalTypeEnum.REGISTER).modal('show');
 	});
   },
-  methods: { 
+  methods: {
+    close() {
+      //hide the modal
+      $(document).ready(function () {
+        $("#"+ ModalTypeEnum.REGISTER).modal('hide');
+      });
+    }
   },
   data () {
     return {
