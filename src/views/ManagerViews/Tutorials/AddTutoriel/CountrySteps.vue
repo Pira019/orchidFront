@@ -63,7 +63,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <button class="btn btn-primary" @click="addStep">Ajouter une étape</button>
-                    <SubmitBtnComponent :loading="btnLoading" class="btn btn-success mx-1" @click="saveSteps" />
+                    <SubmitBtnComponent :loading="btnLoading" class="btn btn-success mx-1" @click="saveSteps" :disabled="!countrySteps.length" />
                 </div>
             </div>
         </form>
@@ -112,12 +112,9 @@ export default {
                             this.codeErreur = error.response?.status;
                         }
                         this.errors = errors_?.errorMessage 
-                    });
-
-                    
-              
+                    }); 
                 this.unexpectedError = false;                
-                this.countrySteps = [];
+            //    this.countrySteps = [];
             }
 
         },

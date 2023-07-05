@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1 class="text-success fw-bold">Ajouter un tutoriel</h1>
-
+        <h1 class="text-success fw-bold">{{ headerTitle }}</h1> 
         <div class="mt-5 container-fluid">
             <nav class="nav nav-pills nav-justified nav-tabs">
                 <router-link class="nav-item nav-link fw-bold" :to="{ name: 'ManagerAddTutorielCountry' }">Pays</router-link>
@@ -16,14 +15,17 @@
 import { mapGetters } from 'vuex'
 export default {
     computed: {
-        ...mapGetters('countryStep', {
-            country: 'getCountrySelected'
+        ...mapGetters({
+            country: 'countryStep/getCountrySelected',
+            headerTitle: 'tutorial/getHeaderTitle',
         }), 
     },
     name: "AddTutorial",
     mounted() {
         //redirect to the first form
         this.$router.push({ name: 'ManagerAddTutorielCountry' })
+
+       
     }
 }
 

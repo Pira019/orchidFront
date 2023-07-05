@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div> 
         <error-modal-component v-if="unexpectedError"></error-modal-component>
         <form novalidate v-on:submit.prevent="onsubmit">
             <div class="form-group row">
@@ -80,6 +80,9 @@ export default {
         }).catch(() => {
             this.unexpectedError = true;
         });
+
+         //set Page title
+         this.$store.commit('tutorial/setHeaderTitle',"Ajouter les procédures générales par pays");  
 
         if (this.countrySelected)
             this.state.country = this.countrySelected
