@@ -26,6 +26,13 @@ let routes = [
             }
         ]
     },
+    // countries
+    children:[{
+        path:'countries', name:'ManagerCountries', component:()=> import('@/views/ManagerViews/Tutorials/Countries/Home.vue'),
+        mata:{
+            title:'Liste des pays'
+        }
+    }]
  }, 
 
  {
