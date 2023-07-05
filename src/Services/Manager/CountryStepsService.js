@@ -16,8 +16,13 @@ export default class CountryStepsService{
         return axios.get(endPoind);  
     }
 
+    static async getCountries(){
+        const endPoind =this.baseApiUrl + 'country-steps'
+        return axios.get(endPoind);  
+    }
+
     static async saveSteps(data){
-        const endPoind =this.baseApiUrl + 'coutry-steps'
+        const endPoind =this.baseApiUrl + 'country-steps'
         return axios.post(endPoind,data);  
     }
  
