@@ -3,13 +3,15 @@ import user from '@/store/modules/User/user'
 import country from '@/store/modules/Country/country'
 import contact from '@/store/modules/Contact/Contact'
 import countryStep from './modules/CountryStep/CountryStep'
+import tutorial from './modules/Manager/Tutorial'
 
 export default new Vuex.Store({ 
     modules: {
         user,
         country,
         contact,
-        countryStep   
+        countryStep,
+        tutorial
     },
 
     getters: {
