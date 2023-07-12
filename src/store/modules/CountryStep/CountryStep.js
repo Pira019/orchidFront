@@ -3,10 +3,14 @@ export default {
     namespaced: true,
     state: {
         countrySelected:{}, 
+        steps:[]
     },
     getters: {
         getCountrySelected(state) {
             return state.countrySelected.country;
+        }, 
+        getSteps(state) {
+            return state.steps;
         }, 
     },
 
@@ -14,10 +18,14 @@ export default {
         setSelectedCoutry(state, country) {
             state.countrySelected = country;
         }, 
+
+        setStepsList(state,steps){
+            state.steps = steps;
+        }
     },
 
     actions: {
-        async saveSteps({},data) {
+        async saveSteps({},data) {            
             return CountryStepsService.saveSteps(data);
         },
         async getAllCountry({}) {

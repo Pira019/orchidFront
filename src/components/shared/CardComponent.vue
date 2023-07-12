@@ -18,7 +18,7 @@
                 <li class="list-group-item">Dérniere modification :</li>-->
                 </ul>
                 <div class="card-body">
-                    <a href="#" class="btn btn-success">Go somewhere</a>
+                    <router-link :to="{ name: 'ManagerCountrySteps', params:{id: list.id  } }" class="btn btn-success">Voir les étapes</router-link>              
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
             <h5>Erreur {{ codeErreur }} inattendue</h5>
         </error-modal-component>
         <register-success-modal-component v-if="isSucceed">
-            <slot>{{ state.order-1 }} Etapes sauvegardées dans le système</slot>
+            <slot>{{ state.order - 1 }} Etapes sauvegardées dans le système</slot>
         </register-success-modal-component>
         <!--End of modals-->
         <div class="mb-5">
@@ -63,7 +63,8 @@
                 </div>
                 <div class="form-group mt-3">
                     <button class="btn btn-primary" @click="addStep">Ajouter une étape</button>
-                    <SubmitBtnComponent :loading="btnLoading" class="btn btn-success mx-1" @click="saveSteps" :disabled="!countrySteps.length" />
+                    <SubmitBtnComponent :loading="btnLoading" class="btn btn-success mx-1" @click="saveSteps"
+                        :disabled="!countrySteps.length" />
                 </div>
             </div>
         </form>
@@ -81,7 +82,8 @@ import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
 import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';
 
 export default {
-    methods: {
+    methods: {       
+
         addStep() {
             this.v$.$validate();
             if (!this.v$.$error) {
@@ -99,10 +101,11 @@ export default {
         saveSteps() {
 
             if (this.countrySteps.length != 0) {
-                this.btnLoading = true;  
-                this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then(() => {                  
-                    this.isSucceed =true;  
-                    this.btnLoading=false;              
+                this.btnLoading = true;
+                this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then(() => {
+                    this.isSucceed = true;
+                    this.btnLoading = false;
+                    this.$store.commit('countryStep/setStepsList', this.countrySteps); 
                 })
                     .catch((error) => {
                         this.btnLoading = false;
@@ -111,10 +114,10 @@ export default {
                             this.unexpectedError = true;
                             this.codeErreur = error.response?.status;
                         }
-                        this.errors = errors_?.errorMessage 
-                    }); 
-                this.unexpectedError = false;                
-            //    this.countrySteps = [];
+                        this.errors = errors_?.errorMessage
+                    });
+                this.unexpectedError = false;
+                //    this.countrySteps = [];
             }
 
         },
@@ -143,9 +146,9 @@ export default {
             countrySteps: [],
             btnLoading: false,
             unexpectedError: false,
-            errors: [],            
+            errors: [],
             codeErreur: '',
-            isSucceed : false
+            isSucceed: false
         }
     },
 
@@ -166,14 +169,15 @@ export default {
     },
     computed: {
         ...mapGetters('countryStep', {
-            countrySelected: 'getCountrySelected'
+            countrySelected: 'getCountrySelected',
+            steps: 'getSteps',
         }),
     },
     created() {
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-    },
+    },  
     components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent }
 }
 
