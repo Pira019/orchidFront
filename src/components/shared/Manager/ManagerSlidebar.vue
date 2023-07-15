@@ -6,12 +6,25 @@
             <ul class="nav flex-column">
                 <li class="nav-item ">
                     <a class="nav-link m-1 fw-bold " href="#">Active</a>
-                </li>
-                <li class="nav-item "> 
-                    <router-link class="nav-link m-1 fw-bold " :to="{name:'ManagerTutoHome'}">
+                </li> 
+                <li>
+                     
+                    <a data-toggle="collapse" aria-expanded="false" href="#homeSubmenu"  class="nav-link m-1 fw-bold dropdown-toggle">
                         <font-awesome-icon icon="fa-person-chalkboard" size="1x"/>
                         <span class="px-2">Tutoriels</span>
-                    </router-link>
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li class="nav-item">
+                            <router-link class="nav-link fw-bold" :to="{name:'ManagerCountries'}">Procédure par pays</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" href="#">Universités</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" href="#">Procédure par pays</a>
+                        </li>
+                         
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link m-1 fw-bold " href="#">Link</a>
@@ -36,3 +49,8 @@ export default {
     name: 'ManagerSlidebar'
 }
 </script>  
+<style scope>
+#homeSubmenu li a{
+    background-color: transparent
+}
+</style>

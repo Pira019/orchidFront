@@ -4,18 +4,21 @@
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm" id="sidebarToggle" @click="toggleSidebar">
             <font-awesome-icon icon="fa-bars" class="m-1" size="2x" style="color: #fafafa;"></font-awesome-icon>
-        </button> 
-        <router-link  class="navbar-brand" :to="{name:'managerHome'}">
+        </button>
+        <router-link class="navbar-brand" :to="{ name: 'managerHome' }">
             <img src="@/assets/img/svg/logoOrchid.svg" class="img-fluid" width="80" height="20" alt="logo orchid campus">
-        </router-link >
+        </router-link>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item text-white">Nenette Mbombo</li>
         </ul>
         <ul class="navbar-collapse navbar-nav ms-auto ms-md-0 me-3 me-lg-4 justify-content-end">
             <li class="nav-item">
-                <router-link :to="{ name: 'managerHome' }" class="nav-link" title="Nouveau dossier">
+                <router-link :to="{ name: 'managerHome' }" class="nav-link position-relative" title="Nouveaux dossiers"> 
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        99+
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
                     <font-awesome-icon icon="fa-regular fa-folder-open"></font-awesome-icon>
-                    <span class="badge badge-pill badge-info">9</span>
                 </router-link>
             </li>
             <li class="nav-item dropdown">
