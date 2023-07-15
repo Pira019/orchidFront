@@ -3,24 +3,19 @@
     <Spinner v-if="loading"></Spinner>
     <div v-if="!loading && !steps.length">
       <h2>Aucun pays dans la liste</h2>
-    </div>
-    <CardComponent :data="steps" @getId="idTest">
+    </div>  
+    <CardComponent :data="steps">
       Nombre d'étapes 
     </CardComponent>
-
   </div>
 </template>
-<script>
-import CardComponent from '@/components/shared/CardComponent.vue';
+<script> 
 import Spinner from '@/components/shared/Spinner.vue'
+
+import CardComponent from '@/components/shared/CardComponent.vue';
 //list of countries 
 export default {
-  methods: {
-    idTest(is){
-      console.log(is
-      )
-    }
-  },
+ 
   data() {
     return {
       steps: [],

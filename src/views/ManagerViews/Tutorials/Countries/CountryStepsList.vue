@@ -1,30 +1,28 @@
 <template>
-    <country-steps :countryStepsList="countrySteps">
-      <template #countryName>
-        {{ countryData.name }}
-      </template>
-    </country-steps>
+  <country-steps :country-steps-list="countryData.country_steps">
+    <template #countryName>
+      {{ countryData.name }}
+    </template>
+  </country-steps>
 </template>
 
 <script>
 import CountrySteps from '../AddTutoriel/CountrySteps.vue'
-export default{
-  data () {
+export default {
+  data() {
     return {
-      countryData:'',
-      countrySteps : ''
+      countryData: '',
     }
-  }, 
-  created () {
+  },
+  created() {
     let idCountry = parseInt(this.$route.params.id)
-    this.$store.dispatch('countryStep/getByCountry',idCountry).then((response)=>{
+    this.$store.dispatch('countryStep/getByCountry', idCountry).then((response) => {
       this.countryData = response.data;
-      this.countrySteps = response.data.country_steps;
-       //set Page title
-    this.$store.commit('tutorial/setHeaderTitle', 'Etapes pour ' + this.countryData.short_name);
+      //set Page title
+      this.$store.commit('tutorial/setHeaderTitle', 'Etapes pour ' + this.countryData.short_name);
     });
 
-   
+
   },
   components: { CountrySteps },
 

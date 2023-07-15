@@ -9,7 +9,9 @@
         </register-success-modal-component>
         <!--End of modals-->
         <div class="mb-5">
-            <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold"> <slot name="countryName">{{countrySelected?.name }}</slot></span></h2>
+            <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">
+                    <slot name="countryName">{{ countrySelected?.name }}</slot>
+                </span></h2>
             <ErrorAlert :show="this.errors?.length !== 0 && !unexpectedError" :response="errors"> </ErrorAlert>
             <section v-if="countrySteps.length">
                 <table class="table caption-top table-hover">
@@ -78,15 +80,12 @@ import ErrorService from '@/Services/ErrorService';
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
 import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';
+import router from '@/router';
 
 export default {
-  props: {
-    //when show list without click to add steps
-    countryStepsList:{
-        type:Array
-    }
-  },
-    methods: {       
+    //countryStepsList when show list without click to add steps
+    props: ['countryStepsList'],
+    methods: {
 
         addStep() {
             this.v$.$validate();
@@ -108,8 +107,10 @@ export default {
                 this.btnLoading = true;
                 this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then(() => {
                     this.isSucceed = true;
-                    this.btnLoading = false;
-                    this.$store.commit('countryStep/setStepsList', this.countrySteps); 
+                    this.btnLoading = false; 
+
+                    //redirect 
+                    this.$router.push({name:"ManagerCountrySteps", params:{id:this.countrySelected?.id}});
                 })
                     .catch((error) => {
                         this.btnLoading = false;
@@ -141,11 +142,7 @@ export default {
                 description: this.state.description,
                 country_id: this.countrySelected?.id,
             }
-        },
-
-        semba(value){
-            console.log(value)
-        }
+        }, 
     },
 
     data() {
@@ -156,12 +153,10 @@ export default {
             errors: [],
             codeErreur: '',
             isSucceed: false,
-
-            value : []
         }
     },
 
-    setup() {  
+    setup() {
         const state = reactive({
             title: '',
             order: 1,
@@ -174,16 +169,20 @@ export default {
             }
         })
         const v$ = useVuelidate(rules, state);
-        return { state, v$}
+        return { state, v$ }
     },
     computed: {
         ...mapGetters('countryStep', {
-            countrySelected: 'getCountrySelected',
-            steps: 'getSteps',
+            countrySelected: 'getCountrySelected', 
         }),
-    }, 
-    mounted(){
-        this.countrySteps =this.countryStepsList  
+    },
+
+    created() {
+        this.$watch('countryStepsList', (countryStepsList) => {
+            if (countryStepsList !== null) {
+                this.countrySteps = countryStepsList;
+             }
+        });
     },
     components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent }
 }
