@@ -25,5 +25,10 @@ export default class CountryStepsService{
         const endPoind =this.baseApiUrl + 'country-steps'
         return axios.post(endPoind,data);  
     }
+
+    static async getByCountry(idCountry){
+        const endPoind =this.baseApiUrl + 'country/Steps/' + idCountry
+        return axios.get(endPoind);  
+    }
  
 }

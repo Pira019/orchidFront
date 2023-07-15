@@ -31,5 +31,9 @@ export default {
         async getAllCountry({}) {
             return CountryStepsService.getCountries();
         },
+
+        async getByCountry({},idCountry) {
+            return CountryStepsService.getByCountry(idCountry);
+        }
     },
 }

@@ -9,9 +9,7 @@
         </register-success-modal-component>
         <!--End of modals-->
         <div class="mb-5">
-            <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">{{
-
-                countrySelected?.name }}</span></h2>
+            <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold"> <slot name="countryName">{{countrySelected?.name }}</slot></span></h2>
             <ErrorAlert :show="this.errors?.length !== 0 && !unexpectedError" :response="errors"> </ErrorAlert>
             <section v-if="countrySteps.length">
                 <table class="table caption-top table-hover">
@@ -82,6 +80,12 @@ import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
 import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';
 
 export default {
+  props: {
+    //when show list without click to add steps
+    countryStepsList:{
+        type:Array
+    }
+  },
     methods: {       
 
         addStep() {
@@ -121,7 +125,6 @@ export default {
             }
 
         },
-
         orderSteps(index) {
             for (var i = 0; i < this.countrySteps.length; i++) {
                 if (this.countrySteps[i].order === index + 1) {
@@ -138,6 +141,10 @@ export default {
                 description: this.state.description,
                 country_id: this.countrySelected?.id,
             }
+        },
+
+        semba(value){
+            console.log(value)
         }
     },
 
@@ -148,11 +155,13 @@ export default {
             unexpectedError: false,
             errors: [],
             codeErreur: '',
-            isSucceed: false
+            isSucceed: false,
+
+            value : []
         }
     },
 
-    setup() {
+    setup() {  
         const state = reactive({
             title: '',
             order: 1,
@@ -165,19 +174,17 @@ export default {
             }
         })
         const v$ = useVuelidate(rules, state);
-        return { state, v$ }
+        return { state, v$}
     },
     computed: {
         ...mapGetters('countryStep', {
             countrySelected: 'getCountrySelected',
             steps: 'getSteps',
         }),
+    }, 
+    mounted(){
+        this.countrySteps =this.countryStepsList  
     },
-    created() {
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    },  
     components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent }
 }
 
