@@ -4,14 +4,13 @@
     <div v-if="!loading && !steps.length">
       <h2>Aucun pays dans la liste</h2>
     </div>  
-    <CardComponent :data="steps">
+    <card-component :data="steps">
       Nombre d'étapes 
-    </CardComponent>
+    </card-component> 
   </div>
 </template>
 <script> 
-import Spinner from '@/components/shared/Spinner.vue'
-
+import Spinner from '@/components/shared/Spinner.vue'; 
 import CardComponent from '@/components/shared/CardComponent.vue';
 //list of countries 
 export default {
@@ -32,7 +31,7 @@ export default {
     //set Page title
     this.$store.commit('tutorial/setHeaderTitle', 'Liste de pays avec étapes');
   },
-  components: { CardComponent, Spinner },
+  components: { Spinner, CardComponent },
   name: "CountriesHome"
 }
 </script>
