@@ -6,7 +6,8 @@
                     <img :src="logo" alt="" class="img-thumbnail mx-auto d-block mb-4" width="100">
                     <h1 class="text-success text-center">Bienvenue sur Orchid-Campus</h1>
                 </div>
-                <error-alert :show="showAlertErrors" :response="errors"></error-alert>
+                <error-modal-component v-if="unexpectedError"></error-modal-component>
+                <error-alert :show="showAlertErrors && this.errors?.length !== 0 && !unexpectedError" :response="errors"></error-alert>
                 <form novalidate v-on:submit.prevent="submit">
                     <div class="mb-3">
                         <label for="noId" class="form-label">No indentification</label>
@@ -37,7 +38,7 @@
                         <recaptcha-component @recaptcha="getReCAPTCHAToken"></recaptcha-component>
                     </div>
                     <div class="mt-2">
-                        <SubmitBtnComponent class="btn btn-success" @click="submit">Connecter</SubmitBtnComponent>
+                        <SubmitBtnComponent class="btn btn-success" :loading="loadingBtn" @click="submit">Connecter</SubmitBtnComponent>
                     </div>
                 </form>
             </div>
@@ -52,26 +53,50 @@ import { reactive } from 'vue';
 import customeMessage from '@/Utils/validationMessages';
 import useVuelidate from '@vuelidate/core';
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
-export default {
+import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
+import ErrorService from '@/Services/ErrorService';
+export default { 
     methods: {
         submit() {
-            this.errors = this.state.recaptcha.length === 0 ? this.errors = [[this.messageErrorRecaptcha]] : [];
+            this.errors = this.recaptcha.length === 0 ? this.errors = [[this.messageErrorRecaptcha]] : [];
             this.v$.$validate();
+
             if (this.errors.length === 0 && !this.v$.$error) {
-                this.loadingBtn = true;
-                this.showAlertErrors = false;
-                console.log(this.state)
-            }else{
-                this.showAlertErrors =true
+                
+                this.loadingBtn = true; 
+                this.state.recaptcha = this.recaptcha;
+
+                this.$store.dispatch("authManager/authentication", this.state).then((response) => {
+
+                    this.loadingBtn = false; 
+
+                    localStorage.setItem("authUserName",response.data.name); 
+                    localStorage.setItem("authUserToken",response.data.access_token); 
+                //redirect to home page      
+                this.$router.push({name:'managerHome'});
+
+                }).catch((error) => {
+
+                    this.showAlertErrors = true;
+                    let error_ = ErrorService.handleErrorHttp(error.response?.status, error.response?.data.errors || [[error.response?.data]]);
+
+                    if (!error_) {
+                        this.unexpectedError = true;
+                    }
+                    this.errors = error_?.errorMessage;
+                    this.loadingBtn = false;
+                })
+            } else {
+                this.showAlertErrors = true
             }
 
-            this.state.recaptcha='';
+            this.unexpectedError = false; 
+            grecaptcha.reset()
 
         },
 
         getReCAPTCHAToken(token) {
-            this.state.recaptcha = token;            
-           // grecaptcha.reset()
+            this.recaptcha = token;
         },
     },
     data() {
@@ -79,8 +104,10 @@ export default {
             logo: logoOrchid,
             loadingBtn: false,
             messageErrorRecaptcha: customeMessage("", "recaptcha"),
-            showAlertErrors:false,
-            errors:[]
+            showAlertErrors: false,
+            errors: [],
+            unexpectedError: false,
+            recaptcha: '',
         }
     },
     setup() {
@@ -98,7 +125,7 @@ export default {
         const v$ = useVuelidate(rules, state);
         return { state, v$ }
     },
-    components: { SubmitBtnComponent, RecaptchaComponent, ErrorAlert }
+    components: { SubmitBtnComponent, RecaptchaComponent, ErrorAlert, ErrorModalComponent }
 }
 </script>,
         

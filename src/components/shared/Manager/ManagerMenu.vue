@@ -9,7 +9,7 @@
             <img src="@/assets/img/svg/logoOrchid.svg" class="img-fluid" width="80" height="20" alt="logo orchid campus">
         </router-link>
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item text-white">Nenette Mbombo</li>
+            <li class="nav-item text-white">{{ authUserName }}</li>
         </ul>
         <ul class="navbar-collapse navbar-nav ms-auto ms-md-0 me-3 me-lg-4 justify-content-end">
             <li class="nav-item">
@@ -37,10 +37,13 @@
     </nav>
 </template>
 <script>
-export default ({
+export default ({ 
+  props: {
+  },
     data() {
         return {
-            isSidebarActive: false,
+            isSidebarActive: false, 
+            authUserName : localStorage.authUserName
         }
     },
     methods: {
@@ -48,9 +51,7 @@ export default ({
             this.isSidebarActive = !this.isSidebarActive;
             this.$emit('isSidebarActive', this.isSidebarActive)
         },
-    },
-    setup() {
-    },
+    }, 
     name: "ManagerMenu",
 })
 
