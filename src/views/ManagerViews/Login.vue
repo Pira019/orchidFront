@@ -11,7 +11,7 @@
                 <form novalidate v-on:submit.prevent="submit">
                     <div class="mb-3">
                         <label for="noId" class="form-label">No indentification</label>
-                        <input type="text" class="form-control" id="noId" name="user_name" v-model.trim="state.user_name"
+                        <input type="text" class="form-control" name="user_name" v-model.trim="state.user_name"
                             :class="[v$.user_name.$error ? 'is-invalid' : '']">
                         <div class="invalid-feedback" v-if="v$.password.$error">
                             <span v-for="(error, index) of v$.password.$errors" :key="index">
@@ -22,8 +22,8 @@
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            v-model.trim="state.password" :class="[v$.password.$error ? 'is-invalid' : '']">
+                        <input type="password" class="form-control" name="password"
+                            v-model="state.password" :class="[v$.password.$error ? 'is-invalid' : '']">
                         <div class="invalid-feedback" v-if="v$.password.$error">
                             <span v-for="(error, index) of v$.password.$errors" :key="index">
                                 {{ error.$message }}
@@ -68,12 +68,11 @@ export default {
 
                 this.$store.dispatch("authManager/authentication", this.state).then((response) => {
 
-                    this.loadingBtn = false; 
+                    this.loadingBtn = false;   
+                    
+                    this.$store.commit('authManager/userAuth',{token : response.data.access_token, name : response.data.name });
 
-                    localStorage.setItem("authUserName",response.data.name); 
-                    localStorage.setItem("authUserToken",response.data.access_token); 
-                //redirect to home page      
-                this.$router.push({name:'managerHome'});
+                    this.$router.push({name:'managerHome'});
 
                 }).catch((error) => {
 
@@ -90,7 +89,7 @@ export default {
                 this.showAlertErrors = true
             }
 
-            this.unexpectedError = false; 
+            this.unexpectedError = false;  
             grecaptcha.reset()
 
         },
@@ -98,7 +97,7 @@ export default {
         getReCAPTCHAToken(token) {
             this.recaptcha = token;
         },
-    },
+    }, 
     data() {
         return {
             logo: logoOrchid,

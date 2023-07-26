@@ -9,11 +9,11 @@
             <img src="@/assets/img/svg/logoOrchid.svg" class="img-fluid" width="80" height="20" alt="logo orchid campus">
         </router-link>
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item text-white">{{ authUserName }}</li>
+            <li class="nav-item text-white">{{ userAuthToken.authUserName }}</li>
         </ul>
         <ul class="navbar-collapse navbar-nav ms-auto ms-md-0 me-3 me-lg-4 justify-content-end">
             <li class="nav-item">
-                <router-link :to="{ name: 'managerHome' }" class="nav-link position-relative" title="Nouveaux dossiers"> 
+                <router-link :to="{ name: 'managerHome' }" class="nav-link position-relative" title="Nouveaux dossiers">
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         99+
                         <span class="visually-hidden">unread messages</span>
@@ -30,20 +30,21 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li><a class="dropdown-item" @click="logout">Déconnection</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
 </template>
 <script>
-export default ({ 
-  props: {
-  },
+import { mapGetters } from "vuex";
+
+export default ({
+    props: {
+    },
     data() {
         return {
             isSidebarActive: false, 
-            authUserName : localStorage.authUserName
         }
     },
     methods: {
@@ -51,7 +52,21 @@ export default ({
             this.isSidebarActive = !this.isSidebarActive;
             this.$emit('isSidebarActive', this.isSidebarActive)
         },
-    }, 
+
+        logout() {
+            localStorage.removeItem("authUserToken");
+            this.$store.commit('authManager/userAuth', { token: '' });
+            this.$router.push({ name: 'managerLogin' });
+        }
+    },
+
+    computed: {
+        ...mapGetters('authManager', {
+            userAuthToken: 'getUserAuth'
+        })
+    }
+    ,
+
     name: "ManagerMenu",
 })
 
