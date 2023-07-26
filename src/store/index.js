@@ -3,7 +3,8 @@ import user from '@/store/modules/User/user'
 import country from '@/store/modules/Country/country'
 import contact from '@/store/modules/Contact/Contact'
 import countryStep from './modules/CountryStep/CountryStep'
-import tutorial from './modules/Manager/Tutorial'
+import tutorial from './modules/Manager/Tutorial';
+import authManager from './modules/Manager/AuthManager'
 
 export default new Vuex.Store({ 
     modules: {
@@ -11,7 +12,8 @@ export default new Vuex.Store({
         country,
         contact,
         countryStep,
-        tutorial
+        tutorial,
+        authManager
     },
 
     getters: {

@@ -33,7 +33,6 @@ export default {
         data: {
             type: Array
         }
-    },
-    name: "CardComponet"
+    }, 
 }
 </script>

@@ -83,5 +83,31 @@ let routes = [
         ]
     },
     // Endroutes tutorials
+
+      // routes user management
+    {
+        path: prefix+"ajouter-utilisateur", name: 'managerAddUser', component: () => import('@/views/ManagerViews/PersistUser.vue'),
+        meta: {
+            title: 'Ajouter un gestionnaire Administration',
+            metaTags: [
+                {
+                    name: 'description',
+                    content: 'Ajouter un utilisateur'
+                }
+            ]
+        }
+    },
+    {
+        path: prefix+"login", name: 'managerLogin', component: () => import('@/views/ManagerViews/Login.vue'),
+        meta: {
+            title: 'Connecter vous - Administration',
+            metaTags: [
+                {
+                    name: 'description',
+                    content: 'Connecter'
+                }
+            ]
+        }
+    },
 ]
 export default routes;
