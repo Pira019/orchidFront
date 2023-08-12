@@ -3,6 +3,7 @@ let prefix = '/manager/'
 let routes = [
     {
         path: prefix, name: 'managerHome', component: () => import('@/views/ManagerViews/Home.vue'),
+        beforeEnter: guardMyroute,
         meta: {
             title: 'Administration',
             metaTags: [
@@ -35,6 +36,7 @@ let routes = [
         },
         {
             path: 'country/steps/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'),
+            beforeEnter: guardMyroute,
             meta: {
                 title: 'Liste des pays'
             }
@@ -110,4 +112,24 @@ let routes = [
         }
     },
 ]
+
+function guardMyroute(to, from, next)
+{
+ var isAuthenticated= false; 
+
+if(localStorage.authUserToken)
+  isAuthenticated = true;
+ else
+  isAuthenticated= false;
+
+ if(isAuthenticated) 
+ {
+  next(); // allow to enter route
+ } 
+ else
+ {
+  next({name:'managerLogin'}); // go to '/login';
+ }
+}
+
 export default routes;

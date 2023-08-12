@@ -84,13 +84,17 @@ export default {
                     }
                     this.errors = error_?.errorMessage;
                     this.loadingBtn = false;
+
+                    
+                    grecaptcha.reset()
+                    
+            
                 })
             } else {
                 this.showAlertErrors = true
             }
 
             this.unexpectedError = false;  
-            grecaptcha.reset()
 
         },
 

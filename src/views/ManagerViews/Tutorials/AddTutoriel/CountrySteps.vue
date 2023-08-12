@@ -18,7 +18,7 @@
                     <caption>Nombre d'étapes : <span class="fw-semibold">{{ countrySteps.length }}</span></caption>
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col">N</th>
+                            <th scope="col" title="Numero étape">N</th>
                             <th scope="col">Titre</th>
                             <th scope="col">Description</th>
                             <th scope="col">Action</th>
@@ -30,14 +30,16 @@
                             <td>{{ step.title }}</td>
                             <td>{{ step.description }}</td>
                             <td>
-                                <button class="btn btn-warning m-1" title="Modifier cette étape"><font-awesome-icon
-                                        icon="fa-pen" style="color: #f0f0f0;" /></button>
+                                <button class="btn btn-warning m-1" title="Modifier cette étape" @click="updateStep(step)"><font-awesome-icon icon="fa-pen" style="color: #f0f0f0;" /></button>
                                 <button class="btn btn-danger m-1" @click="deleteStep(index)"
                                     title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </section>
+            <section v-if="!countrySteps.length" class="mt-5">
+                <p>Aucune étape créée pour ce pays</p>
             </section>
         </div>
 
@@ -62,8 +64,8 @@
                     <textarea class="form-control" id="Description" rows="5" v-model="state.description"></textarea>
                 </div>
                 <div class="form-group mt-3">
-                    <button class="btn btn-primary" @click="addStep">Ajouter une étape</button>
-                    <SubmitBtnComponent :loading="btnLoading" class="btn btn-success mx-1" @click="saveSteps"
+                    <button class="btn btn-primary" @click="addStep" v-if="!isEdit">Ajouter une étape</button>
+                    <SubmitBtnComponent :loading="btnLoading" class="btn  mx-1" :class="btnValidationStyle" @click="saveSteps"
                         :disabled="!countrySteps.length" />
                 </div>
             </div>
@@ -79,8 +81,7 @@ import useVuelidate from '@vuelidate/core';
 import ErrorService from '@/Services/ErrorService';
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
-import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';
-import router from '@/router';
+import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue'; 
 
 export default {
     //countryStepsList when show list without click to add steps
@@ -95,6 +96,19 @@ export default {
                 this.v$.$reset();
                 this.state.title = ''
             }
+        },
+
+        updateStep(step){
+
+            this.state.title = step.title;
+            this.state.description = step.description;
+            this.state.order = step.order;
+
+            this.btnValidationStyle ="btn-warning"
+            this.btnValidationStyle ="btn-warning"
+            this.btnValidationStyle ="btn-warning"
+
+            console.log(step)
         },
         deleteStep(index) {
             this.orderSteps(index);
@@ -153,6 +167,9 @@ export default {
             errors: [],
             codeErreur: '',
             isSucceed: false,
+            btnValidationStyle : 'btn-success',
+            isEdit : false
+
         }
     },
 
