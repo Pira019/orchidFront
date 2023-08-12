@@ -13,8 +13,8 @@
                         <label for="noId" class="form-label">No indentification</label>
                         <input type="text" class="form-control" name="user_name" v-model.trim="state.user_name"
                             :class="[v$.user_name.$error ? 'is-invalid' : '']">
-                        <div class="invalid-feedback" v-if="v$.password.$error">
-                            <span v-for="(error, index) of v$.password.$errors" :key="index">
+                        <div class="invalid-feedback" v-if="v$.user_name.$error">
+                            <span v-for="(error, index) of v$.user_name.$errors" :key="index">
                                 {{ error.$message }}
                             </span>
                         </div>
@@ -121,8 +121,8 @@ export default {
         })
 
         const rules = {
-            user_name: { required: customeMessage("", 'required') },
-            password: { required: customeMessage("", 'required') },
+            user_name: { required: customeMessage("user-name", 'required') },
+            password: { required: customeMessage("password", 'required') },
             recaptcha: {}
         }
         const v$ = useVuelidate(rules, state);

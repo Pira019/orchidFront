@@ -11,6 +11,7 @@
 "country" : "Le pays ",
 "title" : "Le titre ",
 "password_confirmation" : "Le mot de passe de confirmation ",
+"user-name" : "No indentification ",
 "validations":{
     "required" : "est obligatoire" ,
     "email" : "Veuillez entrer une adresse e-mail valide" , 
