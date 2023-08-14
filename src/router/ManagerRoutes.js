@@ -17,7 +17,8 @@ let routes = [
 
     // routes tutorials
     {
-        path: prefix + 'tutoriels', name: 'ManagerTutoHome', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'),
+        path: prefix + 'tutoriels', name: 'ManagerTutoHome', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'), 
+        beforeEnter: guardMyroute,
         meta: {
             title: 'Tutoriels',
             metaTags: [
@@ -29,14 +30,14 @@ let routes = [
         },
         // countries
         children: [{
-            path: 'countries', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'),
+            path: 'countries', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'), 
+            beforeEnter: guardMyroute,
             mata: {
                 title: 'Liste des pays'
             }
         },
         {
-            path: 'country/steps/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'),
-            beforeEnter: guardMyroute,
+            path: 'country/steps/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'), 
             meta: {
                 title: 'Liste des pays'
             }
@@ -46,7 +47,7 @@ let routes = [
     },
 
     {
-        path: prefix + 'tutoriels/ajouter', name: 'ManagerAddTutoriel', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/AddTutorial.vue'),
+        path: prefix + 'tutoriels/ajouter', name: 'ManagerAddTutoriel', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/AddTutorial.vue'), 
         meta: {
             title: 'Ajouter des tutoriels',
             metaTags: [
@@ -59,7 +60,7 @@ let routes = [
 
         children: [
             {
-                path: 'pays', name: 'ManagerAddTutorielCountry', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountryForm.vue'),
+                path: 'pays', name: 'ManagerAddTutorielCountry', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountryForm.vue'), 
                 meta: {
                     title: 'Ajouter des tutoriels pays',
                     metaTags: [
@@ -71,7 +72,7 @@ let routes = [
                 },
             },
             {
-                path: 'procedure', name: 'ManagerAddTutorielSteps', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountrySteps.vue'),
+                path: 'procedure', name: 'ManagerAddTutorielSteps', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountrySteps.vue'), 
                 meta: {
                     title: 'Etapes générales',
                     metaTags: [
@@ -88,7 +89,7 @@ let routes = [
 
       // routes user management
     {
-        path: prefix+"ajouter-utilisateur", name: 'managerAddUser', component: () => import('@/views/ManagerViews/PersistUser.vue'),
+        path: prefix+"ajouter-utilisateur", name: 'managerAddUser', component: () => import('@/views/ManagerViews/PersistUser.vue'), 
         meta: {
             title: 'Ajouter un gestionnaire Administration',
             metaTags: [
@@ -100,7 +101,7 @@ let routes = [
         }
     },
     {
-        path: prefix+"login", name: 'managerLogin', component: () => import('@/views/ManagerViews/Login.vue'),
+        path: prefix+"login", name: 'managerLogin', component: () => import('@/views/ManagerViews/Login.vue'), 
         meta: {
             title: 'Connecter vous - Administration',
             metaTags: [

@@ -17,20 +17,7 @@ export default{
       type: String, 
       default :'home'     
     }
-  },
-  methods: {
-   /* btnColor(isMenu){
-       this.test=isMenu;
-    }*/
-  },
-  data () {
-    return {
-     //this.path:'';
-    }
-  },
-  mounted(){
- //   console.log(this.test);
-  },
+  }, 
     name: 'ButtonComponent'
 }
 </script>
