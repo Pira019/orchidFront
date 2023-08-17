@@ -112,25 +112,34 @@ let routes = [
             ]
         }
     },
+
+    {
+        path: prefix+"403", name:'manager403', component: () => import('@/views/ManagerViews/403.vue'), 
+        beforeEnter: guardMyroute,
+        meta: {
+            title: '403 - Accès Interdit',
+            metaTags: [
+                {
+                    name: 'description',
+                    content: '403 - Accès Interdit'
+                }
+            ]
+        }
+    },
 ]
 
 function guardMyroute(to, from, next)
 {
  var isAuthenticated= false; 
 
-if(localStorage.authUserToken)
-  isAuthenticated = true;
- else
-  isAuthenticated= false;
-
- if(isAuthenticated) 
- {
-  next(); // allow to enter route
- } 
- else
- {
-  next({name:'managerLogin'}); // go to '/login';
+if(localStorage.getItemauthUserToken !==null && localStorage.authUserToken !== undefined){
+    next(); 
+}
+ else{
+    next({name:'managerLogin'}); // go to '/login';
  }
+
+ 
 }
 
 export default routes;
