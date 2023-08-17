@@ -1,5 +1,4 @@
 <template>
-  
   <country-steps :country-steps-list="countryData.country_steps">
     <template #countryName>
       {{ countryData.name }}
@@ -9,6 +8,7 @@
 
 <script> 
 import CountrySteps from '../AddTutoriel/CountrySteps.vue' 
+import { navigateToRoute } from '@/Utils/Navigation'
 export default {
   data() {
     return {
@@ -24,7 +24,10 @@ export default {
       //set Page title
       this.$store.commit('tutorial/setHeaderTitle', 'Etapes pour ' + this.countryData.short_name);
 
-    }) 
+    }).catch((error)=> {
+     // console.log(error)
+       navigateToRoute.call(this,error.response.status);
+    })
 
   },
   components: { CountrySteps },

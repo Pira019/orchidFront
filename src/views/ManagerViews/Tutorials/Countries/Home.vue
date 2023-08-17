@@ -10,6 +10,7 @@
 <script>  
 import Spinner from '@/components/shared/Spinner.vue';    
 import ListComponent from '@/components/shared/CardComponent.vue';
+import { navigateToRoute } from '@/Utils/Navigation';
 //list of countries 
 export default {
  
@@ -24,6 +25,8 @@ export default {
     this.$store.dispatch('countryStep/getAllCountry').then((response) => {
       this.steps = response.data
       this.loading = false; 
+    }).catch((error)=>{
+      navigateToRoute.call(this,error.response.status,'manager403');
     });
 
     //set Page title
