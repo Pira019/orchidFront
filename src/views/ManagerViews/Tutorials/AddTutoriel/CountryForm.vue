@@ -1,7 +1,7 @@
 <template>
     <div> 
         <error-modal-component v-if="unexpectedError"></error-modal-component>
-        <form novalidate v-on:submit.prevent="onsubmit">
+        <form novalidate v-on:submit.prevent="submit">
             <div class="form-group row">
                 <label for="country" class="col-sm-2 col-form-label fw-bold">Selectionner le pays*</label>
                 <div class="col-sm-4 mb-3">
