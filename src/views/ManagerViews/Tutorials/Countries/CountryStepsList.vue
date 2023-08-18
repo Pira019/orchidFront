@@ -24,9 +24,8 @@ export default {
       //set Page title
       this.$store.commit('tutorial/setHeaderTitle', 'Etapes pour ' + this.countryData.short_name);
 
-    }).catch((error)=> {
-     // console.log(error)
-       navigateToRoute.call(this,error.response.status);
+    }).catch((error)=> { 
+       navigateToRoute.call(this,error.response.status,'manager403');
     })
 
   },

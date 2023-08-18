@@ -30,7 +30,7 @@
                             <td>{{ step.title }}</td>
                             <td>{{ step.description }}</td>
                             <td>
-                                <button class="btn btn-warning m-1" title="Modifier cette étape" @click="updateStep(step)"><font-awesome-icon icon="fa-pen" style="color: #f0f0f0;" /></button>
+                                <button class="btn btn-warning m-1" title="Modifier cette étape" @click="fillFormToUpdateStep(step)"><font-awesome-icon icon="fa-pen" style="color: #f0f0f0;" /></button>
                                 <button class="btn btn-danger m-1" @click="deleteStep(index)"
                                     title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button>
                             </td>
@@ -43,7 +43,7 @@
             </section>
         </div>
 
-        <form novalidate v-on:submit.prevent="onSubmit">
+        <form novalidate v-on:submit.prevent="onSubmit" v-if="showForm">
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label for="Titre" class="fw-bold">Titre *</label>
@@ -66,7 +66,7 @@
                 <div class="form-group mt-3">
                     <button class="btn btn-primary" @click="addStep" v-if="!isEdit">Ajouter une étape</button>
                     <SubmitBtnComponent :loading="btnLoading" class="btn  mx-1" :class="btnValidationStyle" @click="saveSteps"
-                        :disabled="!countrySteps.length" />
+                        :disabled="!countrySteps.length" >{{isEdit ? txtBtnEdit : ''}}</SubmitBtnComponent>
                 </div>
             </div>
         </form>
@@ -98,18 +98,20 @@ export default {
             }
         },
 
-        updateStep(step){
+        fillFormToUpdateStep(step){
 
             this.state.title = step.title;
             this.state.description = step.description;
-            this.state.order = step.order;
+            this.state.order = step.order
+            this.showForm = true;
+            this.isEdit =true;
+            this.btnValidationStyle ="btn-warning"  
+        }, 
 
-            this.btnValidationStyle ="btn-warning"
-            this.btnValidationStyle ="btn-warning"
-            this.btnValidationStyle ="btn-warning"
-
-            console.log(step)
+        updateStep(){
+            
         },
+
         deleteStep(index) {
             this.orderSteps(index);
             this.countrySteps.splice(index, 1);
@@ -168,7 +170,9 @@ export default {
             codeErreur: '',
             isSucceed: false,
             btnValidationStyle : 'btn-success',
-            isEdit : false
+            isEdit : false,
+            showForm : false,
+            txtBtnEdit :'Modifier cette étape'
 
         }
     },
