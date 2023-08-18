@@ -1,4 +1,4 @@
-import {email, helpers,required,minLength} from '@vuelidate/validators'
+import {email, helpers,required} from '@vuelidate/validators'
 import validationMessage from '@/lang/fr.json'
 
 export default function customeMessage(attribute,validatorName)

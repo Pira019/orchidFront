@@ -3,15 +3,18 @@
     <template #countryName>
       {{ countryData.name }}
     </template>
-  </country-steps>
+  </country-steps> 
 </template>
 
-<script>
-import CountrySteps from '../AddTutoriel/CountrySteps.vue'
+<script> 
+import CountrySteps from '../AddTutoriel/CountrySteps.vue' 
+import { navigateToRoute } from '@/Utils/Navigation'
 export default {
   data() {
     return {
       countryData: '',
+      errors : [],
+      errorStatus :''
     }
   },
   created() {
@@ -20,8 +23,10 @@ export default {
       this.countryData = response.data;
       //set Page title
       this.$store.commit('tutorial/setHeaderTitle', 'Etapes pour ' + this.countryData.short_name);
-    });
 
+    }).catch((error)=> { 
+       navigateToRoute.call(this,error.response.status,'manager403');
+    })
 
   },
   components: { CountrySteps },
