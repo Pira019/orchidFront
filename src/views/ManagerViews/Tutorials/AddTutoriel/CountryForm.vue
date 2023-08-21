@@ -36,7 +36,7 @@ export default {
     methods: {
         submit() {
             this.v$.$validate();
-            this.$store.commit('countryStep/setSelectedCoutry', this.state)
+            this.$store.commit('countryStep/setSelectedCountry', this.state)
             if (!this.v$.$error) {
                 this.$router.push({ name: 'ManagerAddTutorielSteps' });
             }

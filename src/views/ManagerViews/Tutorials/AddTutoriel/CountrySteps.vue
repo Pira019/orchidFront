@@ -5,19 +5,28 @@
             <h5>Erreur {{ codeErreur }} inattendue</h5>
         </error-modal-component>
         <register-success-modal-component v-if="isSucceed">
-            <slot>{{ state.order - 1 }} Etapes sauvegardées dans le système</slot>
+            <slot v-if="!isEdit"> Etape(s) sauvegardée(s) dans le système</slot>
+            <slot v-else>La modification est sauvegardées dans le système</slot>
         </register-success-modal-component>
         <!--End of modals-->
-        <div class="mb-5">
-            <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">
-                    <slot name="countryName">{{ countrySelected?.name }}</slot>
-                </span></h2>
-            <ErrorAlert :show="this.errors?.length !== 0 && !unexpectedError" :response="errors"> </ErrorAlert>
+        <!--Spider-->
+        <Spinner v-if="isLoading"></Spinner>
+        <!--end spider-->
+        <div class="mb-5" id="stepsOfCountry">
+            <div>
+                <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">
+                        <slot name="countryName"></slot>
+                    </span></h2>
+                <button @click="showForm = true, state.order = countrySteps.length+1,isEdit=false" class="btn btn-secondary">Ajouter une étape pour <slot
+                        name="countryName"></slot></button>
+            </div>
+            <ErrorAlert :show="this.errors?.length !== 0 && !unexpectedError" :response="errors" class="m-2"> </ErrorAlert>
             <section v-if="countrySteps.length">
                 <table class="table caption-top table-hover">
                     <caption>Nombre d'étapes : <span class="fw-semibold">{{ countrySteps.length }}</span></caption>
                     <thead class="table-dark">
                         <tr>
+                            <th scope="col" title="visibilité"></th>
                             <th scope="col" title="Numero étape">N</th>
                             <th scope="col">Titre</th>
                             <th scope="col">Description</th>
@@ -26,11 +35,14 @@
                     </thead>
                     <tbody>
                         <tr v-for="(step, index) in countrySteps" :key="index">
+                            <th scope="row"><SwitcheBtnComponent :is-ckecked="true"></SwitcheBtnComponent> </th>
                             <th scope="row">{{ step.order }}</th>
                             <td>{{ step.title }}</td>
                             <td>{{ step.description }}</td>
                             <td>
-                                <button class="btn btn-warning m-1" title="Modifier cette étape" @click="fillFormToUpdateStep(step)"><font-awesome-icon icon="fa-pen" style="color: #f0f0f0;" /></button>
+                                <button class="btn btn-warning m-1" title="Modifier cette étape"
+                                    @click="fillFormToUpdateStep(step)"><font-awesome-icon icon="fa-pen"
+                                        style="color: #f0f0f0;" /></button>
                                 <button class="btn btn-danger m-1" @click="deleteStep(index)"
                                     title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button>
                             </td>
@@ -65,8 +77,10 @@
                 </div>
                 <div class="form-group mt-3">
                     <button class="btn btn-primary" @click="addStep" v-if="!isEdit">Ajouter une étape</button>
-                    <SubmitBtnComponent :loading="btnLoading" class="btn  mx-1" :class="btnValidationStyle" @click="saveSteps"
-                        :disabled="!countrySteps.length" >{{isEdit ? txtBtnEdit : ''}}</SubmitBtnComponent>
+                    <SubmitBtnComponent :loading="btnLoading" class="btn  mx-1" :class="btnValidationStyle"
+                        @click="saveSteps" :disabled="!countrySteps.length">{{ isEdit ? txtBtnEdit : 'Enregister' }}
+                    </SubmitBtnComponent>
+                    <button class="btn btn-outline-danger" @click="showForm = false" type="reset">Annuler</button>
                 </div>
             </div>
         </form>
@@ -81,7 +95,10 @@ import useVuelidate from '@vuelidate/core';
 import ErrorService from '@/Services/ErrorService';
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
-import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue'; 
+import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';
+import { navigateToRoute } from '@/Utils/Navigation';
+import SwitcheBtnComponent from '@/components/shared/SwitcheBtnComponent.vue'; 
+import Spinner from '@/components/shared/Spinner.vue';
 
 export default {
     //countryStepsList when show list without click to add steps
@@ -89,27 +106,50 @@ export default {
     methods: {
 
         addStep() {
+
             this.v$.$validate();
-            if (!this.v$.$error) {
-                this.countrySteps.push(this.createCoutryStepModel())
-                this.state.order++
-                this.v$.$reset();
-                this.state.title = ''
+            if (this.v$.$error) {
+                return false;
             }
+            this.countrySteps.push(this.createCoutryStepModel())
+            this.state.order++
+            this.v$.$reset();
+            this.state.title = ''
+            this.state.description=''
         },
 
-        fillFormToUpdateStep(step){
+        fillFormToUpdateStep(step) {
 
             this.state.title = step.title;
+            this.state.id = step.id,
             this.state.description = step.description;
             this.state.order = step.order
             this.showForm = true;
-            this.isEdit =true;
-            this.btnValidationStyle ="btn-warning"  
-        }, 
+            this.isEdit = true;
+            this.btnValidationStyle = "btn-warning"
+        },
 
-        updateStep(){
-            
+        updateStep() {
+            this.v$.$validate();
+            if (this.v$.$error) {
+                return false
+            }
+            this.btnLoading = true;
+
+
+            this.$store.dispatch('countryStep/editStep', this.state).then(() => {
+                this.btnLoading = false
+                this.isSucceed = true;
+
+                this.countrySteps = this.countrySteps.map((originalItem) =>
+                    originalItem.id === this.state.id ? this.state : originalItem
+                );
+                this.showForm = false;
+            })
+                .catch((error) => {
+                    navigateToRoute.call(this, error.response.status, 'manager403');
+                })
+            this.isSucceed = false
         },
 
         deleteStep(index) {
@@ -119,17 +159,31 @@ export default {
         },
         saveSteps() {
 
-            if (this.countrySteps.length != 0) {
+            let copyCountrySteps = this.countrySteps;
+            if (this.isEdit) {
+                this.updateStep()
+                return true
+            }
+
+            if (this.countryStepsList.length !== 0){
+                this.countrySteps= this.countrySteps.filter(steps => steps.id === undefined);  
+                if (this.countryStepsList.length === this.countrySteps.length) { 
+                    return false;
+                }
+            }
+
+            if (this.countrySteps.length != 0) { 
                 this.btnLoading = true;
                 this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then(() => {
                     this.isSucceed = true;
-                    this.btnLoading = false; 
-
+                    this.btnLoading = false;
+                    this.showForm =false;
                     //redirect 
-                    this.$router.push({name:"ManagerCountrySteps", params:{id:this.countrySelected?.id}});
+                    this.$router.push({ name: "ManagerCountrySteps", params: { id: this.countrySelected?.id } });
+                  
                 })
                     .catch((error) => {
-                        this.btnLoading = false;
+                       // this.btnLoading = false; navigateToRoute.call(this,error.response.status,'manager403');
                         let errors_ = ErrorService.handleErrorHttp(error.response?.status, error.response?.data.errors)
                         if (!errors_) {
                             this.unexpectedError = true;
@@ -141,6 +195,8 @@ export default {
                 //    this.countrySteps = [];
             }
 
+            this.countrySteps = copyCountrySteps;
+
         },
         orderSteps(index) {
             for (var i = 0; i < this.countrySteps.length; i++) {
@@ -151,14 +207,14 @@ export default {
                 }
             }
         },
-        createCoutryStepModel() {
+        createCoutryStepModel() { 
             return {
                 title: this.state.title,
                 order: this.state.order,
                 description: this.state.description,
                 country_id: this.countrySelected?.id,
             }
-        }, 
+        },
     },
 
     data() {
@@ -169,10 +225,11 @@ export default {
             errors: [],
             codeErreur: '',
             isSucceed: false,
-            btnValidationStyle : 'btn-success',
-            isEdit : false,
-            showForm : false,
-            txtBtnEdit :'Modifier cette étape'
+            btnValidationStyle: 'btn-success',
+            isEdit: false,
+            showForm: false,
+            txtBtnEdit: 'Modifier cette étape',
+            isLoading : false
 
         }
     },
@@ -182,6 +239,7 @@ export default {
             title: '',
             order: 1,
             description: '',
+            id: '',
         })
 
         const rules = computed(() => {
@@ -194,18 +252,20 @@ export default {
     },
     computed: {
         ...mapGetters('countryStep', {
-            countrySelected: 'getCountrySelected', 
+            countrySelected: 'getCountrySelected',
         }),
     },
 
     created() {
+        this.isLoading=true,
         this.$watch('countryStepsList', (countryStepsList) => {
             if (countryStepsList !== null) {
                 this.countrySteps = countryStepsList;
-             }
+                this.isLoading=false
+            }
         });
     },
-    components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent }
+    components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent, SwitcheBtnComponent, Spinner }
 }
 
 
