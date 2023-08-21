@@ -39,7 +39,7 @@ let routes = [
         {
             path: 'country/steps/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'), 
             meta: {
-                title: 'Liste des pays'
+                title: 'Liste des étapes du pays'
             }
         }
 
