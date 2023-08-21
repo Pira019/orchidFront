@@ -21,8 +21,9 @@ export default {
     let idCountry = parseInt(this.$route.params.id)
     this.$store.dispatch('countryStep/getByCountry', idCountry).then((response) => {
       this.countryData = response.data;
-      //set Page title
-      this.$store.commit('tutorial/setHeaderTitle', 'Etapes pour ' + this.countryData.short_name);
+   
+      this.$store.commit('tutorial/setHeaderTitle', 'Etapes pour ' + this.countryData.short_name); //set Page title
+      this.$store.commit('countryStep/setSelectedCountry',  { id : response.data.id})
 
     }).catch((error)=> { 
        navigateToRoute.call(this,error.response.status,'manager403');
