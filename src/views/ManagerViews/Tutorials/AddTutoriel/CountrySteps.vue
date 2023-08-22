@@ -15,10 +15,10 @@
         <div class="mb-5" id="stepsOfCountry">
             <div>
                 <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">
-                        <slot name="countryName"></slot>
+                        <slot name="countryName">{{countrySelected.name}}</slot>
                     </span></h2>
-                <button @click="showForm = true, state.order = countrySteps.length+1,isEdit=false" class="btn btn-secondary">Ajouter une étape pour <slot
-                        name="countryName"></slot></button>
+                <button @click="showForm = true, state.order = countrySteps.length+1,isEdit=false" class="btn btn-secondary mt-1">Ajouter une étape pour <slot name="countryName">{{countrySelected.name}}</slot>
+                    </button>
             </div>
             <ErrorAlert :show="this.errors?.length !== 0 && !unexpectedError" :response="errors" class="m-2"> </ErrorAlert>
             <section v-if="countrySteps.length">
@@ -165,8 +165,9 @@ export default {
                 return true
             }
 
-            if (this.countryStepsList.length !== 0){
+            if (this.countryStepsList?.length && this.countryStepsList !== undefined){
                 this.countrySteps= this.countrySteps.filter(steps => steps.id === undefined);  
+                console.log("lol")
                 if (this.countryStepsList.length === this.countrySteps.length) { 
                     return false;
                 }
@@ -183,7 +184,8 @@ export default {
                   
                 })
                     .catch((error) => {
-                       // this.btnLoading = false; navigateToRoute.call(this,error.response.status,'manager403');
+                        this.btnLoading = false; 
+                        navigateToRoute.call(this,error.response.status,'manager403');
                         let errors_ = ErrorService.handleErrorHttp(error.response?.status, error.response?.data.errors)
                         if (!errors_) {
                             this.unexpectedError = true;
@@ -196,6 +198,7 @@ export default {
             }
 
             this.countrySteps = copyCountrySteps;
+            this.isSucceed =false;
 
         },
         orderSteps(index) {
@@ -259,11 +262,19 @@ export default {
     created() {
         this.isLoading=true,
         this.$watch('countryStepsList', (countryStepsList) => {
-            if (countryStepsList !== null) {
+            if (countryStepsList !== null | countryStepsList !== undefined) {
+                this.showForm =false;
                 this.countrySteps = countryStepsList;
                 this.isLoading=false
+                return true
             }
+           
         });
+ 
+        if(!this.countrySteps.length && this.countryStepsList === undefined){
+            this.isLoading = false;
+            this.showForm =true; 
+        }
     },
     components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent, SwitcheBtnComponent, Spinner }
 }

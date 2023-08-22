@@ -31,12 +31,13 @@ import { computed, reactive } from 'vue';
 import customeMessage from '@/Utils/validationMessages';
 import useVuelidate from '@vuelidate/core'; 
 import { mapGetters } from 'vuex';
+import { navigateToRoute } from '@/Utils/Navigation';
 
 export default {
     methods: {
         submit() {
             this.v$.$validate();
-            this.$store.commit('countryStep/setSelectedCountry', this.state)
+            this.$store.commit('countryStep/setSelectedCountry', this.state.country)
             if (!this.v$.$error) {
                 this.$router.push({ name: 'ManagerAddTutorielSteps' });
             }
@@ -77,15 +78,14 @@ export default {
     created() {
         CountryStepsService.getListCountries().then((countries) => {
             this.listOfCoutries = countries.data;
-        }).catch(() => {
+        }).catch((error) => {
             this.unexpectedError = true;
+            navigateToRoute.call(this,error.response.status,'manager403');
         });
 
          //set Page title
-         this.$store.commit('tutorial/setHeaderTitle',"Ajouter les procédures générales par pays");  
-
-        if (this.countrySelected)
-            this.state.country = this.countrySelected
+         this.$store.commit('tutorial/setHeaderTitle',"Ajouter les procédures générales par pays");   
+         this.$store.commit('countryStep/setSelectedCountry', '')      
     },
     components: { SubmitBtnComponent, ErrorModalComponent },
 }
