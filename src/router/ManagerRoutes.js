@@ -61,12 +61,13 @@ let routes = [
         children: [
             {
                 path: 'pays', name: 'ManagerAddTutorielCountry', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountryForm.vue'), 
+                beforeEnter: guardMyroute,
                 meta: {
                     title: 'Ajouter des tutoriels pays',
                     metaTags: [
                         {
                             name: 'description',
-                            content: 'Ajouter tutoriels'
+                            content: 'Ajouter des tutoriels pays'
                         }
                     ]
                 },
@@ -78,7 +79,7 @@ let routes = [
                     metaTags: [
                         {
                             name: 'description',
-                            content: 'Ajouter tutoriels'
+                            content: 'Etapes générales à suivre'
                         }
                     ]
                 },
