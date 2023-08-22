@@ -17,7 +17,7 @@
                 <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">
                         <slot name="countryName">{{countrySelected.name}}</slot>
                     </span></h2>
-                <button @click="showForm = true, state.order = countrySteps.length+1,isEdit=false" class="btn btn-secondary mt-1">Ajouter une étape pour <slot name="countryName">{{countrySelected.name}}</slot>
+                <button @click="showForm = true, state.order = countrySteps.length+1,isEdit=false,scrollToSection() " class="btn btn-secondary mt-1">Ajouter une étape pour <slot name="countryName">{{countrySelected.name}}</slot>
                     </button>
             </div>
             <ErrorAlert :show="this.errors?.length !== 0 && !unexpectedError" :response="errors" class="m-2"> </ErrorAlert>
@@ -35,7 +35,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(step, index) in countrySteps" :key="index">
-                            <th scope="row"><SwitcheBtnComponent :is-ckecked="true"></SwitcheBtnComponent> </th>
+                            <th scope="row"><SwitcheBtnComponent :is-ckecked="step.visibility"></SwitcheBtnComponent> </th>
                             <th scope="row">{{ step.order }}</th>
                             <td>{{ step.title }}</td>
                             <td>{{ step.description }}</td>
@@ -55,7 +55,8 @@
             </section>
         </div>
 
-        <form novalidate v-on:submit.prevent="onSubmit" v-if="showForm">
+        <div ref="formSection" v-if="showForm">
+        <form novalidate v-on:submit.prevent="onSubmit" >
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label for="Titre" class="fw-bold">Titre *</label>
@@ -84,6 +85,7 @@
                 </div>
             </div>
         </form>
+    </div>
     </div>
 </template>
 <script>
@@ -125,8 +127,11 @@ export default {
             this.state.description = step.description;
             this.state.order = step.order
             this.showForm = true;
+            this.scrollToSection()
             this.isEdit = true;
             this.btnValidationStyle = "btn-warning"
+
+           
         },
 
         updateStep() {
@@ -166,8 +171,7 @@ export default {
             }
 
             if (this.countryStepsList?.length && this.countryStepsList !== undefined){
-                this.countrySteps= this.countrySteps.filter(steps => steps.id === undefined);  
-                console.log("lol")
+                this.countrySteps= this.countrySteps.filter(steps => steps.id === undefined);   
                 if (this.countryStepsList.length === this.countrySteps.length) { 
                     return false;
                 }
@@ -215,9 +219,17 @@ export default {
                 title: this.state.title,
                 order: this.state.order,
                 description: this.state.description,
-                country_id: this.countrySelected?.id,
+                country_id: this.countrySelected?.id, 
             }
         },
+
+        scrollToSection(){
+            const sectionForm = this.$refs.formSection
+            window.scrollTo({
+                top : sectionForm.offsetTop,
+                behavior : 'auto'
+            })
+        }
     },
 
     data() {
@@ -243,6 +255,7 @@ export default {
             order: 1,
             description: '',
             id: '',
+            visibility : ''
         })
 
         const rules = computed(() => {
