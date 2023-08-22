@@ -20,8 +20,8 @@ export default class CountryStepsService{
     });
 
     static async getListCountries(){
-        const endPoind =this.baseApiUrl + 'country-to-add-tuto'
-        return axios.get(endPoind);  
+        const endPoind = 'country-to-add-tuto'
+        return this.axiosInstance.get(endPoind);  
     }
 
     static async getCountries(){
