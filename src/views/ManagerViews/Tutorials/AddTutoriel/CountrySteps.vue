@@ -1,6 +1,7 @@
 <template>
     <div>
         <!--modals-->
+        <ConfirmationModalComponent @isConfirm="isActionConfirm_" :closeModal="closeModal"></ConfirmationModalComponent>
         <error-modal-component v-if="unexpectedError">
             <h5>Erreur {{ codeErreur }} inattendue</h5>
         </error-modal-component>
@@ -47,7 +48,7 @@
                                 <button class="btn btn-warning m-1" title="Modifier cette étape"
                                     @click="fillFormToUpdateStep(step)"><font-awesome-icon icon="fa-pen"
                                         style="color: #f0f0f0;" /></button>
-                                <button class="btn btn-danger m-1" @click="deleteStep(index)"
+                                <button class="btn btn-danger m-1" @click="closeModal = false, deleteStepIndex=index"
                                     title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button>
                             </td>
                         </tr>
@@ -105,6 +106,7 @@ import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessMod
 import { navigateToRoute } from '@/Utils/Navigation';
 import SwitcheBtnComponent from '@/components/shared/SwitcheBtnComponent.vue';
 import Spinner from '@/components/shared/Spinner.vue';
+import ConfirmationModalComponent from '@/components/modal/ConfirmationModalComponent.vue';
 
 export default {
     //countryStepsList when show list without click to add steps
@@ -139,9 +141,10 @@ export default {
         },
 
         editStepVisibility(index) {
-
-            this.countrySteps[index].visibility =  !this.countrySteps[index].visibility ;
+          
             let updateStep = this.countrySteps[index];
+            updateStep.visibility =  !updateStep.visibility ;
+
             if (updateStep.id === undefined) { 
                 return true;
             }
@@ -176,13 +179,40 @@ export default {
                     navigateToRoute.call(this, error.response.status, 'manager403');
                 })
             this.isSucceed = false
+        },  
+
+        isActionConfirm_(isConfim){    
+            
+            this.showForm = false;
+            if(isConfim){
+                this.deleteStep(this.deleteStepIndex)  
+                return true
+            }           
+             this.closeModal=true      
         },
 
         deleteStep(index) {
-            this.orderSteps(index);
+
+            const deletedStep = this.countrySteps[index];         
+
+            //delete in Db
+            if (deletedStep.id !== undefined) {
+                this.$store.dispatch('countryStep/deleteStep', deletedStep.id);
+            }
+
             this.countrySteps.splice(index, 1);
-            this.state.order = this.countrySteps.length + 1
+            this.state.order = this.countrySteps.length + 1; // reoder countrySteps
+              //Decrement countrySteps Tuto
+              this.countrySteps.forEach(stepCountry => {
+                if (stepCountry.order > deletedStep.order) {
+                    stepCountry.order--
+                };
+            })
+
+            this.closeModal = true
+
         },
+
         saveSteps() {
 
             let copyCountrySteps = this.countrySteps;
@@ -226,29 +256,22 @@ export default {
             this.isSucceed = false;
 
         },
-        orderSteps(index) {
-            for (var i = 0; i < this.countrySteps.length; i++) {
-                if (this.countrySteps[i].order === index + 1) {
-                    if (this.countrySteps[i + 1]) {
-                        this.countrySteps[i + 1].order = this.countrySteps[i + 1].order - 1
-                    }
-                }
-            }
-        },
+    
         createCoutryStepModel() {
             return {
                 title: this.state.title,
                 order: this.state.order,
                 description: this.state.description,
                 country_id: this.countrySelected?.id,
+                visibility : true
             }
         },
 
         scrollToSection() {
             const sectionForm = this.$refs.formSection
             window.scrollTo({
-                top: sectionForm.offsetTop,
-                behavior: 'auto'
+                top: sectionForm?.offsetTop,
+                behavior: 'smooth'
             })
         }
     },
@@ -265,8 +288,10 @@ export default {
             isEdit: false,
             showForm: false,
             txtBtnEdit: 'Modifier cette étape',
-            isLoading: false
-
+            isLoading: false,
+            isShowConfirmModal : false, 
+            deleteStepIndex : '',
+            closeModal : true // defaul value vofor modal
         }
     },
 
@@ -310,7 +335,7 @@ export default {
             this.showForm = true;
         }
     },
-    components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent, SwitcheBtnComponent, Spinner }
+    components: { SubmitBtnComponent, ErrorModalComponent, ErrorAlert, RegisterSuccessModalComponent, SwitcheBtnComponent, Spinner, ConfirmationModalComponent }
 }
 
 

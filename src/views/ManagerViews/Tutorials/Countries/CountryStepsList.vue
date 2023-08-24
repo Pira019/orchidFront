@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div> 
     <error-modal-component v-if="errors?.isError">
     <h5>Erreur {{ errors?.code }} inattendue</h5>
   </error-modal-component>
@@ -15,6 +15,7 @@
 <script>
 import CountrySteps from '../AddTutoriel/CountrySteps.vue'
 import { navigateToRoute } from '@/Utils/Navigation'
+import ConfirmationModalComponent from '@/components/modal/ConfirmationModalComponent.vue'
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue'
 export default {
   data() {
@@ -44,7 +45,7 @@ export default {
     })
 
   },
-  components: { CountrySteps, ErrorModalComponent },
+  components: { CountrySteps, ErrorModalComponent, ConfirmationModalComponent },
 
 }
 </script>
