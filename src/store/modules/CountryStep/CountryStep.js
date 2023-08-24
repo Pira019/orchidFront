@@ -38,6 +38,10 @@ export default {
 
         async editStep({},updatedData) {
             return CountryStepsService.editStep(updatedData);
+        },
+
+        async deleteStep({},idContryStep) {
+            return CountryStepsService.deleteStep(idContryStep);
         }
     },
 }

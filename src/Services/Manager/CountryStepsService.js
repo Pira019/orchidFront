@@ -43,5 +43,10 @@ export default class CountryStepsService{
         const endPoind = 'country/steps/edit/' + updatedData.id
         return this.axiosInstance.post(endPoind,updatedData);  
     }
+
+    static async deleteStep(idStepContry){
+        const endPoind = 'country-steps/delete/' + idStepContry
+        return this.axiosInstance.delete(endPoind);  
+    }
  
 }
