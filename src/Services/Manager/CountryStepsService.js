@@ -40,7 +40,7 @@ export default class CountryStepsService{
     }
 
     static async editStep(updatedData){
-        const endPoind = 'country/steps/edit/' + updatedData.id
+        const endPoind = 'country/steps/edit/' + updatedData.id 
         return this.axiosInstance.post(endPoind,updatedData);  
     }
 

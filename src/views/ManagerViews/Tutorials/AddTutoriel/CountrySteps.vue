@@ -7,7 +7,7 @@
         </error-modal-component>
         <register-success-modal-component v-if="isSucceed">
             <slot v-if="!isEdit"> Etape(s) sauvegardée(s) dans le système</slot>
-            <slot v-else>La modification est sauvegardées dans le système</slot>
+            <slot v-else>La modification est sauvegardée dans le système</slot>
         </register-success-modal-component>
         <!--End of modals-->
         <!--Spider-->
@@ -18,7 +18,7 @@
                 <h2 class="h5 lead text-center">Etapes génerales à suivre pour étudier : <span class="fw-bold">
                         <slot name="countryName">{{ countrySelected.name }}</slot>
                     </span></h2>
-                <button @click="showForm = true, state.order = countrySteps.length + 1, isEdit = false, scrollToSection()"
+                <button @click="showForm = true, state.order = countrySteps.length + 1, isEdit = false, scrollToSection(), resetState()"
                     class="btn btn-secondary mt-1">Ajouter une étape pour <slot name="countryName">{{ countrySelected.name }}
                     </slot>
                 </button>
@@ -46,9 +46,9 @@
                             <td>{{ step.description }}</td>
                             <td>
                                 <button class="btn btn-warning m-1" title="Modifier cette étape"
-                                    @click="fillFormToUpdateStep(step)"><font-awesome-icon icon="fa-pen"
+                                    @click="fillFormToUpdateStep(step,index)"><font-awesome-icon icon="fa-pen"
                                         style="color: #f0f0f0;" /></button>
-                                <button class="btn btn-danger m-1" @click="closeModal = false, deleteStepIndex=index"
+                                <button class="btn btn-danger m-1" @click="closeModal = false, stepIndex=index"
                                     title="Supprimer cette étape"><font-awesome-icon icon="fa-trash" /></button>
                             </td>
                         </tr>
@@ -86,7 +86,7 @@
                         <SubmitBtnComponent :loading="btnLoading" class="btn  mx-1" :class="btnValidationStyle"
                             @click="saveSteps" :disabled="!countrySteps.length">{{ isEdit ? txtBtnEdit : 'Enregister' }}
                         </SubmitBtnComponent>
-                        <button class="btn btn-outline-danger" @click="showForm = false" type="reset">Annuler</button>
+                        <button class="btn btn-outline-danger" @click=" this.showForm = false" type="reset">Annuler</button>
                     </div>
                 </div>
             </form>
@@ -113,6 +113,15 @@ export default {
     props: ['countryStepsList'],
     methods: {
 
+        resetState(){
+          
+          this.v$.$reset();
+          this.state.title = '', 
+          this.state. description ='',
+          this.state. id = '',
+          this.state. visibility =''
+        },
+
         addStep() {
 
             this.v$.$validate();
@@ -126,12 +135,16 @@ export default {
             this.state.description = ''
         },
 
-        fillFormToUpdateStep(step) {
+       
 
+        fillFormToUpdateStep(step,stepIndex) {
+
+            this.stepIndex = stepIndex,
             this.state.title = step.title;
-            this.state.id = step.id,
-                this.state.description = step.description;
+            this.state.id = step?.id,
+            this.state.description = step.description;
             this.state.order = step.order
+            this.state.visibility = step.visibility
             this.showForm = true;
             this.scrollToSection()
             this.isEdit = true;
@@ -159,36 +172,59 @@ export default {
         },
 
         updateStep() {
+
             this.v$.$validate();
             if (this.v$.$error) {
                 return false
-            }
-            this.btnLoading = true;
+            } 
+            this.btnLoading = true; 
 
+           if ( this.countrySteps[this.stepIndex].id !== undefined) {
 
-            this.$store.dispatch('countryStep/editStep', this.state).then(() => {
-                this.btnLoading = false
-                this.isSucceed = true;
-
-                this.countrySteps = this.countrySteps.map((originalItem) =>
-                    originalItem.id === this.state.id ? this.state : originalItem
-                );
-                this.showForm = false;
-            })
-                .catch((error) => {
-                    navigateToRoute.call(this, error.response.status, 'manager403');
+                this.$store.dispatch('countryStep/editStep', this.state).then(() => {
+                    this.btnLoading = false
+                    this.isSucceed = true;
+                    this.showForm = false;                                     
+                    const { id, order, description, title } = this.state;
+                    Object.assign(this.countrySteps[this.stepIndex], { id, order, description, title });   
+                    // reset form
+                    this.v$.$reset();
+                    this.state.title = ''
+                    this.state.description = ''   
+                    
+                    
                 })
-            this.isSucceed = false
-        },  
+                    .catch((error) => {
+                        navigateToRoute.call(this, error.response.status, 'manager403');
+                        this.codeErreur = error.response?.status;
+                        this.unexpectedError = true;
+                        this.isSucceed = false;
+                        this.btnLoading = false;  
+                    })   
 
-        isActionConfirm_(isConfim){    
+                    
+                    this.unexpectedError = false;
+                    this.isSucceed = false;
+                    return;
+                   
+            }  
+ 
+            this.isSucceed = true;
+            const { id, order, description, title } = this.state;
+            Object.assign(this.countrySteps[this.stepIndex], { id, order, description, title });           
+            this.btnLoading = false;  
+            this.unexpectedError = false; 
             
+        },
+
+        isActionConfirm_(isConfim) {
+
             this.showForm = false;
-            if(isConfim){
-                this.deleteStep(this.deleteStepIndex)  
+            if (isConfim) {
+                this.deleteStep(this.stepIndex)
                 return true
-            }           
-             this.closeModal=true      
+            }
+            this.closeModal = true
         },
 
         deleteStep(index) {
@@ -217,8 +253,7 @@ export default {
 
             let copyCountrySteps = this.countrySteps;
             if (this.isEdit) {
-                this.updateStep()
-                return true
+                return  this.updateStep() 
             }
 
             if (this.countryStepsList?.length && this.countryStepsList !== undefined) {
@@ -228,14 +263,14 @@ export default {
                 }
             }
 
-            if (this.countrySteps.length != 0) {
+            if (this.countrySteps.length !== 0) {
                 this.btnLoading = true;
                 this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then(() => {
                     this.isSucceed = true;
                     this.btnLoading = false;
                     this.showForm = false;
                     //redirect 
-                    this.$router.push({ name: "ManagerCountrySteps", params: { id: this.countrySelected?.id } });
+                 //   this.$router.push({ name: "ManagerCountries"}); 
 
                 })
                     .catch((error) => {
@@ -253,7 +288,7 @@ export default {
             }
 
             this.countrySteps = copyCountrySteps;
-            this.isSucceed = false;
+            this.isSucceed = false; 
 
         },
     
@@ -290,7 +325,7 @@ export default {
             txtBtnEdit: 'Modifier cette étape',
             isLoading: false,
             isShowConfirmModal : false, 
-            deleteStepIndex : '',
+            stepIndex : '',
             closeModal : true // defaul value vofor modal
         }
     },
@@ -309,7 +344,7 @@ export default {
                 title: { required: customeMessage("title", 'required') },
             }
         })
-        const v$ = useVuelidate(rules, state);
+        const v$ = useVuelidate(rules, state); 
         return { state, v$ }
     },
     computed: {
