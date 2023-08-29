@@ -249,29 +249,30 @@ export default {
 
         },
 
-        saveSteps() {
+        saveSteps() { 
 
-            let copyCountrySteps = this.countrySteps;
             if (this.isEdit) {
                 return  this.updateStep() 
             }
+           const copyCountryStepsWithId =  this.countrySteps.filter(steps => steps.id !== undefined);
+           const copyCountryStepsAll =  this.countrySteps;
 
-            if (this.countryStepsList?.length && this.countryStepsList !== undefined) {
-                this.countrySteps = this.countrySteps.filter(steps => steps.id === undefined);
-                if (this.countryStepsList.length === this.countrySteps.length) {
-                    return false;
-                }
-            }
+                  
+           this.countrySteps = this.countrySteps.filter(steps => steps.id === undefined); // get only new steps to store
 
-            if (this.countrySteps.length !== 0) {
-                this.btnLoading = true;
-                this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then(() => {
+            if (this.countrySteps.length) {
+                this.btnLoading = true;        
+                this.$store.dispatch('countryStep/saveSteps', this.countrySteps).then((response) => {
                     this.isSucceed = true;
                     this.btnLoading = false;
-                    this.showForm = false;
-                    //redirect 
-                 //   this.$router.push({ name: "ManagerCountries"}); 
+                    this.showForm = false;  
 
+                   this.countrySteps = copyCountryStepsWithId;
+                   //get new steps store with id
+                   response.data?.forEach(step => {
+                    this.countrySteps.push(step)
+                   })
+                   
                 })
                     .catch((error) => {
                         this.btnLoading = false;
@@ -283,11 +284,12 @@ export default {
                         }
                         this.errors = errors_?.errorMessage
                     });
-                this.unexpectedError = false;
-                //    this.countrySteps = [];
-            }
+                this.unexpectedError = false; 
+                this.isSucceed = false; 
+                return;
+            } 
 
-            this.countrySteps = copyCountrySteps;
+            this.countrySteps = copyCountryStepsAll;
             this.isSucceed = false; 
 
         },
