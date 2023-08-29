@@ -1,6 +1,6 @@
 <template>
      <div class="container-fluid"> 
-        <div class="row justify-content-evenly" v-if="list.lenght != 0">
+        <div class="row justify-content-evenly" v-if="list.lenght !== 0">
             <div class="card col-md-4 mb-3" v-for="(list, index) in list" :key="index" style="width: 18rem;">
                 <img class="card-img-top" src="" alt="Drapeau pays">
                 <div class="card-body">
@@ -11,7 +11,7 @@
                 <ul class="list-group list-group-flush">
 
                     <li class="list-group-item">
-                        <slot>Nombre d'étudiants </slot> <span class="badge bg-dark">  {{ list?.number_of_steps }} </span>
+                        <slot>Nombre étape : </slot> <span class="badge bg-dark">  {{ list?.number_of_steps }} </span>
                     </li>
                     <!--<li class="list-group-item">Date de publication :</li>
                 <li class="list-group-item">Date Création :</li>
