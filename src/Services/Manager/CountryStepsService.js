@@ -20,8 +20,8 @@ export default class CountryStepsService{
     });
 
     static async getListCountries(){
-        const endPoind =this.baseApiUrl + 'country-to-add-tuto'
-        return axios.get(endPoind);  
+        const endPoind = 'country-to-add-tuto'
+        return this.axiosInstance.get(endPoind);  
     }
 
     static async getCountries(){
@@ -30,13 +30,23 @@ export default class CountryStepsService{
     }
 
     static async saveSteps(data){
-        const endPoind =this.baseApiUrl + 'country-steps'
-        return axios.post(endPoind,data);  
+        const endPoind ='country-steps'
+        return this.axiosInstance.post(endPoind,data);  
     }
 
     static async getByCountry(idCountry){
         const endPoind = 'country/Steps/' + idCountry
         return this.axiosInstance.get(endPoind);  
+    }
+
+    static async editStep(updatedData){
+        const endPoind = 'country/steps/edit/' + updatedData.id 
+        return this.axiosInstance.post(endPoind,updatedData);  
+    }
+
+    static async deleteStep(idStepContry){
+        const endPoind = 'country-steps/delete/' + idStepContry
+        return this.axiosInstance.delete(endPoind);  
     }
  
 }

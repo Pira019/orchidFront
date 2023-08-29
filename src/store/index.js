@@ -19,13 +19,13 @@ export default new Vuex.Store({
     getters: {
         getState(state) {
             return state;
-        }
+        }, 
     },
 
     state: {
         isSucceed: '',
         response : '',
-        routhPath : ''
+        routhPath : '', 
     },
     
     mutations: {
@@ -39,7 +39,6 @@ export default new Vuex.Store({
 
         setRoutePath(state,route) {
             state.routhPath = route
-        }
-        
+        },  
     },
 })
