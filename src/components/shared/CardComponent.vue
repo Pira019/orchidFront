@@ -2,7 +2,7 @@
      <div class="container-fluid"> 
         <div class="row justify-content-evenly" v-if="list.lenght !== 0">
             <div class="card col-md-4 mb-3" v-for="(list, index) in list" :key="index" style="width: 18rem;">
-                <img class="card-img-top" src="" alt="Drapeau pays">
+                <img class="card-img-top" :src="list?.flag_url" alt="Drapeau pays">
                 <div class="card-body">
                     <h5 class="card-title">{{ list?.name }}</h5>
                     <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
