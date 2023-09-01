@@ -15,9 +15,9 @@ let routes = [
         }
     },
 
-    // routes tutorials
+    // routes country steps
     {
-        path: prefix + 'tutoriels', name: 'ManagerTutoHome', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'), 
+        path: prefix + 'etape', name: 'ManagerTutoHome', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'), 
         beforeEnter: guardMyroute,
         meta: {
             title: 'Tutoriels',
@@ -30,14 +30,14 @@ let routes = [
         },
         // countries
         children: [{
-            path: 'countries', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'), 
+            path: 'pays', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'), 
             beforeEnter: guardMyroute,
             mata: {
                 title: 'Liste des pays'
             }
         },
         {
-            path: 'country/steps/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'), 
+            path: 'pays/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'), 
             meta: {
                 title: 'Liste des étapes d\'un pays'
             }
@@ -47,7 +47,7 @@ let routes = [
     },
 
     {
-        path: prefix + 'tutoriels/ajouter', name: 'ManagerAddTutoriel', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/AddTutorial.vue'), 
+        path: prefix + 'etapes/ajouter', name: 'ManagerAddTutoriel', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/AddTutorial.vue'), 
         meta: {
             title: 'Ajouter des tutoriels',
             metaTags: [
@@ -127,6 +127,26 @@ let routes = [
             ]
         }
     },
+
+     // routes tutorials
+     {
+        path: prefix + 'tutoriels/pays', name: 'ManagerTutoCountry', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'), 
+        beforeEnter: guardMyroute,
+        meta: {
+            title: 'Tutoriels par étape', 
+        },
+       /* // countries
+        children: [{
+            path: 'countries', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'), 
+            beforeEnter: guardMyroute,
+            mata: {
+                title: 'Liste des pays'
+            }
+        },
+        ] */
+    },
+
+     // end routes tutorials
 ]
 
 function guardMyroute(to, from, next)

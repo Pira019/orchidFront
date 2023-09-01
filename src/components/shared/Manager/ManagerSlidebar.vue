@@ -17,7 +17,7 @@
                     </a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li class="nav-item">
-                            <router-link class="nav-link fw-bold" :to="{name:'ManagerCountries'}"> <font-awesome-icon icon="fa-globe" size="1x"/><span class="px-2"> Par pays </span></router-link>
+                            <router-link class="nav-link fw-bold" :to="{name:'ManagerTutoCountry'}"> <font-awesome-icon icon="fa-globe" size="1x"/><span class="px-2"> Par pays </span></router-link>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-bold" href="#">Universités</a>
