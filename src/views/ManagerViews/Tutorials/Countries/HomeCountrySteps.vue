@@ -26,7 +26,8 @@ export default {
       this.steps = response.data
       this.loading = false; 
     }).catch((error)=>{
-      navigateToRoute.call(this,error.response.status,'manager403');
+      this.loading = false;
+      navigateToRoute.call(this,error?.response?.status,'manager403');
     });
 
     //set Page title
