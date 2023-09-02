@@ -1,5 +1,6 @@
 <template>
-    <div>         
+
+    <div>     
         <error-modal-component v-if="errors?.isError">
             <h5>Erreur {{ errors?.code }} inattendue</h5>
         </error-modal-component>
@@ -11,10 +12,11 @@
         </section>   
 
         <section class="mt-5">
-            <card-component :list="data" v-if="loadingData" :onlyHeader="true"></card-component>
+            <card-component :list="data" v-if="loadingData" :onlyHeader="true" :routeName="routeName"></card-component>
             <Spinner v-else></Spinner>
-        </section>  
+        </section>   
     </div>
+ 
 </template>
 
 <script>
@@ -28,7 +30,7 @@ export default{
     return {
         loadingData : false,
         data:'',
-        routeName : "",
+        routeName : "ManagerTutoCountrySteps",
         errors: {
         isError : false,
         code:'',
