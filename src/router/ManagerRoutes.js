@@ -30,7 +30,7 @@ let routes = [
         },
         // countries
         children: [{
-            path: 'pays', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'), 
+            path: 'pays', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/HomeCountrySteps.vue'), 
             beforeEnter: guardMyroute,
             mata: {
                 title: 'Liste des pays'
@@ -130,10 +130,10 @@ let routes = [
 
      // routes tutorials
      {
-        path: prefix + 'tutoriels/pays', name: 'ManagerTutoCountry', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'), 
+        path: prefix + 'tutoriels/pays', name: 'ManagerTutoCountry', component: () => import('@/views/ManagerViews/Tutorials/Countries/CoutryList.vue'), 
         beforeEnter: guardMyroute,
         meta: {
-            title: 'Tutoriels par étape', 
+            title: 'Liste de pays avec des étaps', 
         },
        /* // countries
         children: [{

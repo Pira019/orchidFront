@@ -1,3 +1,4 @@
+import TutorialService from "@/Services/Manager/TutorialService";
  
 export default {
     namespaced: true,
@@ -15,4 +16,11 @@ export default {
             state.headerTitle = title;
         }, 
     },  
+
+    actions: {
+      
+        async getFlagUrlAndNameOfCountriesWithSteps({}) {
+            return TutorialService.getFlagUrlAndNameOfCountriesWithSteps()
+        } 
+    },
 }
