@@ -130,21 +130,30 @@ let routes = [
 
      // routes tutorials
      {
-        path: prefix + 'tutoriels/pays', name: 'ManagerTutoCountry', component: () => import('@/views/ManagerViews/Tutorials/Countries/CoutryList.vue'), 
-        beforeEnter: guardMyroute,
-        meta: {
-            title: 'Liste de pays avec des étaps', 
-        },
-       /* // countries
+        path: prefix + 'tutoriel/pays', name: 'ManagerTutoCountry', 
+        beforeEnter: guardMyroute, 
+        redirect: { name: 'ManagerTutoCountries' },
+       // steps
         children: [{
-            path: 'countries', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'), 
+            path: '', name: 'ManagerTutoCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/CoutryList.vue'), 
             beforeEnter: guardMyroute,
-            mata: {
-                title: 'Liste des pays'
+            meta: {
+                title: 'Liste de pays avec des étapes'
             }
         },
-        ] */
+
+        {
+            path: 'etape/:id', name: 'ManagerTutoCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/ListStepsCountry.vue'), 
+            beforeEnter: guardMyroute,
+            meta: {
+                title: 'Liste étapes'
+            }
+        },
+
+        ], 
     },
+
+       
 
      // end routes tutorials
 ]
