@@ -1,34 +1,52 @@
 
 import axios, * as others from 'axios';
 export default class CountryStepsService{
-   static baseApiUrl = import.meta.env.VITE_APP_API_URL;
+    static baseApiUrl = import.meta.env.VITE_APP_API_URL + "manager/";
+    static storedToken = localStorage.getItem('authUserToken'); //  
     /**
    * A class for interacting with the user service API.
    *
    * @param {string} baseApiUrl - The base URL of back end API.
    */
 
-    constructor() {}
+    constructor() { }      
     
-   
+
+    static axiosInstance = axios.create({
+        baseURL: this.baseApiUrl,
+        headers: {
+            'Authorization': `Bearer ${CountryStepsService.storedToken}`
+        }
+    });
+
     static async getListCountries(){
-        const endPoind =this.baseApiUrl + 'country-to-add-tuto'
-        return axios.get(endPoind);  
+        const endPoind = 'country-to-add-tuto'
+        return this.axiosInstance.get(endPoind);  
     }
 
     static async getCountries(){
-        const endPoind =this.baseApiUrl + 'country-steps'
-        return axios.get(endPoind);  
+        const endPoind ='country-steps'; 
+        return this.axiosInstance.get(endPoind)
     }
 
     static async saveSteps(data){
-        const endPoind =this.baseApiUrl + 'country-steps'
-        return axios.post(endPoind,data);  
+        const endPoind ='country-steps'
+        return this.axiosInstance.post(endPoind,data);  
     }
 
     static async getByCountry(idCountry){
-        const endPoind =this.baseApiUrl + 'country/Steps/' + idCountry
-        return axios.get(endPoind);  
+        const endPoind = 'country/Steps/' + idCountry
+        return this.axiosInstance.get(endPoind);  
+    }
+
+    static async editStep(updatedData){
+        const endPoind = 'country/steps/edit/' + updatedData.id 
+        return this.axiosInstance.post(endPoind,updatedData);  
+    }
+
+    static async deleteStep(idStepContry){
+        const endPoind = 'country-steps/delete/' + idStepContry
+        return this.axiosInstance.delete(endPoind);  
     }
  
 }

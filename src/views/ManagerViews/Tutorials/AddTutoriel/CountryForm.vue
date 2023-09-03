@@ -1,7 +1,7 @@
 <template>
     <div> 
         <error-modal-component v-if="unexpectedError"></error-modal-component>
-        <form novalidate v-on:submit.prevent="onsubmit">
+        <form novalidate v-on:submit.prevent="submit">
             <div class="form-group row">
                 <label for="country" class="col-sm-2 col-form-label fw-bold">Selectionner le pays*</label>
                 <div class="col-sm-4 mb-3">
@@ -31,12 +31,13 @@ import { computed, reactive } from 'vue';
 import customeMessage from '@/Utils/validationMessages';
 import useVuelidate from '@vuelidate/core'; 
 import { mapGetters } from 'vuex';
+import { navigateToRoute } from '@/Utils/Navigation';
 
 export default {
     methods: {
         submit() {
             this.v$.$validate();
-            this.$store.commit('countryStep/setSelectedCoutry', this.state)
+            this.$store.commit('countryStep/setSelectedCountry', this.state.country)
             if (!this.v$.$error) {
                 this.$router.push({ name: 'ManagerAddTutorielSteps' });
             }
@@ -77,15 +78,14 @@ export default {
     created() {
         CountryStepsService.getListCountries().then((countries) => {
             this.listOfCoutries = countries.data;
-        }).catch(() => {
+        }).catch((error) => {
             this.unexpectedError = true;
+            navigateToRoute.call(this,error.response.status,'manager403');
         });
 
          //set Page title
-         this.$store.commit('tutorial/setHeaderTitle',"Ajouter les procédures générales par pays");  
-
-        if (this.countrySelected)
-            this.state.country = this.countrySelected
+         this.$store.commit('tutorial/setHeaderTitle',"Ajouter les procédures générales par pays");   
+         this.$store.commit('countryStep/setSelectedCountry', '')      
     },
     components: { SubmitBtnComponent, ErrorModalComponent },
 }

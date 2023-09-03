@@ -3,6 +3,7 @@ let prefix = '/manager/'
 let routes = [
     {
         path: prefix, name: 'managerHome', component: () => import('@/views/ManagerViews/Home.vue'),
+        beforeEnter: guardMyroute,
         meta: {
             title: 'Administration',
             metaTags: [
@@ -14,9 +15,10 @@ let routes = [
         }
     },
 
-    // routes tutorials
+    // routes country steps
     {
-        path: prefix + 'tutoriels', name: 'ManagerTutoHome', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'),
+        path: prefix + 'etape', name: 'ManagerTutoHome', component: () => import('@/views/ManagerViews/Tutorials/Index.vue'), 
+        beforeEnter: guardMyroute,
         meta: {
             title: 'Tutoriels',
             metaTags: [
@@ -28,15 +30,16 @@ let routes = [
         },
         // countries
         children: [{
-            path: 'countries', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/Home.vue'),
+            path: 'pays', name: 'ManagerCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/HomeCountrySteps.vue'), 
+            beforeEnter: guardMyroute,
             mata: {
                 title: 'Liste des pays'
             }
         },
         {
-            path: 'country/steps/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'),
+            path: 'pays/:id', name: 'ManagerCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryStepsList.vue'), 
             meta: {
-                title: 'Liste des pays'
+                title: 'Liste des étapes d\'un pays'
             }
         }
 
@@ -44,7 +47,7 @@ let routes = [
     },
 
     {
-        path: prefix + 'tutoriels/ajouter', name: 'ManagerAddTutoriel', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/AddTutorial.vue'),
+        path: prefix + 'etapes/ajouter', name: 'ManagerAddTutoriel', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/AddTutorial.vue'), 
         meta: {
             title: 'Ajouter des tutoriels',
             metaTags: [
@@ -57,25 +60,26 @@ let routes = [
 
         children: [
             {
-                path: 'pays', name: 'ManagerAddTutorielCountry', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountryForm.vue'),
+                path: 'pays', name: 'ManagerAddTutorielCountry', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountryForm.vue'), 
+                beforeEnter: guardMyroute,
                 meta: {
                     title: 'Ajouter des tutoriels pays',
                     metaTags: [
                         {
                             name: 'description',
-                            content: 'Ajouter tutoriels'
+                            content: 'Ajouter des tutoriels pays'
                         }
                     ]
                 },
             },
             {
-                path: 'procedure', name: 'ManagerAddTutorielSteps', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountrySteps.vue'),
+                path: 'procedure', name: 'ManagerAddTutorielSteps', component: () => import('@/views/ManagerViews/Tutorials/AddTutoriel/CountrySteps.vue'), 
                 meta: {
                     title: 'Etapes générales',
                     metaTags: [
                         {
                             name: 'description',
-                            content: 'Ajouter tutoriels'
+                            content: 'Etapes générales à suivre'
                         }
                     ]
                 },
@@ -86,7 +90,7 @@ let routes = [
 
       // routes user management
     {
-        path: prefix+"ajouter-utilisateur", name: 'managerAddUser', component: () => import('@/views/ManagerViews/PersistUser.vue'),
+        path: prefix+"ajouter-utilisateur", name: 'managerAddUser', component: () => import('@/views/ManagerViews/PersistUser.vue'), 
         meta: {
             title: 'Ajouter un gestionnaire Administration',
             metaTags: [
@@ -98,7 +102,7 @@ let routes = [
         }
     },
     {
-        path: prefix+"login", name: 'managerLogin', component: () => import('@/views/ManagerViews/Login.vue'),
+        path: prefix+"login", name: 'managerLogin', component: () => import('@/views/ManagerViews/Login.vue'), 
         meta: {
             title: 'Connecter vous - Administration',
             metaTags: [
@@ -109,5 +113,63 @@ let routes = [
             ]
         }
     },
+
+    {
+        path: prefix+"403", name:'manager403', component: () => import('@/views/ManagerViews/403.vue'), 
+        beforeEnter: guardMyroute,
+        meta: {
+            title: '403 - Accès Interdit',
+            metaTags: [
+                {
+                    name: 'description',
+                    content: '403 - Accès Interdit'
+                }
+            ]
+        }
+    },
+
+     // routes tutorials
+     {
+        path: prefix + 'tutoriel/pays', name: 'ManagerTutoCountry', 
+        beforeEnter: guardMyroute, 
+        redirect: { name: 'ManagerTutoCountries' },
+       // steps
+        children: [{
+            path: '', name: 'ManagerTutoCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/CoutryList.vue'), 
+            beforeEnter: guardMyroute,
+            meta: {
+                title: 'Liste de pays avec des étapes'
+            }
+        },
+
+        {
+            path: 'etape/:id', name: 'ManagerTutoCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/ListStepsCountry.vue'), 
+            beforeEnter: guardMyroute,
+            meta: {
+                title: 'Liste étapes'
+            }
+        },
+
+        ], 
+    },
+
+       
+
+     // end routes tutorials
 ]
+
+function guardMyroute(to, from, next)
+{
+ var isAuthenticated= false; 
+
+if(localStorage.getItemauthUserToken !==null && localStorage.authUserToken !== undefined){
+    next(); 
+}
+ else{
+    next({name:'managerLogin'}); // go to '/login';
+ }
+
+ 
+}
+
 export default routes;

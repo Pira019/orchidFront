@@ -3,7 +3,7 @@ import user from '@/store/modules/User/user'
 import country from '@/store/modules/Country/country'
 import contact from '@/store/modules/Contact/Contact'
 import countryStep from './modules/CountryStep/CountryStep'
-import tutorial from './modules/Manager/Tutorial';
+import tutorial from './modules/Manager/TutorialManager';
 import authManager from './modules/Manager/AuthManager'
 
 export default new Vuex.Store({ 
@@ -19,13 +19,13 @@ export default new Vuex.Store({
     getters: {
         getState(state) {
             return state;
-        }
+        }, 
     },
 
     state: {
         isSucceed: '',
         response : '',
-        routhPath : ''
+        routhPath : '', 
     },
     
     mutations: {
@@ -39,7 +39,6 @@ export default new Vuex.Store({
 
         setRoutePath(state,route) {
             state.routhPath = route
-        }
-        
+        },  
     },
 })

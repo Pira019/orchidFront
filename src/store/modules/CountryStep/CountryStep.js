@@ -7,7 +7,7 @@ export default {
     },
     getters: {
         getCountrySelected(state) {
-            return state.countrySelected.country;
+            return state.countrySelected;
         }, 
         getSteps(state) {
             return state.steps;
@@ -15,7 +15,7 @@ export default {
     },
 
     mutations: {
-        setSelectedCoutry(state, country) {
+        setSelectedCountry(state, country) {
             state.countrySelected = country;
         }, 
 
@@ -34,6 +34,14 @@ export default {
 
         async getByCountry({},idCountry) {
             return CountryStepsService.getByCountry(idCountry);
+        },
+
+        async editStep({},updatedData) {
+            return CountryStepsService.editStep(updatedData);
+        },
+
+        async deleteStep({},idContryStep) {
+            return CountryStepsService.deleteStep(idContryStep);
         }
     },
 }

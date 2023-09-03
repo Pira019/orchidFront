@@ -7,6 +7,9 @@
                 <li class="nav-item ">
                     <a class="nav-link m-1 fw-bold " href="#">Active</a>
                 </li> 
+                <li class="nav-item ">
+                    <router-link class="nav-link fw-bold" :to="{name:'ManagerCountries'}"> <font-awesome-icon icon="fa-list" size="1x"/><span class="px-2"> Etape par pays</span> </router-link>
+                </li> 
                 <li>                     
                     <a data-toggle="collapse" aria-expanded="false" href="#homeSubmenu"  class="nav-link m-1 fw-bold dropdown-toggle">
                         <font-awesome-icon icon="fa-person-chalkboard" size="1x"/>
@@ -14,7 +17,7 @@
                     </a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li class="nav-item">
-                            <router-link class="nav-link fw-bold" :to="{name:'ManagerCountries'}">Procédure par pays</router-link>
+                            <router-link class="nav-link fw-bold" :to="{name:'ManagerTutoCountry'}"> <font-awesome-icon icon="fa-globe" size="1x"/><span class="px-2"> Par pays </span></router-link>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-bold" href="#">Universités</a>
@@ -26,21 +29,7 @@
                     </ul>
                 </li>
                 <!--Manager user-->
-                <li>                     
-                    <a data-toggle="collapse" aria-expanded="false" href="#parametre"  class="nav-link m-1 fw-bold dropdown-toggle" title="Gestion des utilisateurs">
-                        <font-awesome-icon icon="fa-users" size="1x"/>
-                        <span class="px-2">Paramètre</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="parametre">
-                        <li class="nav-item">
-                            <router-link class="nav-link fw-bold" :to="{name:'managerAddUser'}">Ajouter un préposé</router-link>
-                        </li> 
-                        <li class="nav-item">
-                            <router-link class="nav-link fw-bold" :to="{name:'managerAddUser'}">Utilisateur</router-link>
-                        </li> 
-                        
-                    </ul>
-                </li>
+               
                  <!---->
                 <li class="nav-item">
                     <a class="nav-link m-1 fw-bold " href="#">Link</a>
