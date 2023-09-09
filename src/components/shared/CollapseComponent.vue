@@ -5,23 +5,49 @@
                 <h5 class="mb-0">
                     <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
                         aria-controls="collapseOne">
-                        Collapsible Group Item #1
+                        <span class="text-uppercase">{{ data?.title }}</span>
                     </button>
                 </h5>
             </div>
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                    moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                    Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                    shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-                    proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-                    aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    <p class="text-justify"> {{ data?.description ? data?.description : 'Aucune description ' }} </p>
+
+                    <section v-if="detail">
+                        <p class="h5"><u>Detail :</u></p>
+
+                        <div class="mt-2">
+                            <ul>
+                                <li>Visibilité : {{ data?.visibility ? 'Visible' : 'Non visible' }}</li>
+                                <li>Dérniere modification : {{ data?.updated_at ? formatDate(data?.updated_at) :
+                                    formatDate(data?.created_at) }}</li>
+                            </ul>
+                        </div>
+                    </section>
                 </div>
-
                 <slot></slot>
-        </div>
+            </div>
 
+        </div>
     </div>
-</div></template>
+</template>
+
+<script>
+import { format } from 'date-fns';
+export default {
+    methods: {
+
+        formatDate(date) {
+            date = new Date();
+            return format(date, 'yyyy-MM-dd HH:mm:ss');
+        }
+    },
+    props: {
+        data: {},
+        detail: {
+            default: false
+        }
+    }
+}
+</script>

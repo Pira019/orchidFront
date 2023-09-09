@@ -143,7 +143,8 @@ let routes = [
         },
 
         {
-            path: 'etape/:id', name: 'ManagerTutoCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/ListStepsCountry.vue'), 
+            //id = id pays
+            path: ':id', name: 'ManagerTutoCountrySteps', component: () => import('@/views/ManagerViews/Tutorials/Countries/StepsCountryTutos.vue'), 
             beforeEnter: guardMyroute,
             meta: {
                 title: 'Liste étapes'

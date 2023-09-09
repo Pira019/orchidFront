@@ -2,7 +2,7 @@
      <div class="container-fluid"> 
         <div class="row justify-content-evenly" v-if="list.lenght !== 0">
             <div class="card col-md-4 mb-3" v-for="(list, index) in list" :key="index" style="width: 18rem;">
-              <img class="card-img-top" :src="list?.flag_url" alt="Drapeau pays">
+              <img class="card-img-top" :src="list?.flag_url" alt="Drapeau pays" width="200">
                 <div class="card-body">
                     <h5 class="card-title" v-if="!onlyHeader">{{ list?.name }}</h5>
                     <router-link  v-if="onlyHeader" :to="{ name: routeName, params:{id: list?.id  } }" class="text-decoration-none text-black fw-bolder">{{ list?.name }}</router-link>  
