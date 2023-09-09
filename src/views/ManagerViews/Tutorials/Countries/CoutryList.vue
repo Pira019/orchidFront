@@ -49,10 +49,7 @@ export default{
         code : error?.response?.status
       }
     
-    });
-
-   
-  
+    }); 
   },
 
 }
