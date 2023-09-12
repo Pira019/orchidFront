@@ -49,6 +49,12 @@ export default {
 
         async saveTuto({},newTuto) {
             return TutorialService.save(newTuto)
-        } 
+        },
+
+         async getByStepCountryId({},stepCountryId){
+           return TutorialService.getByStepCountryId(stepCountryId);
+        }    
+
+        
     },
 }
