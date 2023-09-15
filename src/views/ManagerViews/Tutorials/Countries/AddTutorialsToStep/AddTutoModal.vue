@@ -29,8 +29,8 @@
                         </div>
                         </div>  
                         <div class="mb-3">
-                            <label for="order" class="col-form-label" :class="[v$.order.$error ? 'text-danger' : '']">Order*</label>
-                            <input class="form-control" id="order" type="number" :class="[v$.order.$error ? 'is-invalid' : '']"  disabled v-model.number="state.order">
+                            <label for="order" class="col-form-label" :class="[v$.order.$error ? 'text-danger' : '']">Etape*</label>
+                            <input class="form-control" id="order" type="number" :class="[v$.order.$error ? 'is-invalid' : '']"  disabled :value="newTutoOrder">
                             <div class="invalid-feedback" v-if="v$.order.$error">
                             <span v-for="(error, index) of v$.order.$errors" :key="index">
                                 {{ error.$message }}
@@ -58,9 +58,8 @@ import customeMessage from '@/Utils/validationMessages'
 import { computed, reactive } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import SuccessAlert from '@/components/shared/Alert/SuccessAlert.vue'
-import ErrorAlert2 from '@/components/shared/Alert/ErrorAlert2.vue'
-import { ms } from 'date-fns/locale'
-export default {
+import ErrorAlert2 from '@/components/shared/Alert/ErrorAlert2.vue' 
+export default { 
   data () {
     return {
         btnLoading : false,
@@ -80,8 +79,7 @@ export default {
 
         resetState() {
             this.state.title = '',
-            this.state.description = '',
-            this.state.order = 1
+            this.state.description = ''
         },
 
         saveTuto() {
@@ -116,9 +114,10 @@ export default {
         const state = reactive({
            title:'',
            description:'',
-           order : 1,
+           order : 0,
            step_id :0
-        })
+        }) 
+        
         
         const rules = computed(() => {
             return {
@@ -131,6 +130,6 @@ export default {
         return { state, v$ }
     },
   components: { SubmitBtnComponent, SuccessAlert, ErrorAlert2 },  
-    props:['country','stepId','orderNbr', 'stepTitle']
+    props:['country','stepId','orderNbr', 'stepTitle','newTutoOrder']
 }
 </script>
