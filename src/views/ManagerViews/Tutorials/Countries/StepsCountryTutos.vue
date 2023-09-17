@@ -18,7 +18,7 @@
                         </h3>
                         <div>
                             <button class="btn btn-primary rounded-circle" title="Ajouter un tuto"
-                                @click="showModalAddTuto(), isEdit = false"><font-awesome-icon icon="plus" /></button>
+                                @click="addNewTuto(), isEdit = false"><font-awesome-icon icon="plus" /></button>
                         </div>
                     </div>
 
@@ -29,7 +29,7 @@
 
             </div>
             <!--Modal-->
-            <add-tuto-modal @updatedTuto="updatedTuto" :country="countryDetail" :stepTitle='detailStep.title'
+            <add-tuto-modal @updatedTuto="updatedTuto" @addedTuto="addedTutoToAccordionComponent_" :country="countryDetail" :stepTitle='detailStep.title'
                 :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
         </section>
@@ -56,6 +56,10 @@ export default {
             }
         },
 
+        addedTutoToAccordionComponent_(newTuto){
+            this.tutos.push(newTuto)
+        },
+
         editTutorial(tutoEdit) {
             this.isEdit = true;
             this.orderNewTuto = tutoEdit.order
@@ -66,6 +70,11 @@ export default {
         getStepDetail(step) {
             this.detailStep = step;
             this.getTutosByStep(this.detailStep.id);
+        },
+
+        addNewTuto(){
+            this.orderNewTuto = this.tutos.length+1;
+            this.showModalAddTuto();
         },
 
         showModalAddTuto() {

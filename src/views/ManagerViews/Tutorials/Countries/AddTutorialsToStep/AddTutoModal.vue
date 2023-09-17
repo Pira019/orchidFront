@@ -13,7 +13,7 @@
 
                         <div v-else>
                             <h5 class="mb-2" id="TutoModalLabel">Modifier un tutoriel</h5>
-                            <p class="mt-2" :title="stepTitle">Order de tutoriel <b> {{ newTutoOrder }}</b> </p>
+                            <p class="mt-2" :title="stepTitle">Ordre de tutoriel <b> {{ newTutoOrder }}</b> </p>
                         </div>
                     </div>
 
@@ -41,7 +41,7 @@
                         <div class="mb-3">
                             <label for="order" class="col-form-label"
                                 :class="[v$.order.$error ? 'text-danger' : '']">Etape*</label>
-                            <input class="form-control" id="order" type="number"
+                            <input class="form-control" ref="order" type="number"
                                 :class="[v$.order.$error ? 'is-invalid' : '']" disabled :value="newTutoOrder">
                             <div class="invalid-feedback" v-if="v$.order.$error">
                                 <span v-for="(error, index) of v$.order.$errors" :key="index">
@@ -151,6 +151,7 @@ export default {
             }
 
             this.state.step_id = this.stepId;
+            this.state.order = this.$refs.order.value;
 
             this.$store.dispatch('tutorial/saveTuto', this.state).then((response) => {
                 this.btnLoading = false;
@@ -158,6 +159,7 @@ export default {
                 this.v$.$reset();
                 this.resetState()
                 this.isSucced = true;
+                this.$emit("addedTuto",response.data);
 
             }).catch((error) => {
                 this.isSucced = false;
