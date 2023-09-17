@@ -5,7 +5,8 @@ export default {
     state: {
         headerTitle:'', 
         steps:[],
-        countryDetail : ''
+        countryDetail : '',
+        selectedTuto : {}
 
     },
     getters: {
@@ -20,6 +21,10 @@ export default {
         getCountryDetail(state) {
             return state.countryDetail;
         }, 
+
+        getSelectedTuto(state) {
+            return state.selectedTuto;
+        }, 
     },
 
     mutations: {
@@ -33,6 +38,10 @@ export default {
 
         setCountryDetail(state,countryDetail) {
             state.countryDetail = countryDetail;
+        },
+
+        selectTuto(state,selectedTuto) {
+            state.selectedTuto = selectedTuto;
         },
     },  
 
@@ -49,6 +58,16 @@ export default {
 
         async saveTuto({},newTuto) {
             return TutorialService.save(newTuto)
-        } 
+        },
+        
+        async editTutorial({},updatedTuto) {
+            return TutorialService.editTuto(updatedTuto)
+        },
+
+         async getByStepCountryId({},stepCountryId){
+           return TutorialService.getByStepCountryId(stepCountryId);
+        }    
+
+        
     },
 }

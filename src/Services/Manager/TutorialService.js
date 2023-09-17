@@ -33,5 +33,15 @@ export default class TutorialService{
         const endPoind = 'save'
         return this.axiosInstance.post(endPoind,newTutorial);  
     } 
+
+    static async getByStepCountryId(stepCountryId){
+        const endPoind = 'step-country/' + stepCountryId;
+        return this.axiosInstance.get(endPoind);  
+    }
+
+    static async editTuto(updated){
+        const endPoind = ''
+        return this.axiosInstance.post(endPoind,updated);  
+    } 
  
 }
