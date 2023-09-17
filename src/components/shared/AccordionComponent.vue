@@ -4,14 +4,15 @@
             <h2 class="accordion-header" :id="typeAccordion  + index">
                 <button class="accordion-button text-dark fw-bold text-center" type="button" data-bs-toggle="collapse" :data-bs-target="'#_'+typeAccordion+index"
                     aria-expanded="true" :aria-controls="'_'+typeAccordion+index">
-                   <span class="text-uppercase">{{ data?.title  }}</span>
-                </button>
+                   <span class="text-uppercase">{{ data?.title  }}</span>  
+                </button> 
+ 
             </h2>
             <div :id="'_'+typeAccordion+index" class="accordion-collapse collapse" :class="typeAccordion =='step' ? 'show' : ''" :aria-labelledby="typeAccordion  + index" >
                 <div class="accordion-body">
                     <p class="text-justify"> {{ data?.description ? data?.description : 'Aucune description ' }} </p>
 
-                    <section v-if="detail" class="m-4">
+                    <section v-if="detail" class="m-4" id="detail">
                         <header class="mb-3">
                             <h3 class="text-success fw-bold h5">Détails</h3>
                         </header>
@@ -21,7 +22,11 @@
                                 <li>Visibilité : <strong>  {{ data?.visibility ? 'Oui' : 'Non' }} </strong></li>
                                 <li>Dérniere modification : <strong> {{ data?.updated_at ? formattedDate(data?.updated_at) : formattedDate(data?.created_at) }}</strong>  </li>
                             </ul>
-                        </div>
+
+                            <div v-if="showDetailBtn">
+                                <button class="btn btn-warning" @click="$emit('editTuto',data)">Modifier</button>
+                            </div>
+                        </div>                       
                     </section> 
                     <slot></slot>
                 </div> 
@@ -45,6 +50,10 @@ export default {
     },
     props: {
         data: {},
+        showDetailBtn :{
+            type : Boolean,
+            default : false
+        },
         typeAccordion : {
             default : 'step'
         },
