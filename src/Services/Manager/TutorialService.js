@@ -37,6 +37,11 @@ export default class TutorialService{
     static async getByStepCountryId(stepCountryId){
         const endPoind = 'step-country/' + stepCountryId;
         return this.axiosInstance.get(endPoind);  
+    }
+
+    static async editTuto(updated){
+        const endPoind = ''
+        return this.axiosInstance.post(endPoind,updated);  
     } 
  
 }
