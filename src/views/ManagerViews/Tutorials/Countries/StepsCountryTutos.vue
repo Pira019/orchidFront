@@ -53,6 +53,8 @@ export default {
             if (index !== -1) {
                 this.tutos[index].title = updatedTuto_.title;
                 this.tutos[index].description = updatedTuto_.description; 
+                this.tutos[index].description = updatedTuto_.description; 
+                this.tutos[index].updated_at = updatedTuto_.updated_at; 
             }
         },
 
