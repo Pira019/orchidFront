@@ -43,5 +43,10 @@ export default class TutorialService{
         const endPoind = ''
         return this.axiosInstance.post(endPoind,updated);  
     } 
+
+    static async delete(idTuto){
+        const endPoind = '/' + idTuto;
+        return this.axiosInstance.delete(endPoind);  
+    } 
  
 }
