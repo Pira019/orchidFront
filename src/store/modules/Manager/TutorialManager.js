@@ -66,7 +66,11 @@ export default {
 
          async getByStepCountryId({},stepCountryId){
            return TutorialService.getByStepCountryId(stepCountryId);
-        }    
+        },
+        
+        async deleteTuto({},idTuto){
+            return TutorialService.delete(idTuto);
+         }   
 
         
     },

@@ -24,7 +24,8 @@
                             </ul>
 
                             <div v-if="showDetailBtn">
-                                <button class="btn btn-warning" @click="$emit('editTuto',data)">Modifier</button>
+                                <button class="btn btn-warning m-1" @click="$emit('editTuto',data)">Modifier</button>
+                                <button class="btn btn-danger m-1" title="supprimer" @click="$emit('tutoToDelete',data)">Delete</button>
                             </div>
                         </div>                       
                     </section> 

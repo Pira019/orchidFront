@@ -24,15 +24,19 @@
 
                     <spinner v-if="isDataLoaing" class="m-2"></spinner>
                     <AccordionComponent v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
-                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true"></AccordionComponent>
+                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess">
+                    </AccordionComponent>
                 </AccordionComponent>
 
             </div>
             <!--Modal-->
-            <add-tuto-modal @updatedTuto="updatedTuto" @addedTuto="addedTutoToAccordionComponent_" :country="countryDetail" :stepTitle='detailStep.title'
-                :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
+            <add-tuto-modal @updatedTuto="updatedTuto" @addedTuto="addedTutoToAccordionComponent_" :country="countryDetail"
+                :stepTitle='detailStep.title' :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
         </section>
+        <confirmation-modal-component :closeModal="!openDeleteModal" @isConfirm="handleDeleteConfirmation">
+            <mark class="fw-bold"> un tutoriel </mark>
+        </confirmation-modal-component>
     </div>
 </template>
 
@@ -43,22 +47,51 @@ import { mapGetters } from 'vuex';
 import AddTutoModal from './AddTutorialsToStep/AddTutoModal.vue';
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 import Spinner from '@/components/shared/Spinner.vue';
+import ConfirmationModalComponent from '@/components/modal/ConfirmationModalComponent.vue';
 
 export default {
     methods: {
+
+        // Delete tuto process
+        initiateDeleteProcess(tuto) {
+            this.tutoToDelete = tuto;
+            this.openDeleteModal = true;
+        },
+
+        handleDeleteConfirmation(modalReponse) {
+            if (modalReponse) { this.deleteTuto(); return }
+            this.openDeleteModal = modalReponse;
+        },
+
+        deleteTuto() {
+            this.$store.dispatch('tutorial/deleteTuto', this.tutoToDelete.id).then(() => {
+                this.openDeleteModal = false;
+                this.reorderTutoAfterDelete()
+            })
+        },
+
+        reorderTutoAfterDelete() {
+            this.tutos = this.tutos.filter(tutorial => tutorial.id !== this.tutoToDelete.id);
+            //reorder
+            this.tutos.forEach(tuto => {
+                if (tuto.order > this.tutoToDelete.order) {
+                    tuto.order = tuto.order-1;
+                };
+            })
+        },
 
         //update list without refresh data base
         updatedTuto(updatedTuto_) {
             const index = this.tutos.findIndex(item => item.id === updatedTuto_.id);
             if (index !== -1) {
                 this.tutos[index].title = updatedTuto_.title;
-                this.tutos[index].description = updatedTuto_.description; 
-                this.tutos[index].description = updatedTuto_.description; 
-                this.tutos[index].updated_at = updatedTuto_.updated_at; 
+                this.tutos[index].description = updatedTuto_.description;
+                this.tutos[index].description = updatedTuto_.description;
+                this.tutos[index].updated_at = updatedTuto_.updated_at;
             }
         },
 
-        addedTutoToAccordionComponent_(newTuto){
+        addedTutoToAccordionComponent_(newTuto) {
             this.tutos.push(newTuto)
         },
 
@@ -74,8 +107,8 @@ export default {
             this.getTutosByStep(this.detailStep.id);
         },
 
-        addNewTuto(){
-            this.orderNewTuto = this.tutos.length+1;
+        addNewTuto() {
+            this.orderNewTuto = this.tutos.length + 1;
             this.showModalAddTuto();
         },
 
@@ -102,7 +135,8 @@ export default {
             tutos: [],
             orderNewTuto: 0,
             isEdit: false,
-            tutoSelected: {}
+            tutoToDelete: {},
+            openDeleteModal: false,
         }
     },
     computed: {
@@ -120,6 +154,6 @@ export default {
             this.$store.commit('tutorial/setCountryDetail', { name: response.data.name, short_name: response.data.short_name, flagUrl: response.data.flag_url });
         });
     },
-    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner }
+    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent }
 }
 </script>
