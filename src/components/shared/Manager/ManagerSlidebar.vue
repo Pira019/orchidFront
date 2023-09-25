@@ -20,7 +20,7 @@
                             <router-link class="nav-link fw-bold" :to="{name:'ManagerTutoCountry'}"> <font-awesome-icon icon="fa-globe" size="1x"/><span class="px-2"> Par pays </span></router-link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Universités</a>
+                            <router-link class="nav-link fw-bold" :to="{name:'ManagerUniversite'}">  <font-awesome-icon icon="fa-school" size="1x"/> <span class="px-2"> Universités </span></router-link>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-bold" href="#">Procédure par pays</a>
