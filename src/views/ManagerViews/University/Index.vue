@@ -21,7 +21,7 @@
             </header>
 
             <body class="m-5">
-                <router-view class="border-top rounded"></router-view>
+                <router-view class="border rounded container"></router-view>
             </body>
         </section>
     </div>
