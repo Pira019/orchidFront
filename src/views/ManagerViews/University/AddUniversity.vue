@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2 class="m-5 text-success">Ajouter une université</h2>
         <form class="mx-5 my-5" novalidate v-on:submit.prevent="submit">
             <div class="row mb-3" id="place">
                 <div class="col">
