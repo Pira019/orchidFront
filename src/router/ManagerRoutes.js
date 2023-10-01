@@ -135,7 +135,7 @@ let routes = [
         redirect: { name: 'ManagerTutoCountries' },
         // steps
         children: [{
-            path: '', name: 'ManagerTutoCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/CoutryList.vue'),
+            path: '', name: 'ManagerTutoCountries', component: () => import('@/views/ManagerViews/Tutorials/Countries/CountryList.vue'),
             beforeEnter: guardMyroute,
             meta: {
                 title: 'Liste de pays avec des étapes'
