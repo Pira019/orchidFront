@@ -1,3 +1,4 @@
+import CountryService from '@/Services/CountryService';
 import axios, * as others from 'axios';
 const baseUrl = import.meta.env.VITE_APP_API_URL;
 export default {
@@ -18,7 +19,11 @@ export default {
                 .then((response) => {
                     commit('setCoutry', response.data)
                 }).catch();
-        }
+        },
+
+        async getCities({},countryId) {            
+            return CountryService.getCities(countryId);
+        },
     },
     mutations: {
         setCoutry(state, countries) {
