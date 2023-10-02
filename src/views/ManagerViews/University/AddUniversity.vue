@@ -5,6 +5,7 @@
                 <success-alert :show="isSucced" :response="msg">
                     <p> La sauvegarde de l'université a réussi !</p>
                 </success-alert>
+                <error-alert :show="isError" :response="msg"></error-alert>
                 <div class="row mb-3" id="place">
                     <div class="col-12 col-md">
                         <label for="pays" :class="[v$.country_id.$error ? 'text-danger' : '']">Pays*</label>
@@ -91,54 +92,62 @@ import customeMessage from '@/Utils/validationMessages'
 import useVuelidate from '@vuelidate/core'
 import { mapGetters } from 'vuex' 
 import SuccessAlert from '@/components/shared/Alert/SuccessAlert.vue'
+import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
+import { navigateToRoute } from '@/Utils/Navigation'
 export default {
-  methods: {
-    save(){
+    methods: {
+        save() {
 
-        if(this.isOtherCity){
-            this.state.city_name = this.city;
-        }
+            if (this.isOtherCity) {
+                this.state.city_name = this.city;
+            }
 
-        this.v$.$validate();
-        if(this.v$.$error){
-            return;
-        }
+            this.v$.$validate();
+            if (this.v$.$error) {
+                return;
+            }
 
-        this.isLoading = true;
-        this.$store.dispatch('universityManager/saveUniversity',this.state).then((response) => {
-            this.isSucced = true;
-            this.v$.$reset();
-            this.resetState();
-            this.isLoading = false;
-            this.msg = response.data.status 
-        }).catch((error)=> {
+            this.isLoading = true;
+            this.$store.dispatch('universityManager/saveUniversity', this.state).then((response) => {
+                this.isSucced = true;
+                this.v$.$reset();
+                this.resetState();
+                this.isLoading = false;
+                this.msg = response.data.status
 
-        });
+            }).catch((error) => {
+                
+                this.isError = true;
+                this.msg = error.response.data.errors;
+                this.isLoading = false;
+                navigateToRoute.call(this, error.response.status, 'manager403');
+            });
 
-        this.isSucced = false;
+            this.isSucced = false;
+            this.isError = false;
 
-    },
+        },
 
-    resetState() {
+        resetState() {
             for (let key in this.state) {
                 this.state[key] = '';
             }
             this.city = '';
         },
 
-    loadCities(){
-       this.isOtherCity = false; 
-       this.state.city_name = ''; 
-       this.city = ''
-       if(!this.state.country_id){
-        return;
-       }
-       this.$store.dispatch('country/getCities',this.state.country_id).then((response) => {
-         this.cities = response.data;
-       });
-    },
+        loadCities() {
+            this.isOtherCity = false;
+            this.state.city_name = '';
+            this.city = ''
+            if (!this.state.country_id) {
+                return;
+            }
+            this.$store.dispatch('country/getCities', this.state.country_id).then((response) => {
+                this.cities = response.data;
+            });
+        },
 
-    showCityInput() {
+        showCityInput() {
             if (this.state.city_name === 'other_') {
                 this.isOtherCity = true;
             }
@@ -155,7 +164,8 @@ export default {
             cities : [],
             isSucced : false,
             isLoading : false,
-            msg:''
+            msg:'',
+            isError : false
         }
     },
 
@@ -187,7 +197,7 @@ export default {
         return { state, v$ }
     },
 
-    components: { SubmitBtnComponent, SuccessAlert },
+    components: { SubmitBtnComponent, SuccessAlert, ErrorAlert },
 
 }
 </script> 
