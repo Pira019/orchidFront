@@ -1,4 +1,4 @@
-import {email, helpers,required} from '@vuelidate/validators'
+import {email, helpers,required,url} from '@vuelidate/validators'
 import validationMessage from '@/lang/fr.json'
 
 export default function customeMessage(attribute,validatorName)
@@ -17,7 +17,12 @@ export default function customeMessage(attribute,validatorName)
          } 
          if(validatorName === 'success'){
             return validationMessage.messageSuccess.message;
+         }
+         
+         if(validatorName === 'url'){
+            return  helpers.withMessage(validationMessage.validations.validUrl, url)
          } 
+
 
         
 }

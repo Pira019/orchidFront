@@ -5,6 +5,7 @@ import contact from '@/store/modules/Contact/Contact'
 import countryStep from './modules/CountryStep/CountryStep'
 import tutorial from './modules/Manager/TutorialManager';
 import authManager from './modules/Manager/AuthManager'
+import universityManager from './modules/Manager/UniversityManager'
 
 export default new Vuex.Store({ 
     modules: {
@@ -13,7 +14,8 @@ export default new Vuex.Store({
         contact,
         countryStep,
         tutorial,
-        authManager
+        authManager,
+        universityManager
     },
 
     getters: {
