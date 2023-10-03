@@ -170,7 +170,15 @@ let routes = [
             path: 'ajouter', name: 'ManagerUniversiteAdd', component: () => import('@/views/ManagerViews/University/AddUniversity.vue'),
             beforeEnter: guardMyroute,
             meta: {
-                title: 'Ajouter une universités'
+                title: 'Ajouter une université'
+            }
+        }, 
+
+        {
+            path: 'ajouter/address', name: 'ManagerUniversiteAddAddress', component: () => import('@/views/ManagerViews/University/AddAddress.vue'),
+            beforeEnter: guardMyroute,
+            meta: {
+                title: 'Ajouter une addresse'
             }
         }, 
 

@@ -4,6 +4,7 @@
             <form class="mx-5 my-5" novalidate v-on:submit.prevent="submit">
                 <success-alert :show="isSucced" :response="msg">
                     <p> La sauvegarde de l'université a réussi !</p>
+                    <a @click="addAddress" class="btn btn-success" title="Ajouter une address">Ajouter l'addresse de l'université</a>
                 </success-alert>
                 <error-alert :show="isError" :response="msg"></error-alert>
                 <div class="row mb-3" id="place">
@@ -73,12 +74,12 @@
                 <div class="d-flex justify-content-between">
                  
                     <div>
-                        <submit-btn-component class="btn btn-success m-2" type="submit" :loading="isLoading"  @click="save">Enregister</submit-btn-component>
+                        <submit-btn-component class="btn btn-success m-2" type="submit" :loading="isLoading"  @click="save">Enregister</submit-btn-component> 
                     </div>
 
                     <div>
-                        <button class="btn btn-warning m-2" @click="resetState">Effacer</button>
-                        <button class="btn btn-outline-danger m-2" >Annuler</button>
+                        <button class="btn btn-warning m-2" @click="resetState">Effacer</button>  
+                        <router-link  :to="{name : 'ManagerUniversite'}" class="btn btn-outline-danger m-2">Retour</router-link>
                     </div> 
                 </div>
             </form>
@@ -95,7 +96,13 @@ import SuccessAlert from '@/components/shared/Alert/SuccessAlert.vue'
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
 import { navigateToRoute } from '@/Utils/Navigation'
 export default {
-    methods: {
+    methods: { 
+
+        addAddress() {
+            this.$store.commit('universityManager/setUniversity', this.university);
+            this.$router.push({ name: 'ManagerUniversiteAddAddress' });
+        },
+        
         save() {
 
             if (this.isOtherCity) {
@@ -109,6 +116,7 @@ export default {
 
             this.isLoading = true;
             this.$store.dispatch('universityManager/saveUniversity', this.state).then((response) => {
+                this.university = response.data
                 this.isSucced = true;
                 this.v$.$reset();
                 this.resetState();
@@ -116,7 +124,7 @@ export default {
                 this.msg = response.data.status
 
             }).catch((error) => {
-                
+
                 this.isError = true;
                 this.msg = error.response.data.errors;
                 this.isLoading = false;
@@ -165,7 +173,8 @@ export default {
             isSucced : false,
             isLoading : false,
             msg:'',
-            isError : false
+            isError : false,
+            university:''
         }
     },
 

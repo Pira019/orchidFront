@@ -3,11 +3,31 @@ import UniversityService from "@/Services/Manager/UniversityService"
 export default {
     namespaced: true,
 
+    state: {
+        universty: {},
+    },
+
     actions: {
 
         async saveUniversity({ }, newUniversity) {
             return UniversityService.save(newUniversity)
         },
 
+        async saveAddress({ }, address) {
+            return UniversityService.saveAddress(address)
+        },
+
     },
+
+    getters: {
+        getUniversity(state) {
+            return state.universty;
+        },
+    },
+
+    mutations: {
+        setUniversity(state, universty) {
+            state.universty = universty;
+        },
+    }
 }
