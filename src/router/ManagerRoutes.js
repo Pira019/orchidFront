@@ -175,6 +175,14 @@ let routes = [
         }, 
 
         {
+            path: 'country/:idCountry', name: 'ManagerUniversiteList', component: () => import('@/views/ManagerViews/University/ListUniversity.vue'),
+            beforeEnter: guardMyroute,
+            meta: {
+                title: 'Liste universités'
+            }
+        }, 
+
+        {
             path: 'ajouter/address', name: 'ManagerUniversiteAddAddress', component: () => import('@/views/ManagerViews/University/AddAddress.vue'),
             beforeEnter: guardMyroute,
             meta: {

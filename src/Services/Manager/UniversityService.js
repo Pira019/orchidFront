@@ -28,5 +28,10 @@ export default class UniversityService{
         const endPoind = 'address'
         return this.axiosInstance.post(endPoind,address);  
     }  
+
+    static async universitiesByCountryId(countryId){
+        const endPoind = 'list/country/' + countryId;
+        return this.axiosInstance.get(endPoind);  
+    } 
  
 }
