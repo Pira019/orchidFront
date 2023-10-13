@@ -158,37 +158,53 @@ let routes = [
 
     // routes university
     {
-        path: prefix + 'tutoriel/universtite', name: 'ManagerUniversite', component: () => import('@/views/ManagerViews/University/Index.vue'),
+        path: prefix + 'tutoriel/universtite',
         beforeEnter: guardMyroute,
         meta: {
             title: 'Parametres universités'
         },
         // university
-        children: [ 
+        children: [
 
-        {
-            path: 'ajouter', name: 'ManagerUniversiteAdd', component: () => import('@/views/ManagerViews/University/AddUniversity.vue'),
-            beforeEnter: guardMyroute,
-            meta: {
-                title: 'Ajouter une université'
-            }
-        }, 
+            {
+                path: ':id', name: 'ManagerUniversiteDetail', component: () => import('@/views/ManagerViews/University/DetailUniversity.vue'),
+                beforeEnter: guardMyroute,
+                meta: {
+                    title: 'Liste des universités'
+                }
+            },
 
-        {
-            path: 'country/:idCountry', name: 'ManagerUniversiteList', component: () => import('@/views/ManagerViews/University/ListUniversity.vue'),
-            beforeEnter: guardMyroute,
-            meta: {
-                title: 'Liste universités'
-            }
-        }, 
+            {
+                path: 'ajouter', name: 'ManagerUniversiteAdd', component: () => import('@/views/ManagerViews/University/AddUniversity.vue'),
+                beforeEnter: guardMyroute,
+                meta: {
+                    title: 'Ajouter une université'
+                }
+            },
 
-        {
-            path: 'ajouter/address', name: 'ManagerUniversiteAddAddress', component: () => import('@/views/ManagerViews/University/AddAddress.vue'),
-            beforeEnter: guardMyroute,
-            meta: {
-                title: 'Ajouter une addresse'
-            }
-        }, 
+            {
+                path: '', name: 'ManagerUniversite', component: () => import('@/views/ManagerViews/University/Index.vue'),
+                beforeEnter: guardMyroute,
+                meta: {
+                    title: 'Liste des universités'
+                }
+            },
+
+            {
+                path: 'country/:idCountry', name: 'ManagerUniversiteList', component: () => import('@/views/ManagerViews/University/ListUniversity.vue'),
+                beforeEnter: guardMyroute,
+                meta: {
+                    title: 'Liste universités'
+                }
+            },
+
+            {
+                path: 'ajouter/address', name: 'ManagerUniversiteAddAddress', component: () => import('@/views/ManagerViews/University/AddAddress.vue'),
+                beforeEnter: guardMyroute,
+                meta: {
+                    title: 'Ajouter une addresse'
+                }
+            }, 
 
         ],
     },

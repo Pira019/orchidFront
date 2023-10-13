@@ -1,14 +1,8 @@
 <template>
     <div class="container-fluid">
-        <error-modal-component v-if="unexpectedError"></error-modal-component>
-        <section>
-            <header class="text-center mb-3">
-                <div class="mb-5">
-                    <h1 class="text-success">Université</h1>
-                    <router-link :to="{ name: 'ManagerUniversiteAdd' }" class="btn btn-success"> <font-awesome-icon
-                            icon="fa-plus" size="1x" />Ajouter </router-link>
-                </div>
-                <div class="input-group">
+        <error-modal-component v-if="unexpectedError"></error-modal-component>  
+            <university-layout :isShowBtn="true"> 
+                <div class="input-group" id="search">
                     <select class="form-select" id="inputGroupSelect04" v-model.number="selectedCountry">
                         <option selected disabled value="">Choisir un pays...</option>
                         <option selected disabled value="" v-if="!countries.length">Aucune université dans le systeme...
@@ -21,37 +15,49 @@
                                 icon="fa-magnifying-glass" size="1x" /></button>
                     </div>
                 </div>
-            </header>
+                 
+                <!--Start list university-->
 
-            <body class="m-5">
-                <router-view class="border rounded container-fluid" :data="univestities"> 
-                </router-view> 
-            </body>
-        </section>
+                <div class="mt-5"> 
+                   <Spinner v-if="isLoading"/>
+                   <card-component v-if="!isLoading" :routeName="'ManagerUniversiteDetail'" :list="univestities" :onlyHeader="true" :isUniversityList="true">
+                        <span>Ville : </span>
+                    </card-component>
+                </div> 
+                <!--End list university--> 
+            
+        </university-layout>
     </div>
 </template>
 <script>
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
-import { navigateToRoute } from '@/Utils/Navigation';
+import { navigateToRoute } from '@/Utils/Navigation'; 
+import UniversityLayout from './UniversityLayout.vue';
+import Spinner from '@/components/shared/Spinner.vue';
+import CardComponent from '@/components/shared/CardComponent.vue';
 export default {
-    components: { ErrorModalComponent },
+    components: { ErrorModalComponent, UniversityLayout,Spinner, CardComponent },
     data() {
         return {
             countries: [],
             selectedCountry: '',
             unexpectedError: false,
             univestities: [],
+            isLoading : false,
         }
     },
     methods: {
+        
         getUniversities() {
+            this.isLoading = true;
             this.$store.dispatch('universityManager/universitiesByCountryId', this.selectedCountry).then((response) => {
                 this.univestities = response.data;
+                this.isLoading = false;
             }).catch((error) => {
                 navigateToRoute.call(this, error.response.status, 'manager403');
                 this.unexpectedError = false;
-            });
-            this.$router.push({ name: 'ManagerUniversiteList' });
+                this.isLoading = false;
+            }); 
         }
     },
     mounted() {

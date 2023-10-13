@@ -21,6 +21,10 @@ export default {
             return UniversityService.universitiesByCountryId(countryId)
         },
 
+        async findUniversity({}, id) {
+            return UniversityService.showById(id)
+        },
+
     },
 
     getters: {

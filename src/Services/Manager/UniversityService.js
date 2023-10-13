@@ -33,5 +33,10 @@ export default class UniversityService{
         const endPoind = 'list/country/' + countryId;
         return this.axiosInstance.get(endPoind);  
     } 
+
+    static async showById(id){
+        const endPoind = '/' + id;
+        return this.axiosInstance.get(endPoind);  
+    } 
  
 }
