@@ -66,6 +66,11 @@ import SuccessAlert from '@/components/shared/Alert/SuccessAlert.vue'
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue'
 import { navigateToRoute } from '@/Utils/Navigation' 
 export default {
+  props: {
+    isEdit : {
+        type : Boolean
+    }
+  },
     methods: {
 
         save() {
