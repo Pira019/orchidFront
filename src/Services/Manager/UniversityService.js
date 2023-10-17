@@ -38,5 +38,10 @@ export default class UniversityService{
         const endPoind = '/' + id;
         return this.axiosInstance.get(endPoind);  
     } 
+
+    static async update(upDateData){
+        const endPoint = 'update/' + upDateData.id;
+        return this.axiosInstance.post(endPoint,upDateData);  
+    } 
  
 }

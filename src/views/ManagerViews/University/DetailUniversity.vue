@@ -42,7 +42,7 @@
                 </div>              
               </div>
               <!--Edit component-->
-             <AddUniversity v-if="isEdit" :university-to-up-date="university" :is-edit="true" :title="'Modifier l\'université'"></AddUniversity>
+             <AddUniversity v-if="isEdit" :university-to-up-date="university" :is-edit="true" :title="'Modifier l\'université'" @updateUniversity="(data) => university = data"></AddUniversity>
 
             </div>
             <!-- End info university-->

@@ -3,8 +3,11 @@
         <h2 class="m-5 text-success">{{ title }}</h2>
         <form class="mx-5 my-5" novalidate v-on:submit.prevent="submit">
             <success-alert :show="isSucced" :response="msg">
-                <p> La sauvegarde de l'université a réussi !</p>
-                <a @click="addAddress" class="btn btn-success" title="Ajouter une address">Ajouter l'addresse de
+                <p> 
+                    <span v-if="!isEdit"> La sauvegarde de l'université a réussi ! </span> 
+                    <span v-else> La modification de l'université a réussi ! </span> 
+                </p>
+                <a @click="addAddress" class="btn btn-success" title="Ajouter une address" v-if="!isEdit">Ajouter l'addresse de
                     l'université</a>
             </success-alert>
             <error-alert :show="isError" :response="msg"></error-alert>
@@ -53,7 +56,7 @@
             <div class="row mb-3">
                 <div class="col col-12 col-md">
                     <label for="university" :class="[v$.name.$error ? 'text-danger' : '']">Nom université*</label>
-                    <input type="text" class="form-control" id="university" v-model.trim="state.name"
+                    <input type="text" class="form-control" id="university" maxlength="255" v-model.trim="state.name"
                         :class="[v$.name.$error ? 'is-invalid' : '']"
                         placeholder="Ex : Université de montréal, Université de kinshasa ...">
                     <div class="invalid-feedback" v-if="v$.name.$error">
@@ -83,8 +86,8 @@
             <div class="d-flex justify-content-between">
 
                 <div>
-                    <submit-btn-component class="btn btn-success m-2" type="submit" :loading="isLoading"
-                        @click="save"> {{ !isEdit ? 'Enregistrer' : 'Modifier' }}</submit-btn-component>
+                    <submit-btn-component class="btn btn-success m-2" type="submit" :loading="isLoading" @click="save"> {{
+                        !isEdit ? 'Enregistrer' : 'Modifier' }}</submit-btn-component>
                 </div>
 
                 <div>
@@ -137,7 +140,7 @@ export default {
             }
             this.isLoading = true;
 
-            if(this.isEdit){
+            if (this.isEdit) {
                 this.hadleUpdate();
                 return;
             }
@@ -189,7 +192,25 @@ export default {
 
         },
 
-        hadleUpdate() { },
+        hadleUpdate() {
+            this.$store.dispatch('universityManager/UpdateUniversity', this.state).then((response) => {
+                this.isSucced = true;
+                this.isLoading = false;
+                this.msg = response.data.status;
+                this.$emit('updateUniversity',response.data)
+
+            }).catch((error) => {
+
+                this.isError = true;
+                this.msg = error.response.data.errors;
+                this.isLoading = false;
+                navigateToRoute.call(this, error.response.status, 'manager403');
+            });
+
+            
+            this.isSucced = false;
+            this.isError = false
+        },
 
         initDataUpdateInform() {
 
@@ -199,6 +220,7 @@ export default {
             this.state.name = this.universityToUpDate.name;
             this.state.shortName = this.universityToUpDate.shortName;
             this.state.webSite = this.universityToUpDate.webSite;
+            this.state.id = this.universityToUpDate.id;
         },
 
     },
@@ -241,6 +263,7 @@ export default {
             city_name: '',
             country_id: '',
             webSite: '',
+            id: ''
         })
         const rules = computed(() => {
             return {

@@ -25,6 +25,10 @@ export default {
             return UniversityService.showById(id)
         },
 
+        async UpdateUniversity({}, data) {
+            return UniversityService.update(data)
+        },
+
     },
 
     getters: {
