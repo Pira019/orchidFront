@@ -5,7 +5,7 @@
             <success-alert :show="isSucced" :response="msg">
                 <p> 
                     <span v-if="!isEdit"> La sauvegarde de l'université a réussi ! </span> 
-                    <span v-else> La modification de l'université a réussi ! </span> 
+                    <span v-else> La modification de l'université a réussi ! <button type="button" @click="returnToBack" class="btn btn-dark">Retour</button> </span> 
                 </p>
                 <a @click="addAddress" class="btn btn-success" title="Ajouter une address" v-if="!isEdit">Ajouter l'addresse de
                     l'université</a>
@@ -92,7 +92,7 @@
 
                 <div>
                     <button class="btn btn-warning m-2" @click="resetState">Effacer</button>
-                    <router-link :to="{ name: 'ManagerUniversite' }" class="btn btn-outline-danger m-2">Retour</router-link>
+                    <button class="btn btn-outline-danger m-2" type="button" @click="returnToBack">Retour</button>
                 </div>
             </div>
         </form>
@@ -122,6 +122,14 @@ export default {
         }
     },
     methods: {
+
+        //when edit
+        returnToBack(){
+            if(this.isEdit){
+               this.$emit('closeEditForm');
+            } 
+         
+        },
 
         addAddress() {
             this.$store.commit('universityManager/setUniversity', this.university);

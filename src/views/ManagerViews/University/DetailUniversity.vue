@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <error-modal-component v-if="unexpectedError"></error-modal-component>
-    <university-layout :isShowBtn="true" :title="'Détail de l\'université'">
+    <university-layout :isShowBtn="true"  :title="'Détail de l\'université'">
       <spinner class="m-2" v-if="isLoading"></spinner>
 
       <div>
@@ -38,11 +38,11 @@
                   <p>Derniere mise à jour: {{ formattedDate_(university.updated_at) }}</p>
                 </div>
                 <div>
-                  <button class="btn btn-outline-success" @click="isEdit=true"><font-awesome-icon icon="fa-pen"/></button>
+                  <button class="btn btn-warning" @click="isEdit=true"><font-awesome-icon icon="fa-pen" class="text-white"/></button>
                 </div>              
               </div>
               <!--Edit component-->
-             <AddUniversity v-if="isEdit" :university-to-up-date="university" :is-edit="true" :title="'Modifier l\'université'" @updateUniversity="(data) => university = data"></AddUniversity>
+             <AddUniversity v-if="isEdit" :university-to-up-date="university"  @closeEditForm="isEdit = false" :is-edit="true" :title="'Modifier l\'université'" @updateUniversity=" university = $event"></AddUniversity>
 
             </div>
             <!-- End info university-->
@@ -51,8 +51,8 @@
             <div class="tab-pane fade" id="Adresse" role="tabpanel" aria-labelledby="Adresse-tab">
               <div>
                 <h3 class="h6 mb-3">{{ university.name }}</h3>
-                <p>Pays : <span class="fw-bold">{{ university.city.country.name }}</span> <img
-                    :src="university.city.country.flag_url" alt="drappeau pays" class="img-fluid mx-3" width="35"> </p>
+                <p>Pays : <span class="fw-bold">{{ university.city?.country.name }}</span> <img
+                    :src="university.city?.country.flag_url" alt="drappeau pays" class="img-fluid mx-3" width="35"> </p>
                 <p>Ville : <span class="fw-bold">{{ university.city.name }}</span> </p>
                 <p>Code postale : <span class="fw-bold">{{ university.address?.code_postal }}</span> </p>
                 <p>Adresse : <span class="fw-bold">{{ university.address?.adress }}</span> </p>
@@ -78,6 +78,7 @@ import UniversityLayout from './UniversityLayout.vue'
 import Spinner from '@/components/shared/Spinner.vue';
 import formattedDate from '@/Utils/formattedDate' 
 import AddUniversity from './AddUniversity.vue';
+import { navigateToRoute } from '@/Utils/Navigation';
 export default {
   methods: {
     formattedDate_(date) {
@@ -105,9 +106,9 @@ export default {
 
     }).catch((error) => {
 
-      navigateToRoute.call(this, error.response.status, 'manager403');
-      this.unexpectedError = false;
-      this.isLoading = false;
+      navigateToRoute.call(this, error.status, 'manager403');
+      this.isLoading = false;      
+      this.unexpectedError = true;
     });
   },
 
