@@ -170,7 +170,7 @@ let routes = [
                 path: ':id', name: 'ManagerUniversiteDetail', component: () => import('@/views/ManagerViews/University/DetailUniversity.vue'),
                 beforeEnter: guardMyroute,
                 meta: {
-                    title: 'Liste des universités'
+                    title: 'Détail de l\'université'
                 }
             },
 

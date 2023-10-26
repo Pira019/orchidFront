@@ -29,6 +29,10 @@ export default {
             return UniversityService.update(data)
         },
 
+        async UpdateUniversityAdress({}, data) { 
+            return UniversityService.updateAdress(data)
+        },
+
     },
 
     getters: {
