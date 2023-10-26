@@ -17,6 +17,22 @@ export default {
             return UniversityService.saveAddress(address)
         },
 
+        async universitiesByCountryId({ }, countryId) {
+            return UniversityService.universitiesByCountryId(countryId)
+        },
+
+        async findUniversity({}, id) {
+            return UniversityService.showById(id)
+        },
+
+        async UpdateUniversity({}, data) {
+            return UniversityService.update(data)
+        },
+
+        async UpdateUniversityAdress({}, data) { 
+            return UniversityService.updateAdress(data)
+        },
+
     },
 
     getters: {

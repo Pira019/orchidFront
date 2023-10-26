@@ -6,6 +6,7 @@ import countryStep from './modules/CountryStep/CountryStep'
 import tutorial from './modules/Manager/TutorialManager';
 import authManager from './modules/Manager/AuthManager'
 import universityManager from './modules/Manager/UniversityManager'
+import countryManager from './modules/Manager/CountryManager'
 
 export default new Vuex.Store({ 
     modules: {
@@ -15,7 +16,8 @@ export default new Vuex.Store({
         countryStep,
         tutorial,
         authManager,
-        universityManager
+        universityManager,
+        countryManager
     },
 
     getters: {
