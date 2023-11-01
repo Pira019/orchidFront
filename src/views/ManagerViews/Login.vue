@@ -8,6 +8,9 @@
                 </div>
                 <error-modal-component v-if="unexpectedError"></error-modal-component>
                 <error-alert :show="showAlertErrors && this.errors?.length !== 0 && !unexpectedError" :response="errors"></error-alert>
+                <div class="alert alert-danger" role="alert" v-if="error401 && !showAlertErrors">
+                    <error-message-text></error-message-text>
+                </div>
                 <form novalidate v-on:submit.prevent="submit">
                     <div class="mb-3">
                         <label for="noId" class="form-label">No indentification</label>
@@ -55,6 +58,8 @@ import useVuelidate from '@vuelidate/core';
 import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
 import ErrorService from '@/Services/ErrorService';
+import { mapGetters } from 'vuex';
+import ErrorMessageText from '@/components/managerComponents/ErrorMessage.vue';
 export default { 
     methods: {
         submit() {
@@ -101,6 +106,10 @@ export default {
         getReCAPTCHAToken(token) {
             this.recaptcha = token;
         },
+
+        handle401Event(){
+            this.showAlertErrors = true;
+        }
     }, 
     data() {
         return {
@@ -110,7 +119,7 @@ export default {
             showAlertErrors: false,
             errors: [],
             unexpectedError: false,
-            recaptcha: '',
+            recaptcha: '', 
         }
     },
     setup() {
@@ -128,7 +137,13 @@ export default {
         const v$ = useVuelidate(rules, state);
         return { state, v$ }
     },
-    components: { SubmitBtnComponent, RecaptchaComponent, ErrorAlert, ErrorModalComponent }
+
+    computed: {
+        ...mapGetters({
+            error401: 'getError'
+        })
+    },
+    components: { SubmitBtnComponent, RecaptchaComponent, ErrorAlert, ErrorModalComponent, ErrorMessageText, ErrorMessageText }
 }
 </script>,
         

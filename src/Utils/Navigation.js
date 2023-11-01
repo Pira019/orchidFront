@@ -4,7 +4,8 @@ export function navigateToRoute(codeStatus,routeName){
         this.$router.push({name:routeName })
     }
 
-    if(codeStatus == 401){        
+    if(codeStatus == 401){
+        this.$store.commit('setError401');      
         this.$router.push({name:"managerLogin" })
     }
 }

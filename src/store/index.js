@@ -24,12 +24,17 @@ export default new Vuex.Store({
         getState(state) {
             return state;
         }, 
+
+        getError(state) {
+            return state.isError;
+        }, 
     },
 
     state: {
         isSucceed: '',
         response : '',
-        routhPath : '', 
+        routhPath : '',
+        isError : false 
     },
     
     mutations: {
@@ -44,5 +49,9 @@ export default new Vuex.Store({
         setRoutePath(state,route) {
             state.routhPath = route
         },  
+
+        setError401(state) {
+            state.isError = true
+        }, 
     },
 })
