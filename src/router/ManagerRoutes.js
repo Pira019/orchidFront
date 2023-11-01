@@ -211,10 +211,11 @@ let routes = [
     // end routes university
 ]
 
-function guardMyroute(to, from, next) {
-    var isAuthenticated = false;
+function guardMyroute(to, from, next) { 
 
-    if (localStorage.getItemauthUserToken !== null && localStorage.authUserToken !== undefined) {
+    const authUserToken = localStorage.getItem('authUserToken');
+
+    if (authUserToken && typeof authUserToken !== 'undefined') {
         next();
     }
     else {

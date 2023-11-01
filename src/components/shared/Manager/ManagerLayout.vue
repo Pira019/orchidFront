@@ -1,5 +1,5 @@
 <template>
-    <BaseLayout v-if="userAuth?.authUserToken">
+    <BaseLayout v-if="userAuth && userAuthToken.authUserToken">
         <template #header>
             <ManagerMenu @isSidebarActive="isSidebarActive"></ManagerMenu>
         </template>
@@ -26,7 +26,8 @@ export default {
     data() {
         return {
             isSidebarActive__: false,
-            userAuth: false
+            userAuth: false,
+            token: localStorage.getItem("authUserToken"),
         }
     },
     methods: {
@@ -42,12 +43,9 @@ export default {
  
     },
     
-    created(){      
-
-        this.userAuth = this.userAuthToken;
-
-        if(!this.userAuth?.authUserToken){
-            this.$store.commit('authManager/userAuth',{token : localStorage.authUserToken, name : localStorage.authUserName});
+    mounted(){       
+        if('undefined' !== this.token){             
+            this.userAuth = true;
         }
     },
     name: "ManagerLayout",
