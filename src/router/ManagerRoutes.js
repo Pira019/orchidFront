@@ -117,6 +117,9 @@ let routes = [
     {
         path: prefix + "403", name: 'manager403', component: () => import('@/views/ManagerViews/403.vue'),
         beforeEnter: guardMyroute,
+        props: {
+            showSidebar: false, 
+          },
         meta: {
             title: '403 - Accès Interdit',
             metaTags: [
@@ -211,10 +214,11 @@ let routes = [
     // end routes university
 ]
 
-function guardMyroute(to, from, next) {
-    var isAuthenticated = false;
+function guardMyroute(to, from, next) { 
 
-    if (localStorage.getItemauthUserToken !== null && localStorage.authUserToken !== undefined) {
+    const authUserToken = localStorage.getItem('authUserToken');
+
+    if (authUserToken && typeof authUserToken !== 'undefined') {
         next();
     }
     else {

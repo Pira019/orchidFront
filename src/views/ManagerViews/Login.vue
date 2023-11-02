@@ -13,8 +13,8 @@
                 </div>
                 <form novalidate v-on:submit.prevent="submit">
                     <div class="mb-3">
-                        <label for="noId" class="form-label">No indentification</label>
-                        <input type="text" class="form-control" name="user_name" v-model.trim="state.user_name"
+                        <label for="username" class="form-label">No indentification</label>
+                        <input type="text" class="form-control" id="username" name="user_name" v-model.trim="state.user_name" autocomplete="true"
                             :class="[v$.user_name.$error ? 'is-invalid' : '']">
                         <div class="invalid-feedback" v-if="v$.user_name.$error">
                             <span v-for="(error, index) of v$.user_name.$errors" :key="index">
@@ -25,7 +25,7 @@
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" name="password"
+                        <input type="password" id="password" class="form-control"  autocomplete="current-password"
                             v-model="state.password" :class="[v$.password.$error ? 'is-invalid' : '']">
                         <div class="invalid-feedback" v-if="v$.password.$error">
                             <span v-for="(error, index) of v$.password.$errors" :key="index">
