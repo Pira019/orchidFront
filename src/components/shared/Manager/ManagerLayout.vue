@@ -1,5 +1,5 @@
 <template>
-    <BaseLayout v-if="userAuth && userAuthToken.authUserToken">
+    <BaseLayout v-if="isAuth">
         <template #header>
             <ManagerMenu @isSidebarActive="isSidebarActive"></ManagerMenu>
         </template>
@@ -25,28 +25,33 @@ import ManagerSlidebar from './ManagerSlidebar.vue';
 export default {
     data() {
         return {
-            isSidebarActive__: false,
-            userAuth: false,
-            token: localStorage.getItem("authUserToken"),
+            isSidebarActive__: false, 
         }
     },
     methods: {
         isSidebarActive(isSidebarActive_) {
             this.isSidebarActive__ = isSidebarActive_;
         }, 
+ 
     },
 
     computed: {
         ...mapGetters('authManager', {
-            userAuthToken: 'getUserAuth'
+            isAuth: 'isAuth', 
         }),
  
     },
     
-    mounted(){       
-        if('undefined' !== this.token){             
-            this.userAuth = true;
+    mounted(){ 
+
+        const storedToken = localStorage.getItem('authUserToken');
+        const storedName = localStorage.getItem('authUserName');
+
+        if (storedToken && storedName) {
+            this.userAuth = true; 
+            this.$store.commit('authManager/userAuth', { token: storedToken, name: storedName });
         }
+
     },
     name: "ManagerLayout",
     components: { BaseLayout, ManagerSlidebar, ManagerMenu, ManagerSlidebar }

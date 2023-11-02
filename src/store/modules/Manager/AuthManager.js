@@ -20,6 +20,13 @@ export default {
         getUserAuth (state){
             return state;
         },
+
+        isAuth (state){
+            if(state.authUserToken){
+                return true
+            } 
+            return false;
+        },
     },
     mutations: {
         userAuth(state,userAuth) {

@@ -55,7 +55,7 @@ export default ({
 
         logout() {
             localStorage.removeItem("authUserToken");
-            this.$store.commit('authManager/userAuth', { token: false });
+            this.$store.commit('authManager/userAuth', { token: '' });
             this.$router.push({ name: 'managerLogin' });
         }
     },
