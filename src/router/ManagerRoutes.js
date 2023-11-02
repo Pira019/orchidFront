@@ -117,6 +117,9 @@ let routes = [
     {
         path: prefix + "403", name: 'manager403', component: () => import('@/views/ManagerViews/403.vue'),
         beforeEnter: guardMyroute,
+        props: {
+            showSidebar: false, 
+          },
         meta: {
             title: '403 - Accès Interdit',
             metaTags: [

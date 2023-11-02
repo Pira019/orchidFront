@@ -1,5 +1,5 @@
 <template>
-    <BaseLayout v-if="isAuth">
+    <BaseLayout v-if="isAuth && !is403Route()">
         <template #header>
             <ManagerMenu @isSidebarActive="isSidebarActive"></ManagerMenu>
         </template>
@@ -23,6 +23,12 @@ import ManagerMenu from './ManagerMenu.vue';
 import ManagerSlidebar from './ManagerSlidebar.vue';
 
 export default {
+
+    props: {
+        showSidebar_:{ 
+            type: Boolean,
+        }
+    },
     data() {
         return {
             isSidebarActive__: false, 
@@ -32,6 +38,11 @@ export default {
         isSidebarActive(isSidebarActive_) {
             this.isSidebarActive__ = isSidebarActive_;
         }, 
+
+        is403Route() {
+            const routeName = this.$route.name;
+            return routeName === import.meta.env.VITE_ROUTE403 ||  routeName === import.meta.env.VITE_ROUTELOGIN; // Check if the route is '403'
+            },
  
     },
 
@@ -43,7 +54,7 @@ export default {
     },
     
     mounted(){ 
-
+ 
         const storedToken = localStorage.getItem('authUserToken');
         const storedName = localStorage.getItem('authUserName');
 

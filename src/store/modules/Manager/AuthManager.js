@@ -27,6 +27,7 @@ export default {
             } 
             return false;
         },
+ 
     },
     mutations: {
         userAuth(state,userAuth) {
@@ -36,7 +37,7 @@ export default {
 
             state.authUserName = userAuth.name ;
             state.authUserToken = userAuth.token;
-        }, 
+        },  
     },  
 
 }
