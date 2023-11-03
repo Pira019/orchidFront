@@ -13,7 +13,7 @@
         <div class="col col-lg-8">
           <p>Nous sommes conscients de l'importance de votre projet académique et que vous travaillerez sans aucun doute dur pour vous assurer que votre objectif d'étudier à l'étranger se réalise.</p>
      
-          <ButtonComponent class="mx-1">Je veux une assistantace</ButtonComponent>
+          <ButtonComponent class="mx-1">Créer un compte, c'est gratuit !!</ButtonComponent>
           <ButtonComponent :variantStyle="btnStyle" class="mx-1 my-2">En savoir plus</ButtonComponent>
         </div> 
       </div>       

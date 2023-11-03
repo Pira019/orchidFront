@@ -32,7 +32,7 @@
                
                  <!---->
                 <li class="nav-item">
-                    <a class="nav-link m-1 fw-bold " href="#">Link</a>
+                    <a class="nav-link m-1 fw-bold " href="#"><font-awesome-icon icon="fa-solid fa-gear" /> Nos services</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link m-1 fw-bold " href="#">Disabled</a>

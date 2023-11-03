@@ -37,7 +37,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(step, index) in countrySteps" :key="index">
+                        <tr v-for="(step, index) in countrySteps" :key="index" :class="!this.countrySteps[index].id ? 'text-danger' : ''" :title="!this.countrySteps[index].id ? 'Etape non enregistrée' : ''">
                             <th scope="row" @click="editStepVisibility(index)">
                                 <SwitcheBtnComponent :is-ckecked="step.visibility"></SwitcheBtnComponent>
                             </th>

@@ -194,10 +194,10 @@ let routes = [
             },
 
             {
-                path: 'country/:idCountry', name: 'ManagerUniversiteList', component: () => import('@/views/ManagerViews/University/ListUniversity.vue'),
+                path: 'country/:idCountry', name: 'ManagerUniversiteList', component: () => import('@/views/ManagerViews/University/Index.vue'),
                 beforeEnter: guardMyroute,
                 meta: {
-                    title: 'Liste universités'
+                    title: 'Liste des universités'
                 }
             },
 

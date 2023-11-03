@@ -21,3 +21,23 @@ $component-active-bg: $green;
 // Then import Bootstrap and BootstrapVue SCSS files (order is important)
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 
+@font-face {
+    font-family: 'Lato';
+    src: url('assets/fonts/Lato-Regular.ttf') format('truetype');
+  }
+  
+
+  @font-face {
+    font-family: 'Noto Sans';
+    src: url('assets//fonts/NotoSans-Regular.ttf') format('truetype');
+  }
+  
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif; 
+  }
+  
+  body {
+    font-family: 'Noto Sans', sans-serif;
+    /* Autres styles de la typographie de contenu avec Noto Sans */
+  }

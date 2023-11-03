@@ -24,15 +24,18 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Procédures d'inscription</a>
         </div>
-      </li>        
+      </li>  
+      <li class="nav-item">
+        <router-link :to="{name:'faq'}" class="nav-link" title="Questions populaires">Domaines d'études</router-link>
+      </li>      
       <li class="nav-item">
         <router-link :to="{name:'faq'}" class="nav-link" title="Questions populaires">Faq</router-link>
-      </li>
+      </li>      
       <li class="nav-item">
         <router-link class="nav-link" :to="{name:'contact'}">Contact</router-link> 
       </li>
       <li class="nav-item">
-        <button-component path="login">Inscriptions</button-component>
+        <button-component path="login">Créez un Compte</button-component>
       </li> 
     </ul> 
     </div> 

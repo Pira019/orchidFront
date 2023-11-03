@@ -83,6 +83,11 @@
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <label for="university" :class="[v$.name.$error ? 'text-danger' : '']">Pourquoi étudier cette université/college ?* </label>
+                <textarea class="form-control m-2" cols="30" rows="5"></textarea>
+            </div>
+
             <div class="d-flex justify-content-between">
 
                 <div>
