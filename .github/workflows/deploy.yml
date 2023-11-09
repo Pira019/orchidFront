@@ -1,4 +1,4 @@
-name: Deploy to
+name: Deploy to cpanel
 on:
   push:
     branches:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Dependencies 📦
+      - name: Install Dependencies
         run: npm install
 
       - name: Build App
