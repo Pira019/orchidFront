@@ -5,7 +5,7 @@
     <div class="container text-white m-md-5 p-md-5">      
       <div class="row justify-content-md-center">
         <div class="col col-lg-8">
-          <h1>Étudier à l'étranger <br> Faites vos démarches de façon autonome</h1>     
+          <h1>Étudier à l'étranger <br> Faites vos démarches de façon autonome Pires LUFU</h1>     
         </div> 
       </div>
 
