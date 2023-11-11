@@ -35,3 +35,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/.**
+        if: success()  # This step will only run if the previous steps were successful  
