@@ -22,9 +22,9 @@
                 aria-selected="false">Adresse</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                aria-selected="false">Inscription</a>
-            </li>
+              <a class="nav-link" id="Programme-tab" data-toggle="tab" href="#Programme" role="tab" aria-controls="Programme"
+                aria-selected="false">Programme</a>
+            </li>             
           </ul>
           <div class="tab-content mt-5" id="myTabContent">
             <!--Info university-->
@@ -71,7 +71,14 @@
               <AddAddress v-if="isEditAdress"  @updateAdress=" university.address = $event" :title="'Modifier l\'addresse'" @closeEditFormAdress="isEditAdress = false" :isEdit="true" :adress-to-up-date="university"></AddAddress>
 
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
+              <div class="d-flex justify-content-between">
+                  <div></div>
+                  <div>
+                    <button class="btn btn-success" ><font-awesome-icon icon="fa-plus"  class="text-white" /></button>
+                  </div>
+              </div>
+            </div>
           </div>
         </div>
 
