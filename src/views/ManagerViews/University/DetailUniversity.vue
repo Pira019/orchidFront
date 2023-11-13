@@ -21,7 +21,7 @@
               <a class="nav-link" id="Adresse-tab" data-toggle="tab" href="#Adresse" role="tab" aria-controls="Adresse"
                 aria-selected="false">Adresse</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" @click="getPrograms">
               <a class="nav-link" id="Programme-tab" data-toggle="tab" href="#Programme" role="tab" aria-controls="Programme"
                 aria-selected="false">Programme</a>
             </li>             
@@ -73,7 +73,9 @@
             </div>
             <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
               <div class="d-flex justify-content-between">
-                  <div></div>
+                  <div>
+                    <AccordionComponent v-if="programs" class="col mt-5 row" :data="programs" id="stepsAccordion" :is-program="true" @findProgram="test"></AccordionComponent>
+                  </div>
                   <div>
                     <button class="btn btn-success" ><font-awesome-icon icon="fa-plus"  class="text-white" /></button>
                   </div>
@@ -97,15 +99,46 @@ import formattedDate from '@/Utils/formattedDate'
 import AddUniversity from './AddUniversity.vue';
 import { navigateToRoute } from '@/Utils/Navigation';
 import AddAddress from './AddAddress.vue';
+import { mapGetters } from 'vuex';
+import { handleError } from 'vue';
+import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 
 export default {
   methods: {
  
     formattedDate_(date) {
       return formattedDate(date)
+    },
+
+    getPrograms(){
+     
+      if(this.programs){  
+        return;
+      }
+      
+      this.$store.dispatch('universityManager/getUniversityPrograms', this.universityId).then((response) => {
+        this.$store.commit('universityManager/setPrograms',response.data) 
+    }).catch((error) => {
+       handleError(error);
+    });
+
+    },
+
+    test(show){
+      console.log(show)
+    },
+
+    handleError(error){
+      navigateToRoute.call(this, error.status, 'manager403');
+      this.isLoading = false;
+      this.unexpectedError = true;
     }
+
+
+
+     
   },
-  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress },
+  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent },
   data() {
     return {
       unexpectedError: false,
@@ -113,15 +146,21 @@ export default {
       isLoading: false,
       isEdit: false,
       isEditAdress: false,
+      universityId : parseInt(this.$route.params.id)
     }
   },
 
-  created() {
-    const id = parseInt(this.$route.params.id);
+  computed: {
+        ...mapGetters('universityManager', {
+            programs: 'getPrograms',
+        }),
+    },
 
+  created() {
+    
     this.isLoading = true;
 
-    this.$store.dispatch('universityManager/findUniversity', id).then((response) => {
+    this.$store.dispatch('universityManager/findUniversity', this.universityId).then((response) => {
       this.university = response.data;
       this.isLoading = false;
 
