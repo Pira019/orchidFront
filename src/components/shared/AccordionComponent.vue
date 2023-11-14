@@ -1,6 +1,6 @@
 <template>
     <div class="accordion" id="accordionExample">
-        <div class="accordion-item m-2" v-for="(data,index) in data" :key="index">
+        <div class="accordion-item m-2" v-for="(data,index) in data" :key="index" >
             <h2 class="accordion-header" :id="typeAccordion  + index" @click="isProgram && $emit('findProgram', data)">
                 <button class="accordion-button text-dark fw-bold text-center" type="button" data-bs-toggle="collapse" :data-bs-target="'#_'+typeAccordion+index"
                     aria-expanded="true" :aria-controls="'_'+typeAccordion+index">
@@ -8,9 +8,9 @@
                 </button> 
  
             </h2>
-            <div :id="'_'+typeAccordion+index" class="accordion-collapse collapse" :class="typeAccordion =='step' ? 'show' : 'collapse'" :aria-labelledby="typeAccordion  + index" >
+            <div :id="'_'+typeAccordion+index" data-bs-parent="#accordionExample" class="accordion-collapse collapse" :class="typeAccordion == 'step' && 'show'" :aria-labelledby="typeAccordion  + index" >
                 <div class="accordion-body">
-                    <p class="text-justify"> {{ data?.description ? data?.description : 'Aucune description ' }} </p>
+                    <p class="text-justify"> {{  data?.description ?? 'Aucune description ' }} </p>
 
                     <section v-if="detail" class="m-4" id="detail">
                         <header class="mb-3">
