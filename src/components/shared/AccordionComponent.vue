@@ -4,7 +4,7 @@
             <h2 class="accordion-header" :id="typeAccordion  + index" @click="isProgram && $emit('findProgram', data)">
                 <button class="accordion-button text-dark fw-bold text-center" type="button" data-bs-toggle="collapse" :data-bs-target="'#_'+typeAccordion+index"
                     aria-expanded="true" :aria-controls="'_'+typeAccordion+index">
-                   <span class="text-uppercase">{{ data?.title ?? data?.label }}</span>  
+                   <span class="text-uppercase">{{ data?.title ?? data?.label }}</span>
                 </button> 
  
             </h2>

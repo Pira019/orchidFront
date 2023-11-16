@@ -76,7 +76,7 @@
             </div>
             <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
               <button class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white" /></button>
-              <AccordionComponent v-if="programs" class="col mt-5" :data="programs" id="stepsAccordion" :is-program="true"
+              <AccordionComponent v-if="programs?.length" class="col mt-5" :data="programs"  :is-program="true"
                 @findProgram="handleFindProgram" :typeAccordion="'no-step'">
 
                 <div>
