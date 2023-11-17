@@ -5,6 +5,7 @@ export default {
 
     state: {
         universty: {},
+        programs: null
     },
 
     actions: {
@@ -33,17 +34,29 @@ export default {
             return UniversityService.updateAdress(data)
         },
 
+        async getUniversityPrograms({}, universityId) { 
+            return UniversityService.getPrograms(universityId);
+        },
+
     },
 
     getters: {
         getUniversity(state) {
             return state.universty;
         },
+
+        getPrograms(state) {
+            return state.programs;
+        },
     },
 
     mutations: {
         setUniversity(state, universty) {
             state.universty = universty;
+        },
+
+        setPrograms(state, programs) {
+            state.programs = programs;
         },
     }
 }
