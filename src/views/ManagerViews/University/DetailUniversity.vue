@@ -7,7 +7,8 @@
       <div>
 
         <div id="info" class="mb-5">
-          <h2 class="display-6"> {{ university.name }} <span v-if="university.shortName">( {{  university.shortName?.toUpperCase() }}
+          <h2 class="display-6"> {{ university.name }} <span v-if="university.shortName">( {{
+            university.shortName?.toUpperCase() }}
               )</span></h2>
         </div>
 
@@ -21,9 +22,9 @@
               <a class="nav-link" id="Adresse-tab" data-toggle="tab" href="#Adresse" role="tab" aria-controls="Adresse"
                 aria-selected="false">Adresse</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                aria-selected="false">Inscription</a>
+            <li class="nav-item" @click="getPrograms">
+              <a class="nav-link" id="Programme-tab" data-toggle="tab" href="#Programme" role="tab"
+                aria-controls="Programme" aria-selected="false">Programme</a>
             </li>
           </ul>
           <div class="tab-content mt-5" id="myTabContent">
@@ -52,7 +53,7 @@
 
             <!--Info adress university-->
             <div class="tab-pane fade" id="Adresse" role="tabpanel" aria-labelledby="Adresse-tab">
-              <div  class="d-flex justify-content-between" v-if="!isEditAdress">
+              <div class="d-flex justify-content-between" v-if="!isEditAdress">
                 <div>
                   <h3 class="h6 mb-3">{{ university.name }}</h3>
                   <p>Pays : <span class="fw-bold">{{ university.city?.country.name }}</span> <img
@@ -64,14 +65,30 @@
                 </div>
 
                 <div>
-                  <button class="btn btn-warning" @click="isEditAdress = true"><font-awesome-icon icon="fa-pen"  class="text-white" /></button>
+                  <button class="btn btn-warning" @click="isEditAdress = true"><font-awesome-icon icon="fa-pen"
+                      class="text-white" /></button>
                 </div>
               </div>
               <!-- End adress university-->
-              <AddAddress v-if="isEditAdress"  @updateAdress=" university.address = $event" :title="'Modifier l\'addresse'" @closeEditFormAdress="isEditAdress = false" :isEdit="true" :adress-to-up-date="university"></AddAddress>
+              <AddAddress v-if="isEditAdress" @updateAdress=" university.address = $event" :title="'Modifier l\'addresse'"
+                @closeEditFormAdress="isEditAdress = false" :isEdit="true" :adress-to-up-date="university"></AddAddress>
 
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
+              <button class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white" /></button>
+              <AccordionComponent v-if="programs?.length" class="col mt-5" :data="programs"  :is-program="true"
+                @findProgram="handleFindProgram" :typeAccordion="'no-step'">
+
+                <div>
+                  <p> <span class="fw-bold"> Cycle : </span> {{ program.cycle }} </p>
+                  <p> <span class="fw-bold"> Durée : </span> {{ program.duration }} </p>
+                  <p> <span class="fw-bold"> Langue(s) : </span> {{ program.languages }} </p>
+                  <p> <span class="fw-bold"> Chemin d'admission : </span> {{ program.admission_scheme }} </p>                  
+                  <p> <span class="fw-bold"> Secteur : </span> {{ program.disciplinary_sector }} </p>
+                </div>
+
+              </AccordionComponent>
+            </div>
           </div>
         </div>
 
@@ -90,39 +107,73 @@ import formattedDate from '@/Utils/formattedDate'
 import AddUniversity from './AddUniversity.vue';
 import { navigateToRoute } from '@/Utils/Navigation';
 import AddAddress from './AddAddress.vue';
+import { mapGetters } from 'vuex';
+import { handleError } from 'vue';
+import { programModel } from '@/model/programs'
+import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 
 export default {
   methods: {
- 
+
     formattedDate_(date) {
       return formattedDate(date)
-    }
+    },
+
+    getPrograms() {
+
+      if (this.programs) {
+        return;
+      }
+
+      this.$store.dispatch('universityManager/getUniversityPrograms', this.universityId)
+      .then((response) => {
+        this.$store.commit('universityManager/setPrograms', response.data)
+
+      }).catch((error) => {
+        handleError(error);
+      });
+
+    },
+
+    handleFindProgram(programDetail) {
+      this.program = programDetail;
+    },
+
+    handleError(error) {
+      navigateToRoute.call(this, error.status, 'manager403');
+      this.isLoading = false;
+      this.unexpectedError = true;
+    } 
   },
-  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress },
+  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent },
   data() {
     return {
       unexpectedError: false,
       university: {},
       isLoading: false,
       isEdit: false,
+      program: programModel,
       isEditAdress: false,
+      universityId: parseInt(this.$route.params.id)
     }
   },
 
+  computed: {
+    ...mapGetters('universityManager', {
+      programs: 'getPrograms',
+    }),
+  },
+
   created() {
-    const id = parseInt(this.$route.params.id);
 
     this.isLoading = true;
 
-    this.$store.dispatch('universityManager/findUniversity', id).then((response) => {
+    this.$store.dispatch('universityManager/findUniversity', this.universityId).then((response) => {
       this.university = response.data;
       this.isLoading = false;
 
     }).catch((error) => {
-
-      navigateToRoute.call(this, error.status, 'manager403');
-      this.isLoading = false;
-      this.unexpectedError = true;
+      handleError(error);
     });
   },
 

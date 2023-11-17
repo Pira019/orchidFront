@@ -6,9 +6,10 @@
        <strong>{{faq.question}}</strong>
       </button>
     </h2>
-    <div :id="'collapse'+index" class="accordion-collapse collapse" :class="index==0 ?'show' : ''" :aria-labelledby="'heading'+index" data-bs-parent="#accordionExample" >
+    <div :id="'collapse'+index" class="accordion-collapse collapse" :class="index==0 && 'show' "  :aria-labelledby="'heading'+index" data-bs-parent="#accordionExample" >
       <div class="accordion-body">
-        {{replacePattern(faq.answer)}}    </div>
+        {{replacePattern(faq.answer)}}    
+      </div>
         
     </div>
   </div> 

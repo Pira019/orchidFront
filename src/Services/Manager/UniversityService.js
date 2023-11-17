@@ -48,5 +48,10 @@ export default class UniversityService{
         const endPoint = 'update-address/' + upDateData.university_id;
         return this.axiosInstance.post(endPoint,upDateData);  
     } 
+
+    static async getPrograms(universityId){
+        const endPoint = universityId + '/programs';
+        return this.axiosInstance.get(endPoint);  
+    } 
  
 }
