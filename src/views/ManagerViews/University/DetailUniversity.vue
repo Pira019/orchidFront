@@ -83,7 +83,8 @@
                   <p> <span class="fw-bold"> Cycle : </span> {{ program.cycle }} </p>
                   <p> <span class="fw-bold"> Durée : </span> {{ program.duration }} </p>
                   <p> <span class="fw-bold"> Langue(s) : </span> {{ program.languages }} </p>
-                  <p> <span class="fw-bold"> Chemin d'admission : </span> {{ program.admission_scheme }} </p>
+                  <p> <span class="fw-bold"> Chemin d'admission : </span> {{ program.admission_scheme }} </p>                  
+                  <p> <span class="fw-bold"> Secteur : </span> {{ program.disciplinary_sector }} </p>
                 </div>
 
               </AccordionComponent>
