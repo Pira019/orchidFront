@@ -75,7 +75,12 @@
 
             </div>
             <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
-              <button class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white" /></button>
+              <button  @click="showPersistModal" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
+              <!--Persiste modal-->
+              <StaticbackdropModal :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal">
+                <add-program></add-program>
+              </StaticbackdropModal>
+
               <AccordionComponent v-if="programs?.length" class="col mt-5" :data="programs"  :is-program="true"
                 @findProgram="handleFindProgram" :typeAccordion="'no-step'">
 
@@ -110,12 +115,27 @@ import AddAddress from './AddAddress.vue';
 import { mapGetters } from 'vuex'; 
 import { programModel } from '@/model/programs'
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
+import StaticbackdropModal from '@/components/modal/StaticbackdropModal.vue';
+import AddProgram from './program/addProgram.vue';
+import modalText from '@/Utils/json/TextModal.json'; 
 
 export default {
   methods: {
 
     formattedDate_(date) {
       return formattedDate(date)
+    },
+
+    
+    handlePersistModal(){
+      this.closeModal = true; 
+    },
+
+    showPersistModal(){
+      this.persistModalTitle = modalText.program.ajout;
+      this.closeModal = false;
+
+      console.log(this.persistModalTitle)
     },
 
     getPrograms() {
@@ -144,7 +164,7 @@ export default {
       this.unexpectedError = true; 
     } 
   },
-  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent },
+  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram },
   data() {
     return {
       unexpectedError: false,
@@ -153,7 +173,9 @@ export default {
       isEdit: false,
       program: programModel,
       isEditAdress: false,
-      universityId: parseInt(this.$route.params.id)
+      universityId: parseInt(this.$route.params.id),
+      closeModal : true,
+      persistModalTitle : '',
     }
   },
 
