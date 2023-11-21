@@ -77,7 +77,7 @@
             <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
               <button  @click="showPersistModal" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
               <!--Persiste modal-->
-              <StaticbackdropModal :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal">
+              <StaticbackdropModal :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
                 <add-program></add-program>
               </StaticbackdropModal>
 
