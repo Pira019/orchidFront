@@ -58,7 +58,7 @@
                   <h3 class="h6 mb-3">{{ university.name }}</h3>
                   <p>Pays : <span class="fw-bold">{{ university.city?.country.name }}</span> <img
                       :src="university.city?.country.flag_url" alt="drappeau pays" class="img-fluid mx-3" width="35"> </p>
-                  <p>Ville : <span class="fw-bold">{{ university.city.name }}</span> </p>
+                  <p>Ville : <span class="fw-bold">{{ university.city?.name }}</span> </p>
                   <p>Code postale : <span class="fw-bold">{{ university.address?.code_postal }}</span> </p>
                   <p>Adresse : <span class="fw-bold">{{ university.address?.adress }}</span> </p>
                   <p>Derniere mise à jour: {{ formattedDate_(university.address?.updated_at) }}</p>
@@ -107,8 +107,7 @@ import formattedDate from '@/Utils/formattedDate'
 import AddUniversity from './AddUniversity.vue';
 import { navigateToRoute } from '@/Utils/Navigation';
 import AddAddress from './AddAddress.vue';
-import { mapGetters } from 'vuex';
-import { handleError } from 'vue';
+import { mapGetters } from 'vuex'; 
 import { programModel } from '@/model/programs'
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 
@@ -130,7 +129,7 @@ export default {
         this.$store.commit('universityManager/setPrograms', response.data)
 
       }).catch((error) => {
-        handleError(error);
+        this.handleError(error);
       });
 
     },
@@ -142,7 +141,7 @@ export default {
     handleError(error) {
       navigateToRoute.call(this, error.status, 'manager403');
       this.isLoading = false;
-      this.unexpectedError = true;
+      this.unexpectedError = true; 
     } 
   },
   components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent },
@@ -164,7 +163,7 @@ export default {
     }),
   },
 
-  created() {
+  mounted() {
 
     this.isLoading = true;
 
@@ -173,7 +172,7 @@ export default {
       this.isLoading = false;
 
     }).catch((error) => {
-      handleError(error);
+      this.handleError(error);
     });
   },
 
