@@ -4,7 +4,7 @@
             <h2 class="accordion-header" :id="typeAccordion  + index" @click="isProgram && $emit('findProgram', data)">
                 <button class="accordion-button text-dark fw-bold text-center" type="button" data-bs-toggle="collapse" :data-bs-target="'#_'+typeAccordion+index"
                     aria-expanded="true" :aria-controls="'_'+typeAccordion+index">
-                   <span class="text-uppercase">{{ data?.title }}</span>
+                   <span class="text-uppercase">{{ data?.title || data?.program_name }}</span>
 
                     
                    <span class="badge m-2" :class="data.cycle==1 ? 'bg-secondary' : 'bg-success'" v-if="isProgram" title="Cycle"> {{ data.cycle }}</span>
