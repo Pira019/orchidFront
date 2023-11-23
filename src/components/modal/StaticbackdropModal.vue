@@ -17,7 +17,7 @@
                         </p> 
                         </slot>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer" v-if="isConfirmModal">
                         <button type="button" class="btn btn-secondary"
                             @click="close(), $emit('isConfirm', false)">Annuler</button>
                         <button type="button" class="btn btn-danger" @click="$emit('isConfirm', true)">Supprimer</button>
@@ -31,6 +31,9 @@
 export default {
     props: {
         closeModal:{},
+        isConfirmModal:{ 
+            default:true,
+        },
         modalSize : {
             default : ''
         },

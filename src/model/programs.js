@@ -7,7 +7,8 @@
  * @property {string} languages
  * @property {string} admission_scheme
  * @property {string} disciplinary_sector
- */
+ */ 
+ 
 
 /**
  * @type {program}
@@ -16,9 +17,9 @@
 export const programModel = {
  
     program_name: '',
-    cycle: 0,
-    duration: 0,
-    nbrCredit: 0,
+    cycle: null,
+    duration: null,
+    nbrCredit: null,
     languages: '',
     admission_scheme: '',
     disciplinary_sector: '', 

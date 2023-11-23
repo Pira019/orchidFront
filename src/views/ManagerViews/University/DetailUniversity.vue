@@ -77,7 +77,7 @@
             <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
               <button  @click="showPersistModal" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
               <!--Persiste modal-->
-              <StaticbackdropModal :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
+              <StaticbackdropModal :is-confirm-modal="isConfirmModal" :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
                 <add-program></add-program>
               </StaticbackdropModal>
 
@@ -133,9 +133,7 @@ export default {
 
     showPersistModal(){
       this.persistModalTitle = modalText.program.ajout;
-      this.closeModal = false;
-
-      console.log(this.persistModalTitle)
+      this.closeModal = false; 
     },
 
     getPrograms() {
@@ -176,6 +174,7 @@ export default {
       universityId: parseInt(this.$route.params.id),
       closeModal : true,
       persistModalTitle : '',
+      isConfirmModal : false
     }
   },
 

@@ -24,7 +24,7 @@ export default function customeMessage(attribute,validatorName,autre=0)
          }
          
          if(validatorName === 'maxLength'){
-            return  helpers.withMessage(validationMessage[attribute] + validationMessage.validations.maxLength10, maxLength(autre))
+            return  helpers.withMessage(validationMessage[attribute] + validationMessage.validations.maxLength.replace('{maxLength}',autre), maxLength(autre))
          } 
 
 
