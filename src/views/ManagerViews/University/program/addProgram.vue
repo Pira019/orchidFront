@@ -5,10 +5,16 @@
                 <div class="col-12 col-md">
                     <label for="program_name" class="my-2  fw-bold  fw-bold"
                         :class="[v$.program_name.$error && 'text-danger']">Programme*</label>
-                    <input type="text"
-                        placeholder="Ex: Baccalauréat en administration,Baccalauréat en arts et en design ..."
-                        id="program_name" class="form-control" max="255" v-model.trim="state.program_name"
-                        :class="[v$.program_name.$error && 'is-invalid']">
+
+                        <select  class="form-select" id="program_name" v-model.trim="state.program_name"  :class="[v$.program_name.$error ? 'is-invalid' : '']">
+                            <option selected value=""></option>
+                            <option v-for="(program,index) in programs" :key="index" :value="programs.name">{{ program.name }}</option>
+                            <option> ** Autre programme **</option>
+                         </select>      
+
+                        <input type="text" placeholder="Ex: Baccalauréat en administration,Baccalauréat en arts et en design ..."  id="program_name" class="form-control mt-4" max="255" v-model.trim="state.program_name"
+                            :class="[v$.program_name.$error && 'is-invalid']">                       
+
                     <div class="invalid-feedback" v-if="v$.program_name.$error">
                         <span v-for="(error, index) of v$.program_name.$errors" :key="index">
                             {{ error.$message }}
@@ -146,12 +152,29 @@ import { programModel as Program } from '@/model/programs'
 import useVuelidate from '@vuelidate/core';
 import customeMessage from '@/Utils/validationMessages';
 export default {
+  data () {
+    return {
+        programs : [],
+        showProgramInput : false,
+    }
+  },
     mounted() {
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+        this.prefilForm();
     },
     methods: {
+
+        prefilForm(){
+            this.$store.dispatch('universityProgramManager/getPrefilData').then((response) => {
+                this.programs = response.data.programs
+            }).catch((error) => {
+
+            })
+        },
+
         //hadle save
         submit() {
            
