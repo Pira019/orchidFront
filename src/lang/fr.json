@@ -10,6 +10,7 @@
 "duration" : "La durée d'étude ",
 "languages" : "Ce champ est obligatoire ",
 "admission_scheme" : "Régime d'admission ",
+"program_description" : "Description du programme ",
 "sex" : "Le sexe ",
 "residence_contry" : "Le pays de résidence ",
 "citizenship" : "Le pays de citoyenneté ",

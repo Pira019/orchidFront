@@ -19,6 +19,7 @@ export const programModel = {
     program_name: '',
     cycle: null,
     duration: null,
+    program_description: null,
     nbrCredit: null,
     languages: '',
     admission_scheme: '',
