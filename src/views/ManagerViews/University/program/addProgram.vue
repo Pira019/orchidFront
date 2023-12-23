@@ -15,6 +15,18 @@
                         </span>
                     </div>
                 </div>
+
+                <div class="col-12 mt-3">
+                    <label for="program_description" class="my-2  fw-bold"  :class="[v$.program_description.$error && 'text-danger']" >Description du programme*</label>
+                    <textarea  id="program_description" class="form-control" :class="[v$.program_description.$error && 'is-invalid']"
+                        v-model.trim="state.program_description"></textarea>
+                        <div class="invalid-feedback" v-if="v$.program_description.$error">
+                            <span v-for="(error, index) of v$.program_description.$errors" :key="index">
+                                {{ error.$message }}
+                            </span>
+                        </div>    
+                </div>
+
             </div>
 
             <div class="row mb-3">
@@ -118,7 +130,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button">Annuler </button>
                     
-                    <button class="btn btn-success" @click="submit">Enregistrer </button>
+                    <button type="button" class="btn btn-success" @click="submit">Enregistrer </button>
                 </div>
 
             </div>
@@ -142,10 +154,13 @@ export default {
     methods: {
         //hadle save
         submit() {
+           
             this.v$.$validate();
             if (this.v$.$error) {
                 return;
             }
+
+            console.log(this.state)
 
         }
     },
@@ -161,6 +176,7 @@ export default {
                 duration: { maxLength: customeMessage('duration', 'maxLength', 1), required: customeMessage('duration', 'required') },
                 languages: { required: customeMessage('languages', 'required') },
                 admission_scheme: { required: customeMessage('admission_scheme', 'required') },
+                program_description: { required: customeMessage('program_description', 'required') },
             }
         })
         const v$ = useVuelidate(rules, state)
