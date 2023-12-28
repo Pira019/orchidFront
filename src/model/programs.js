@@ -1,12 +1,14 @@
 /**
  * @typedef {Object} program 
- * @property {string} title
+ * @property {string} program_name
+ * @property {string} program_description
  * @property {number} cycle
  * @property {number} duration
  * @property {number} nbrCredit
- * @property {string} languages
- * @property {string} admission_scheme
- * @property {string} disciplinary_sector
+ * @property {string|string[]} languages
+ * @property {string|string[]} admission_scheme
+ * @property {string} discipline_name
+ * @property {string} discipline_description
  */ 
  
 
@@ -16,14 +18,14 @@
 
 export const programModel = {
  
-    program_name: '',
+    program_name: null,
     cycle: null,
     duration: null,
     program_description: null,
     nbrCredit: null,
-    languages: '',
-    admission_scheme: '',
-    disciplinary_sector: '', 
-    discipline_description: '', 
+    languages: [],
+    admission_scheme: [],
+    discipline_name: null, 
+    discipline_description: null, 
 
 }
