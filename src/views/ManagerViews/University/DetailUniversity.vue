@@ -76,9 +76,9 @@
             </div>
             <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
               <button  @click="showPersistModal" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
-              <!--Persiste modal-->
+              <!--Persiste modal add program-->
               <StaticbackdropModal :is-confirm-modal="isConfirmModal" :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
-                <add-program></add-program>
+                <add-program @closePersiteModal="closeModal=true" :isModalClosed="closeModal"></add-program>
               </StaticbackdropModal>
 
               <AccordionComponent v-if="programs?.length" class="col mt-5" :data="programs"  :is-program="true"
@@ -171,10 +171,10 @@ export default {
       isEdit: false,
       program: programModel,
       isEditAdress: false,
-      universityId: parseInt(this.$route.params.id),
-      closeModal : true,
+      universityId: parseInt(this.$route.params.id), 
       persistModalTitle : '',
-      isConfirmModal : false
+      isConfirmModal : false,
+      closeModal : true
     }
   },
 

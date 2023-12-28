@@ -38,6 +38,12 @@ export default {
             return UniversityService.getPrograms(universityId);
         },
 
+        //university program
+
+        async addUniversityProgram({}, {universityId,data}) { 
+            return UniversityService.addProgram(universityId,data)
+        },
+
     },
 
     getters: {

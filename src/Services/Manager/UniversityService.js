@@ -53,5 +53,11 @@ export default class UniversityService{
         const endPoint = universityId + '/programs';
         return this.axiosInstance.get(endPoint);  
     } 
+
+    //Université programme
+    static async addProgram(universityId, newProgram) {
+        const endPoint = universityId + '/add-program';
+        return this.axiosInstance.post(endPoint, newProgram);
+    } 
  
 }

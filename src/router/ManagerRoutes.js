@@ -161,7 +161,7 @@ let routes = [
 
     // routes university
     {
-        path: prefix + 'tutoriel/universtite',
+        path: prefix + 'tutoriel/universite',
         beforeEnter: guardMyroute,
         meta: {
             title: 'Parametres universités'
