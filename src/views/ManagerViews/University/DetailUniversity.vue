@@ -81,7 +81,7 @@
                 <add-program @closePersiteModal="closeModal=true" :isModalClosed="closeModal"></add-program>
               </StaticbackdropModal>
 
-              <AccordionComponent v-if="programs?.length" class="col mt-5" :data="programs"  :is-program="true"
+              <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true"
                 @findProgram="handleFindProgram" :typeAccordion="'no-step'">
 
                 <div>
@@ -89,7 +89,7 @@
                   <p> <span class="fw-bold"> Durée : </span> {{ program.duration }} </p>
                   <p> <span class="fw-bold"> Langue(s) : </span> {{ program.languages }} </p>
                   <p> <span class="fw-bold"> Chemin d'admission : </span> {{ program.admission_scheme }} </p>                  
-                  <p> <span class="fw-bold"> Secteur : </span> {{ program.disciplinary_sector }} </p>
+                  <p> <span class="fw-bold"> Secteur : </span> {{ program.discipline_name }} </p>
                 </div>
 
               </AccordionComponent>
@@ -138,17 +138,13 @@ export default {
 
     getPrograms() {
 
-      if (this.programs) {
-        return;
-      }
-
       this.$store.dispatch('universityManager/getUniversityPrograms', this.universityId)
-      .then((response) => {
-        this.$store.commit('universityManager/setPrograms', response.data)
+        .then((response) => {
+          this.$store.commit('universityManager/setPrograms', response.data)
 
-      }).catch((error) => {
-        this.handleError(error);
-      });
+        }).catch((error) => {
+          this.handleError(error);
+        });
 
     },
 
@@ -180,8 +176,13 @@ export default {
 
   computed: {
     ...mapGetters('universityManager', {
-      programs: 'getPrograms',
+      listOfPrograms: 'getPrograms',
     }),
+
+    sortedListOfPrograms() {
+      return this.listOfPrograms.slice().sort((a, b) => a.program_name.localeCompare(b.program_name))
+      .map(program => ({ ...program, description: program.program_description }));;
+    },
   },
 
   mounted() {

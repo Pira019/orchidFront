@@ -1,5 +1,6 @@
 <template>
     <div>
+       
         <form class="my-5" novalidate v-on:submit.prevent="submit">
             <div class="row mb-3">
                 <div class="col-12 col-md">
@@ -116,7 +117,7 @@
                 <div class="col-12 col-md">
                      <label for="languages" class="my-2 fw-bold"  :class="[v$.languages.$error && 'text-danger']">Langue(s)*</label>                    
                     
-                    <select multiple class="form-control" id="languages" size="2" :class="[v$.languages.$error && 'text-danger']"  v-model="state.languages">
+                    <select multiple class="form-control" id="languages" size="2" :class="[v$.languages.$error && 'is-invalid']"  v-model="state.languages">
                         <option value="Français">Français</option>
                         <option value="Anglais">Anglais</option>
                     </select>
@@ -149,131 +150,124 @@
 
             <div class="row">
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" @click="cancel">Annuler </button>
-                    
-                    <button type="button" class="btn btn-success" @click="submit">Enregistrer </button>
+                    <button class="btn btn-secondary" type="button" @click="cancel">Annuler </button> 
+                    <SubmitBtnComponent class="btn btn-success" @click="submit" :loading="isLoading">Enregistrer</SubmitBtnComponent>
                 </div>
 
             </div>
 
         </form>
 
-    </div>
+             <!--  
+                <register-success-modal-component> </register-success-modal-component>  Modal-->
+      </div>
 </template>
 
 <script>
 import { computed, reactive } from 'vue'
 import { programModel as Program } from '@/model/programs'
 import useVuelidate from '@vuelidate/core';
-import customeMessage from '@/Utils/validationMessages';
+import customeMessage from '@/Utils/validationMessages'; 
+import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';  
+import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
 export default {
-  props: {
-    isModalClosed : {
-        type : Boolean
-    }
-  },
-
-  watch:{
-    isModalClosed(value){
-        if(value)
-        this.cancel();
-    }
-  },
-
-  data () {
-    return {
-        programs : [], 
-        disciplinarySectors : [], 
-    }
-  },
-    mounted() {
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-
-        this.prefilForm();
-    },
- 
-
-    computed:{     
-
-        showCustomeProgramInput()
-        {                
-            if(  this.state.program_name === "other" ){                
-                return true;
-            }
-            this.state.program_name_custome=null;
-        },
-
-        showCustomeDiscplinaryInput(){      
-            
-            if(  this.state.discipline_name === "other" ){ 
-                this.state.discipline_description = null;
-                return true;
-            } 
-            this.state.discipline_description = this.state.discipline_name?.description;
-            this.state.disciplinarySectorCustome=null;
+  components: { RegisterSuccessModalComponent, SubmitBtnComponent },
+    props: {
+        isModalClosed: {
+            type: Boolean
         }
     },
-    methods: { 
-
-        cancel(){
-            Object.assign(this.state,{...Program}); //reset state  
-            this.v$.$reset(); 
-            this.$emit('closePersiteModal');         
+    watch: {
+        isModalClosed(value) {
+            if (value)
+                this.cancel();
+        }
+    },
+    data() {
+        return {
+            programs: [],
+            disciplinarySectors: [],
+            isLoading:false
+        };
+    },
+    mounted() {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        this.prefilForm();
+    },
+    computed: {
+        showCustomeProgramInput() {
+            if (this.state.program_name === "other") {
+                return true;
+            }
+            this.state.program_name_custome = null;
         },
-
-        prefilForm(){
+        showCustomeDiscplinaryInput() {
+            if (this.state.discipline_name === "other") {
+                this.state.discipline_description = null;
+                return true;
+            }
+            this.state.discipline_description = this.state.discipline_name?.description;
+            this.state.disciplinarySectorCustome = null;
+        }
+    },
+    methods: {
+        cancel() {
+            Object.assign(this.state,{...Program}); //reset state   
+            this.v$.$reset();
+            this.$emit('closePersiteModal');
+            this.text = true
+        },
+        prefilForm() {
             this.$store.dispatch('universityProgramManager/getPrefilData').then((response) => {
                 this.programs = response.data.programs;
                 this.disciplinarySectors = response.data.disciplines;
-            })
+            });
         },
-
         //hadle save
         submit() {
-
             this.v$.$validate();
             if (this.v$.$error) {
                 return;
             }
-
             const universityId = parseInt(this.$route.params.id);
             const data = this.preparedData();
+            this.isLoading = true;
 
-            this.$store.dispatch('universityManager/addUniversityProgram', { universityId , data: data }).then((response) => {
-                console.log("cool");
+            this.$store.dispatch('universityManager/addUniversityProgram', { universityId, data: data }).then((response) => {
+                 const id = response?.data
+                //add to program list
+                this.$store.commit('universityManager/addToProgramList',{...data,id}); 
+              
             }).catch((error) => {
-
-            })
+            
+            }).finally(() => { 
+                this.isLoading = false; 
+            });
         },
-
         preparedData() {
-
             const { program_name_custome, disciplinarySectorCustome } = this.state;
-
             const programData = {
                 ...this.state,
                 program_name: program_name_custome ?? this.state.program_name,
                 discipline_name: disciplinarySectorCustome ?? this.state.discipline_name?.label,
                 languages: this.state.languages.join(','),
                 admission_scheme: this.state.admission_scheme.join(','),
-            }
-
+            };
             return programData;
         }
     },
     setup() {
         const state = reactive({
-             ...Program,
-             program_name_custome : null, 
-             disciplinarySectorCustome : null 
-             });
-
+            ...Program,
+            program_name_custome: null,
+            disciplinarySectorCustome: null
+        });
         const rules = computed(() => {
             return {
                 program_name: { maxLength: customeMessage('program_name', 'maxLength', 255), required: customeMessage('program_name', 'required') },
-                program_name_custome: { maxLength: customeMessage('program_name', 'maxLength', 255), requiredIf: customeMessage('program_name', 'requiredIf', state.program_name === "other") },  
+                program_name_custome: { maxLength: customeMessage('program_name', 'maxLength', 255), requiredIf: customeMessage('program_name', 'requiredIf', state.program_name === "other") },
                 discipline_name: { maxLength: customeMessage('discipline_name', 'maxLength', 255), required: customeMessage('discipline_name', 'required') },
                 disciplinarySectorCustome: { maxLength: customeMessage('discipline_name', 'maxLength', 255), required: customeMessage('discipline_name', 'requiredIf', state.discipline_name === "other") },
                 nbrCredit: { maxLength: customeMessage('nbrCredit', 'maxLength', 3), required: customeMessage('nbrCredit', 'required') },
@@ -282,10 +276,10 @@ export default {
                 languages: { required: customeMessage('languages', 'required') },
                 admission_scheme: { required: customeMessage('admission_scheme', 'required') },
                 program_description: { required: customeMessage('program_description', 'required') },
-            }
-        })
-        const v$ = useVuelidate(rules, state)
-        return { state, v$ }
-    }
+            };
+        });
+        const v$ = useVuelidate(rules, state);
+        return { state, v$ };
+    }, 
 }
 </script>

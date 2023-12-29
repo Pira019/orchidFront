@@ -1,5 +1,5 @@
-<template> <!-- Button trigger modal --> 
-    <!-- Modal -->
+<template>
+    <!-- Modal success-->
     <div class="modal fade" :id="modalName" tabindex="-1" role="dialog" :aria-labelledby="modalName" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
