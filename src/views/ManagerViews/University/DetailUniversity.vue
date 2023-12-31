@@ -74,11 +74,11 @@
                 @closeEditFormAdress="isEditAdress = false" :isEdit="true" :adress-to-up-date="university"></AddAddress>
 
             </div>
-            <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">
+            <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">  
               <button  @click="showPersistModal" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
               <!--Persiste modal add program-->
               <StaticbackdropModal :is-confirm-modal="isConfirmModal" :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
-                <add-program @closePersiteModal="closeModal=true" :isModalClosed="closeModal"></add-program>
+                <add-program @closePersiteModal="closeModal=true" :isModalClosed="closeModal" @showPersistModal=handlePersisteRequestModal></add-program> 
               </StaticbackdropModal>
 
               <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true"
@@ -90,17 +90,17 @@
                   <p> <span class="fw-bold"> Langue(s) : </span> {{ program.languages }} </p>
                   <p> <span class="fw-bold"> Chemin d'admission : </span> {{ program.admission_scheme }} </p>                  
                   <p> <span class="fw-bold"> Secteur : </span> {{ program.discipline_name }} </p>
-                </div>
-
+                </div> 
               </AccordionComponent>
             </div>
           </div>
         </div>
 
       </div>
-    </university-layout>
-
-
+    </university-layout> 
+    <RegisterSuccessModalComponent :handle-modal="false" :isSuccess="isPersistSuccessful" :codeErreur="codeErreur">
+      <p>L'opération a été effectuée avec succès</p>
+    </RegisterSuccessModalComponent>
   </div>
 </template>
 
@@ -117,7 +117,8 @@ import { programModel } from '@/model/programs'
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 import StaticbackdropModal from '@/components/modal/StaticbackdropModal.vue';
 import AddProgram from './program/addProgram.vue';
-import modalText from '@/Utils/json/TextModal.json'; 
+import modalText from '@/Utils/json/TextModal.json';  
+import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';  
 
 export default {
   methods: {
@@ -156,9 +157,18 @@ export default {
       navigateToRoute.call(this, error.status, 'manager403');
       this.isLoading = false;
       this.unexpectedError = true; 
-    } 
+    } ,
+
+    handlePersisteRequestModal(n,codeErreur){
+      this.isPersistSuccessful = n;
+      this.codeErreur = codeErreur;
+
+      $(document).ready(function () {
+        $("#successModal").modal('show');
+      });     
+    }
+
   },
-  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram },
   data() {
     return {
       unexpectedError: false,
@@ -170,7 +180,9 @@ export default {
       universityId: parseInt(this.$route.params.id), 
       persistModalTitle : '',
       isConfirmModal : false,
-      closeModal : true
+      closeModal : true, 
+      isPersistSuccessful : null,
+      codeErreur : null,
     }
   },
 
@@ -182,7 +194,7 @@ export default {
     sortedListOfPrograms() {
       return this.listOfPrograms.slice().sort((a, b) => a.program_name.localeCompare(b.program_name))
       .map(program => ({ ...program, description: program.program_description }));;
-    },
+    }, 
   },
 
   mounted() {
@@ -197,6 +209,9 @@ export default {
       this.handleError(error);
     });
   },
+
+  
+  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent },
 
 }
 </script>

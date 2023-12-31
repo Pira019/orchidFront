@@ -155,39 +155,30 @@
                 </div>
 
             </div>
-
-        </form>
-
-             <!--  
-                <register-success-modal-component> </register-success-modal-component>  Modal-->
-      </div>
+        </form>   
+    </div>
 </template>
 
 <script>
 import { computed, reactive } from 'vue'
 import { programModel as Program } from '@/model/programs'
 import useVuelidate from '@vuelidate/core';
-import customeMessage from '@/Utils/validationMessages'; 
-import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';  
-import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
+import customeMessage from '@/Utils/validationMessages';    
+import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';   
 export default {
-  components: { RegisterSuccessModalComponent, SubmitBtnComponent },
+  components: { SubmitBtnComponent },
     props: {
         isModalClosed: {
             type: Boolean
         }
     },
-    watch: {
-        isModalClosed(value) {
-            if (value)
-                this.cancel();
-        }
-    },
+ 
     data() {
         return {
             programs: [],
             disciplinarySectors: [],
-            isLoading:false
+            isLoading:false,  
+            isRequestSuccessful : true
         };
     },
     mounted() {
@@ -214,39 +205,50 @@ export default {
     },
     methods: {
         cancel() {
-            Object.assign(this.state,{...Program}); //reset state   
+            Object.assign(this.state, { ...Program }); //reset state   
             this.v$.$reset();
-            this.$emit('closePersiteModal');
-            this.text = true
+            this.$emit('closePersiteModal'); 
         },
+        
         prefilForm() {
             this.$store.dispatch('universityProgramManager/getPrefilData').then((response) => {
                 this.programs = response.data.programs;
                 this.disciplinarySectors = response.data.disciplines;
             });
         },
+ 
         //hadle save
-        submit() {
+        submit() 
+        {    
+                    
             this.v$.$validate();
             if (this.v$.$error) {
                 return;
             }
+
             const universityId = parseInt(this.$route.params.id);
             const data = this.preparedData();
             this.isLoading = true;
-
-            this.$store.dispatch('universityManager/addUniversityProgram', { universityId, data: data }).then((response) => {
-                 const id = response?.data
-                //add to program list
-                this.$store.commit('universityManager/addToProgramList',{...data,id}); 
-              
-            }).catch((error) => {
-            
-            }).finally(() => { 
-                this.isLoading = false; 
-            });
+            let codeErreur = null; 
+            this.$store.dispatch('universityManager/addUniversityProgram', { universityId, data })
+                .then((response) => {
+                    const id = response?.data
+                    //add to program list
+                    this.$store.commit('universityManager/addToProgramList', { ...data, id });   
+                    this.isRequestSuccessful = true;
+                    this.cancel();     
+                }).catch((error) => {
+                    this.isRequestSuccessful = false;                    
+                    codeErreur =  error.response.status;
+                    console.log(codeErreur)
+                }).finally(() => {
+                    this.isLoading = false;  
+                    this.$emit('showPersistModal',this.isRequestSuccessful,codeErreur);                 
+                });  
         },
+
         preparedData() {
+
             const { program_name_custome, disciplinarySectorCustome } = this.state;
             const programData = {
                 ...this.state,
