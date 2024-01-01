@@ -2,6 +2,8 @@
     <div>
        
         <form class="my-5" novalidate v-on:submit.prevent="submit">
+
+           <ErrorAlert :show="errors.length" :response="errors"></ErrorAlert>
             <div class="row mb-3">
                 <div class="col-12 col-md">
                     <label for="program_name" class="my-2  fw-bold  fw-bold"
@@ -165,20 +167,27 @@ import { programModel as Program } from '@/model/programs'
 import useVuelidate from '@vuelidate/core';
 import customeMessage from '@/Utils/validationMessages';    
 import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';   
+import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
 export default {
-  components: { SubmitBtnComponent },
+  components: { SubmitBtnComponent, ErrorAlert },
     props: {
         isModalClosed: {
             type: Boolean
         }
     },
- 
+
+   watch: {
+        isModalClosed(newValue) {
+            newValue && this.cancel();  
+        }
+    }, 
     data() {
         return {
             programs: [],
             disciplinarySectors: [],
             isLoading:false,  
-            isRequestSuccessful : true
+            isRequestSuccessful : null,
+            errors : []
         };
     },
     mounted() {
@@ -207,6 +216,7 @@ export default {
         cancel() {
             Object.assign(this.state, { ...Program }); //reset state   
             this.v$.$reset();
+            this.errors = []
             this.$emit('closePersiteModal'); 
         },
         
@@ -237,13 +247,21 @@ export default {
                     this.$store.commit('universityManager/addToProgramList', { ...data, id });   
                     this.isRequestSuccessful = true;
                     this.cancel();     
+
                 }).catch((error) => {
-                    this.isRequestSuccessful = false;                    
-                    codeErreur =  error.response.status;
-                    console.log(codeErreur)
+
+                    this.isRequestSuccessful = false;
+                    if (!error.response) {
+                        this.errors = [["Erreur lors de la requête"]]
+                        return false
+                    }
+                    codeErreur =  error.response.status; 
+                    this.errors= error?.response?.data?.errors ??  [[error.response?.data.error]] 
+
                 }).finally(() => {
+
                     this.isLoading = false;  
-                    this.$emit('showPersistModal',this.isRequestSuccessful,codeErreur);                 
+                    this.$emit('showPersistModalResponse',this.isRequestSuccessful,codeErreur);   
                 });  
         },
 
