@@ -18,8 +18,7 @@
     </div>
 </template>
 
-<script>
-import { ModalTypeEnum } from '@/enums';
+<script> 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
@@ -35,11 +34,6 @@ export default {
     $(document).ready(function(){
 		$("#errorModal").modal('hide');
 	});
-    }
-  },
-  data () {
-    return {
-      modalName : ModalTypeEnum.REGISTER
     }
   },
     name: "ErrorModalComponent",

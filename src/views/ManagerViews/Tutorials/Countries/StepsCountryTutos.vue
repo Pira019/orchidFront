@@ -47,7 +47,7 @@ import { mapGetters } from 'vuex';
 import AddTutoModal from './AddTutorialsToStep/AddTutoModal.vue';
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 import Spinner from '@/components/shared/Spinner.vue';
-import ConfirmationModalComponent from '@/components/modal/ConfirmationModalComponent.vue';
+import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
 
 export default {
     methods: {

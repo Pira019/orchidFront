@@ -15,7 +15,7 @@
 <script>
 import CountrySteps from '../AddTutoriel/CountrySteps.vue'
 import { navigateToRoute } from '@/Utils/Navigation'
-import ConfirmationModalComponent from '@/components/modal/ConfirmationModalComponent.vue'
+import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue'
 import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue'
 export default {
   data() {
