@@ -1,11 +1,11 @@
-import UniversityService from "@/Services/Manager/UniversityService"
+import UniversityService from "@/Services/Manager/UniversityService" 
 
 export default {
     namespaced: true,
 
     state: {
         universty: {},
-        programs: null
+        programs: [],
     },
 
     actions: {
@@ -38,6 +38,14 @@ export default {
             return UniversityService.getPrograms(universityId);
         },
 
+        //university program
+
+        async addUniversityProgram({}, {universityId,data}) { 
+            return UniversityService.addProgram(universityId,data)
+        },
+
+
+
     },
 
     getters: {
@@ -58,5 +66,9 @@ export default {
         setPrograms(state, programs) {
             state.programs = programs;
         },
+
+        addToProgramList(state,newProgram){
+            state.programs.push(newProgram);
+        }
     }
 }

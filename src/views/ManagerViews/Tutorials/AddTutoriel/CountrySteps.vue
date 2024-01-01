@@ -106,7 +106,7 @@ import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessMod
 import { navigateToRoute } from '@/Utils/Navigation';
 import SwitcheBtnComponent from '@/components/shared/SwitcheBtnComponent.vue';
 import Spinner from '@/components/shared/Spinner.vue';
-import ConfirmationModalComponent from '@/components/modal/ConfirmationModalComponent.vue';
+import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
 
 export default {
     //countryStepsList when show list without click to add steps
