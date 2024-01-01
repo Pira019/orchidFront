@@ -3,7 +3,7 @@
        
         <form class="my-5" novalidate v-on:submit.prevent="submit">
 
-           <ErrorAlert :show="errors.length" :response="errors"></ErrorAlert>
+           <ErrorAlert :show="!!errors.length" :response="errors"></ErrorAlert>
             <div class="row mb-3">
                 <div class="col-12 col-md">
                     <label for="program_name" class="my-2  fw-bold  fw-bold"
