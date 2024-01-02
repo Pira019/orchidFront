@@ -1,5 +1,5 @@
 <template>
-    <!-- Modal -->
+    <!-- confirmation Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog" :class="modalSize">
@@ -12,10 +12,9 @@
                     </div>
                     <div class="modal-body">
                         <slot>
-                        <p>Vous êtes sur le point de supprimer une étape</p>
-                        <p class="confirmation-message"> Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?
-                        </p> 
-                        </slot>
+                        <p>Vous êtes sur le point de supprimer une étape</p>    
+                        <p class="confirmation-message"> Cette action est irréversible. Êtes-vous sûr de vouloir continuer ? </p>                
+                        </slot> 
                     </div>
                     <div class="modal-footer" v-if="isConfirmModal">
                         <button type="button" class="btn btn-secondary"
@@ -30,7 +29,7 @@
 <script>
 export default {
     props: {
-        closeModal:{},
+        closeModal:{ type : Boolean},
         isConfirmModal:{ 
             default:true,
         },
@@ -39,16 +38,15 @@ export default {
         },
         title:{
             default: 'Confirmation de Suppression'
+        },
+        subjet:{
+            default: 'une étape'
         } 
   },
     watch: {
         closeModal(newValue) {
-            if (newValue) {
-                this.close()
-            }
-            else {
-                this.showModal()
-            }
+
+            newValue ? this.close() : this.showModal();
 
         }
     },
