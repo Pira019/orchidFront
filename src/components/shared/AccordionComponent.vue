@@ -1,15 +1,16 @@
 <template>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item m-2" v-for="(data,index) in data" :key="index" >
-            <h2 class="accordion-header" :id="typeAccordion  + index" @click="isProgram && $emit('findProgram', data)">
+            <h2 class="accordion-header" :id="typeAccordion  + index" @click="isProgram && $emit('findProgram', data)" @mouseenter="data.isMouseOver = true" @mouseleave="data.isMouseOver =false">
                 <button class="accordion-button text-dark fw-bold text-center" type="button" data-bs-toggle="collapse" :data-bs-target="'#_'+typeAccordion+index"
                     aria-expanded="true" :aria-controls="'_'+typeAccordion+index">
                    <span class="text-uppercase">{{ data?.title || data?.program_name }}</span> 
                    <span class="badge m-2" :class="data.cycle==1 ? 'bg-secondary' : 'bg-success'" v-if="isProgram" title="Cycle"> {{ data.cycle }}</span>
 
-                   <div class="ms-auto">
-                    <button class="btn btn-warning">edt</button>
+                   <div class="ms-auto"  v-show="data.isMouseOver" v-if="isProgram">
+                    <button class="btn btn-danger" title="supprimer un programme" @click="$emit('deleteUniversityProgram', {name :data.program_name,id :data.id})"><font-awesome-icon icon="fa-solid fa-trash" /></button>
                    </div>
+
                    
                 </button> 
  
@@ -48,6 +49,11 @@
 
 <script> 
 export default {
+  data () {
+    return {
+        isMouseOver  : false
+    }
+  },
     methods: {
 
         formattedDate(date) {
