@@ -23,5 +23,10 @@ export default class UniversityProgramService{
         const endPoind = 'prefil';
         return this.axiosInstance.get(endPoind);  
     }  
+
+    static async delete(idUniversityProgram){
+        const endPoind = '/' + idUniversityProgram;
+        return this.axiosInstance.delete(endPoind);  
+    } 
  
 }
