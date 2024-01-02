@@ -88,7 +88,7 @@
 
               </StaticbackdropModal>
 
-              <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true" @deleteUniversityProgram="hadleDeleteUniverisityProgram"
+              <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true" @deleteUniversityProgram="hadleDeleteUniversityProgram"
                 @findProgram="handleFindProgram" :typeAccordion="'no-step'">
 
                 <div>
@@ -135,7 +135,7 @@ export default {
       return formattedDate(date)
     },
 
-    hadleDeleteUniverisityProgram(programToDelete_){
+    hadleDeleteUniversityProgram(programToDelete_){
       this.closeModal = false;
       this.showDeleteConfirmationModal = true;
       this.programToDelete = programToDelete_; 
