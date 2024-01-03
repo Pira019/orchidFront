@@ -69,6 +69,11 @@ export default {
 
         addToProgramList(state,newProgram){
             state.programs.push(newProgram);
+        },
+
+        deleteProgramToList(state,idProgram){
+            const index = state.programs.findIndex(program => program.id === idProgram);
+            index !== -1 &&  state.programs.splice(index, 1); 
         }
     }
 }

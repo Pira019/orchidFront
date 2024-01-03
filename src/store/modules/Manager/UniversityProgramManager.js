@@ -8,5 +8,9 @@ export default {
         async getPrefilData({}) {
             return UniversityProgramService.prefilForm();
         },
+
+        async deleteUniversityProgram({}, idUniversityProgram) { 
+            return UniversityProgramService.delete(idUniversityProgram);
+        },
     },
 }

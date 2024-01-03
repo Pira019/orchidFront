@@ -1,5 +1,6 @@
 {
     "program": {
-        "ajout" : "Ajouter un programme"
+        "ajout" : "Ajouter un programme",
+        "delete" : "Supprimer un programme"
     }
 }
