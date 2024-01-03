@@ -29,7 +29,7 @@ export default {
   props: {
     handleModal:{ default: true},
     isSuccess : {type:Boolean, default : true},
-    codeErreur : {default: ''}
+    codeErreur : {default: null}
   },
   created() {
     //show the modal

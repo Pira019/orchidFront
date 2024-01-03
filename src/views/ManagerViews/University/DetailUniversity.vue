@@ -107,7 +107,7 @@
     </university-layout> 
     <!--Modals-->
     <RegisterSuccessModalComponent :handle-modal="false" :isSuccess="isPersistSuccessful" :codeErreur="codeErreur">
-      <p>L'opération a été effectuée avec succès</p>
+      <p>L'opération a été effectuée avec succès</p> 
     </RegisterSuccessModalComponent>
   </div>
 </template>
@@ -141,9 +141,38 @@ export default {
       this.programToDelete = programToDelete_; 
     },
     
-    handlePersistModal(){     
-      this.closeModal = true; 
-      this.showDeleteConfirmationModal = false;
+    handlePersistModal(confirmAction=false){     // when user click on confirm
+       this.closeModal = true;
+      // delete program
+      if(confirmAction){
+        this.showDeleteConfirmationModal && this.handleDeleteProgram();
+      }
+      this.showDeleteConfirmationModal = false;      
+    },
+
+    handleDeleteProgram() {
+
+      let codeErreur = null;
+      let isSuccessed = true;
+
+      this.$store.dispatch('universityProgramManager/deleteUniversityProgram', this.programToDelete?.id).then(() => {
+      this.$store.commit('universityManager/deleteProgramToList', this.programToDelete?.id)
+
+      }).catch((error) => {
+
+        isSuccessed = false;
+
+        if (!error.response) {       
+          codeErreur = error.code;
+          return;
+        }        
+        codeErreur = error.response?.status;
+        navigateToRoute.call(this, codeErreur, 'manager403');
+        
+      }).finally(() => {
+        this.handlePersisteRequestModal(isSuccessed, codeErreur);  
+      })
+
     },
 
     getPrograms() {
@@ -192,7 +221,8 @@ export default {
       isPersistSuccessful : null,
       codeErreur : null,
       showDeleteConfirmationModal : null, 
-      programToDelete : null
+      programToDelete : null,
+      errorMessages:[],
 
     }
   },
