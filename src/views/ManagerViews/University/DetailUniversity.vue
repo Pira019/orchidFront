@@ -75,13 +75,20 @@
 
             </div>
             <div class="tab-pane fade" id="Programme" role="tabpanel" aria-labelledby="Programme-tab">  
-              <button  @click="showPersistModal" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
+              <button  @click="closeModal = false" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
               <!--Persiste modal add program-->
-              <StaticbackdropModal :is-confirm-modal="isConfirmModal" :closeModal="closeModal" :title="persistModalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
-                <add-program @closePersiteModal="closeModal=true" :isModalClosed="closeModal" @showPersistModalResponse=handlePersisteRequestModal></add-program> 
+              <StaticbackdropModal :is-confirm-modal="showDeleteConfirmationModal" :closeModal="closeModal" :title="modalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
+                <add-program v-if="!showDeleteConfirmationModal"  @closePersiteModal="closeModal=true" :isModalClosed="closeModal" @showPersistModalResponse=handlePersisteRequestModal></add-program> 
+               
+                <div v-if="showDeleteConfirmationModal" >
+                  <p> <span class="text-white bg-danger">Attention</span> Vous êtes sur le point de supprimer définitivement le programme</p>
+                  <p class="fw-bold text-uppercase"> {{programNameToDelete}}</p>
+                  <p class="confirmation-message"> Cette action est irréversible. Êtes-vous sûr de vouloir continuer ? </p>      
+                </div>
+
               </StaticbackdropModal>
 
-              <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true"
+              <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true" @deleteUniversityProgram="hadleDeleteUniversityProgram"
                 @findProgram="handleFindProgram" :typeAccordion="'no-step'">
 
                 <div>
@@ -98,8 +105,9 @@
 
       </div>
     </university-layout> 
+    <!--Modals-->
     <RegisterSuccessModalComponent :handle-modal="false" :isSuccess="isPersistSuccessful" :codeErreur="codeErreur">
-      <p>L'opération a été effectuée avec succès</p>
+      <p>L'opération a été effectuée avec succès</p> 
     </RegisterSuccessModalComponent>
   </div>
 </template>
@@ -127,14 +135,44 @@ export default {
       return formattedDate(date)
     },
 
+    hadleDeleteUniversityProgram(programToDelete_){
+      this.closeModal = false;
+      this.showDeleteConfirmationModal = true;
+      this.programToDelete = programToDelete_; 
+    },
     
-    handlePersistModal(){
-      this.closeModal = true; 
+    handlePersistModal(confirmAction=false){     // when user click on confirm
+       this.closeModal = true;
+      // delete program
+      if(confirmAction){
+        this.showDeleteConfirmationModal && this.handleDeleteProgram();
+      }
+      this.showDeleteConfirmationModal = false;      
     },
 
-    showPersistModal(){
-      this.persistModalTitle = modalText.program.ajout;
-      this.closeModal = false; 
+    handleDeleteProgram() {
+
+      let codeErreur = null;
+      let isSuccessed = true;
+
+      this.$store.dispatch('universityProgramManager/deleteUniversityProgram', this.programToDelete?.id).then(() => {
+      this.$store.commit('universityManager/deleteProgramToList', this.programToDelete?.id)
+
+      }).catch((error) => {
+
+        isSuccessed = false;
+
+        if (!error.response) {       
+          codeErreur = error.code;
+          return;
+        }        
+        codeErreur = error.response?.status;
+        navigateToRoute.call(this, codeErreur, 'manager403');
+        
+      }).finally(() => {
+        this.handlePersisteRequestModal(isSuccessed, codeErreur);  
+      })
+
     },
 
     getPrograms() {
@@ -177,12 +215,15 @@ export default {
       isEdit: false,
       program: programModel,
       isEditAdress: false,
-      universityId: parseInt(this.$route.params.id), 
-      persistModalTitle : '',
+      universityId: parseInt(this.$route.params.id),  
       isConfirmModal : false,
       closeModal : true, 
       isPersistSuccessful : null,
       codeErreur : null,
+      showDeleteConfirmationModal : null, 
+      programToDelete : null,
+      errorMessages:[],
+
     }
   },
 
@@ -195,6 +236,14 @@ export default {
       return this.listOfPrograms.slice().sort((a, b) => a.program_name.localeCompare(b.program_name))
       .map(program => ({ ...program, description: program.program_description }));;
     }, 
+
+   modalTitle(){
+      return  !this.showDeleteConfirmationModal ?  modalText.program.ajout : modalText.program.delete;
+    },
+
+    programNameToDelete(){
+      return this.programToDelete.name;
+    }
   },
 
   mounted() {
