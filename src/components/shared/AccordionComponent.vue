@@ -7,13 +7,13 @@
                    <span class="text-uppercase">{{ data?.title || data?.program_name }}</span> 
                    <span class="badge m-2" :class="data.cycle==1 ? 'bg-secondary' : 'bg-success'" v-if="isProgram" title="Cycle"> {{ data.cycle }}</span>
 
-                   <div class="ms-auto"  v-show="data.isMouseOver" v-if="isProgram">
-                    <button class="btn btn-danger" title="supprimer un programme" @click="$emit('deleteUniversityProgram', {name :data.program_name,id :data.id})"><font-awesome-icon icon="fa-solid fa-trash" /></button>
-                   </div>
-
-                   
-                </button> 
- 
+                   <div class="ms-auto" v-show="data.isMouseOver" v-if="isProgram">
+                        <div class="btn-group" role="group" aria-label="action group"> 
+                        <button type="button" class="btn btn-danger" title="supprimer un programme" @click="$emit('deleteUniversityProgram', { name: data.program_name, id: data.id })"><font-awesome-icon icon="fa-solid fa-trash" /></button>                   
+                        <button  @click="$emit('editUniversityProgram',data)" type="button" class="btn btn-warning" title="modifier un programme"><font-awesome-icon class="text-white" icon="fa-solid fa-pen" /></button>                   
+                    </div> 
+                </div> 
+            </button>
             </h2>
             <div :id="'_'+typeAccordion+index" data-bs-parent="#accordionExample" class="accordion-collapse collapse" :class="typeAccordion == 'step' && 'show'" :aria-labelledby="typeAccordion  + index" >
                 <div class="accordion-body">
