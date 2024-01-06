@@ -173,12 +173,24 @@ export default {
     props: {
         isModalClosed: {
             type: Boolean
+        },
+
+        programToEdit:{
+            type : Object,
+            default : null,
         }
     },
 
    watch: {
         isModalClosed(newValue) {
             newValue && this.cancel();  
+        },
+
+        programToEdit(program)
+        {
+            if(program){
+              this.prepareDataToUpdate(program)
+            }
         }
     }, 
     data() {
@@ -197,6 +209,7 @@ export default {
         this.prefilForm();
     },
     computed: {
+
         showCustomeProgramInput() {
             if (this.state.program_name === "other") {
                 return true;
@@ -213,10 +226,29 @@ export default {
         }
     },
     methods: {
+
+        prepareDataToUpdate(selectedProgram) {
+            const { languages, admission_scheme, discipline_description, discipline_name, ...rest } = selectedProgram;
+
+            
+            Object.assign(this.state, {
+                ...rest,
+                languages: languages.split(','),
+                admission_scheme: admission_scheme.split(','),
+                isUpdate: true,
+                discipline_name: {
+                    label: discipline_name,
+                    description: discipline_description,
+                },
+            }
+            )
+
+        },
         cancel() {
-            Object.assign(this.state, { ...Program }); //reset state   
+            Object.assign(this.state, { ...Program,isUpdate:null }); //reset state   
             this.v$.$reset();
-            this.errors = []
+            this.errors = []; 
+            this.state.program_name
             this.$emit('closePersiteModal'); 
         },
         
@@ -230,7 +262,8 @@ export default {
         //hadle save
         submit() 
         {    
-                    
+            
+            this.v$.$reset();  
             this.v$.$validate();
             if (this.v$.$error) {
                 return;
@@ -239,13 +272,18 @@ export default {
             const universityId = parseInt(this.$route.params.id);
             const data = this.preparedData();
             this.isLoading = true;
-            let codeErreur = null; 
+            let codeErreur = null;
             this.$store.dispatch('universityManager/addUniversityProgram', { universityId, data })
                 .then((response) => {
                     const id = response?.data
                     //add to program list
-                    this.$store.commit('universityManager/addToProgramList', { ...data, id });   
-                    this.isRequestSuccessful = true;
+
+                    const mutationType = data.isUpdate ? 'universityManager/upDateProgram' : 'universityManager/addToProgramList';
+                    const payload = data.isUpdate ? data : { ...data, id };
+                    this.$store.commit(mutationType, payload);
+
+                    this.isRequestSuccessful = true; 
+                    
                     this.cancel();     
 
                 }).catch((error) => {
