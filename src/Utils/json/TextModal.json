@@ -1,6 +1,7 @@
 {
     "program": {
         "ajout" : "Ajouter un programme",
-        "delete" : "Supprimer un programme"
+        "delete" : "Supprimer un programme",
+        "edit" : "Modifier un programme"
     }
 }

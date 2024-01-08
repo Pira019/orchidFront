@@ -55,9 +55,12 @@ export default class UniversityService{
     } 
 
     //Université programme
-    static async addProgram(universityId, newProgram) {
-        const endPoint = universityId + '/add-program';
-        return this.axiosInstance.post(endPoint, newProgram);
+    static async addProgram(universityId, newProgram) 
+    {
+        const endPoint = universityId + '/add-or-edit-program';
+        const requestMethod = newProgram.isUpdate ? 'put' : 'post';
+        return this.axiosInstance[requestMethod](endPoint, newProgram); 
+       // this.axiosInstance.post(endPoint, newProgram);
     } 
  
 }

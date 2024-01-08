@@ -78,7 +78,7 @@
               <button  @click="closeModal = false" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
               <!--Persiste modal add program-->
               <StaticbackdropModal :is-confirm-modal="showDeleteConfirmationModal" :closeModal="closeModal" :title="modalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
-                <add-program v-if="!showDeleteConfirmationModal"  @closePersiteModal="closeModal=true" :isModalClosed="closeModal" @showPersistModalResponse=handlePersisteRequestModal></add-program> 
+                <add-program v-if="!showDeleteConfirmationModal" :programToEdit="programToEdit"  @closePersiteModal="closeModal=true;programToEdit=null;" :isModalClosed="closeModal" @showPersistModalResponse=handlePersisteRequestModal></add-program> 
                
                 <div v-if="showDeleteConfirmationModal" >
                   <p> <span class="text-white bg-danger">Attention</span> Vous êtes sur le point de supprimer définitivement le programme</p>
@@ -88,7 +88,7 @@
 
               </StaticbackdropModal>
 
-              <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true" @deleteUniversityProgram="hadleDeleteUniversityProgram"
+              <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true" @editUniversityProgram="handleUpdateUniversityProgram" @deleteUniversityProgram="hadleDeleteUniversityProgram"
                 @findProgram="handleFindProgram" :typeAccordion="'no-step'">
 
                 <div>
@@ -131,6 +131,11 @@ import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessMod
 export default {
   methods: {
 
+    handleUpdateUniversityProgram(programToEdit_){ 
+      this.closeModal = false;
+      this.programToEdit = {...programToEdit_};
+    },
+
     formattedDate_(date) {
       return formattedDate(date)
     },
@@ -147,7 +152,8 @@ export default {
       if(confirmAction){
         this.showDeleteConfirmationModal && this.handleDeleteProgram();
       }
-      this.showDeleteConfirmationModal = false;      
+      this.showDeleteConfirmationModal = false;
+      this.programToEdit = null;      
     },
 
     handleDeleteProgram() {
@@ -223,6 +229,7 @@ export default {
       showDeleteConfirmationModal : null, 
       programToDelete : null,
       errorMessages:[],
+      programToEdit : null
 
     }
   },
@@ -237,9 +244,14 @@ export default {
       .map(program => ({ ...program, description: program.program_description }));;
     }, 
 
-   modalTitle(){
-      return  !this.showDeleteConfirmationModal ?  modalText.program.ajout : modalText.program.delete;
+    modalTitle() {
+      return this.showDeleteConfirmationModal
+        ? modalText.program.delete
+        : this.programToEdit
+        ? modalText.program.edit
+        : modalText.program.ajout;
     },
+
 
     programNameToDelete(){
       return this.programToDelete.name;

@@ -74,6 +74,19 @@ export default {
         deleteProgramToList(state,idProgram){
             const index = state.programs.findIndex(program => program.id === idProgram);
             index !== -1 &&  state.programs.splice(index, 1); 
+        },
+
+        upDateProgram(state,updatedProgram){
+
+            const updatedIndex = state.programs.findIndex(program => program.id === updatedProgram.id);
+            if(updatedIndex !== -1){
+                
+               state.programs = [
+                ...state.programs.slice(0, updatedIndex),
+                updatedProgram,
+                ...state.programs.slice(updatedIndex + 1),
+               ]; 
+            }
         }
     }
 }
