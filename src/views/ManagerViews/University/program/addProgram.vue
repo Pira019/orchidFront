@@ -11,7 +11,7 @@
 
                         <select  class="form-select" id="program_name" v-model.trim="state.program_name"  :class="[v$.program_name.$error ? 'is-invalid' : '']">
                             <option selected value=""></option>
-                            <option v-for="(program,index) in programs" :key="index" :value="program.name">{{ program.name }}</option>
+                            <option v-for="(program,index) in sortedListOfPrograms" :key="index" :value="program.name">{{ program.name }}</option>
                             <option value="other"> ** Autre programme **</option>
                          </select>      
 
@@ -223,7 +223,11 @@ export default {
             }
             this.state.discipline_description = this.state.discipline_name?.description;
             this.state.disciplinarySectorCustome = null;
-        }
+        },
+
+        sortedListOfPrograms() {
+      return this.programs.slice().sort((a, b) => a.name.localeCompare(b.name));
+    }, 
     },
     methods: {
 
@@ -284,6 +288,9 @@ export default {
 
                     this.isRequestSuccessful = true; 
                     
+                    data?.program_name_custome && this.programs.push({name:data?.program_name});
+                    data?.disciplinarySectorCustome && this.disciplinarySectors.push({label:data?.discipline_name, description:data?.discipline_description});
+                    
                     this.cancel();     
 
                 }).catch((error) => {
@@ -313,6 +320,8 @@ export default {
                 languages: this.state.languages.join(','),
                 admission_scheme: this.state.admission_scheme.join(','),
             };
+
+          
             return programData;
         }
     },
