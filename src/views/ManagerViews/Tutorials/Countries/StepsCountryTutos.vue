@@ -7,7 +7,7 @@
             <div class="row  mt-3">
                 <div class="col-md-2 overflow-auto">
                     <div class="mb-3">
-                        <img :src="countryDetail.flagUrl" alt="img-drapeau" class="img-thumbnail" width="150" />
+                        <img :src="countryDetail.flagUrl" alt="img-drapeau" class="img-thumbnail" width="100" />
                     </div>
                     <VerticalMenuComponent :data="stepsList" @getStep="getStepDetail"></VerticalMenuComponent>
                 </div>
