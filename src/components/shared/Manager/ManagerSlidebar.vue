@@ -32,8 +32,21 @@
                
                  <!---->
                 <li class="nav-item">
-                    <a class="nav-link m-1 fw-bold " href="#"><font-awesome-icon icon="fa-solid fa-gear" /> Nos services</a>
+                    <a class="nav-link m-1 fw-bold" ><font-awesome-icon icon="fa-solid fa-gear" /> Nos services</a>
                 </li>
+
+                <li>                     
+                    <a data-toggle="collapse" aria-expanded="false" href="#setting"  class="nav-link m-1 fw-bold dropdown-toggle">
+                        <font-awesome-icon icon="fa-person-chalkboard" size="1x"/>
+                        <span class="px-2">Paramètres</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="setting">
+                        <li class="nav-item">
+                            <router-link class="nav-link fw-bold" :to="{name:'Managerwatermark'}"> <font-awesome-icon icon="fa-signature" size="1x"/><span class="px-2"> Watermark </span></router-link>
+                        </li> 
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link m-1 fw-bold " href="#">Disabled</a>
                 </li>
