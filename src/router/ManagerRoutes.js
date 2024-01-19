@@ -1,6 +1,33 @@
 let prefix = '/manager/'
 
 let routes = [
+
+    //setting route
+    {
+        path: prefix + 'paramettre', component: () => import('@/views/ManagerViews/Setting/SettingManagerIndex.vue'),
+        beforeEnter: guardMyroute, 
+        meta: {
+            title: 'Paramètres',
+        },
+        // setting route children
+        children: [
+            {
+            path: 'watermark', name: 'Managerwatermark', component: () => import('@/views/ManagerViews/Setting/WaterMark.vue'),
+            mata: {
+                title: 'Watermark Orchid-campus',
+                metaTags: [
+                    {
+                        name: 'description',
+                        content: 'Ajouter tutoriels'
+                    }
+                ]
+            }
+        }, 
+        ]
+    },
+
+    /// end route
+
     {
         path: prefix, name: 'managerHome', component: () => import('@/views/ManagerViews/Home.vue'),
         beforeEnter: guardMyroute,
