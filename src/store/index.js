@@ -8,6 +8,7 @@ import authManager from './modules/Manager/AuthManager'
 import universityManager from './modules/Manager/UniversityManager'
 import countryManager from './modules/Manager/CountryManager'
 import universityProgramManager from './modules/Manager/UniversityProgramManager'
+import settingManager from './modules/Manager/SettingManager'
 
 export default new Vuex.Store({ 
     modules: {
@@ -19,7 +20,8 @@ export default new Vuex.Store({
         authManager,
         universityManager,
         countryManager,
-        universityProgramManager
+        universityProgramManager,
+        settingManager
     },
 
     getters: {
