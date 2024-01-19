@@ -42,7 +42,7 @@
                     </a>
                     <ul class="collapse list-unstyled" id="setting">
                         <li class="nav-item">
-                            <router-link class="nav-link fw-bold" :to="{name:'Managerwatermark'}"> <font-awesome-icon icon="fa-globe" size="1x"/><span class="px-2"> watermark </span></router-link>
+                            <router-link class="nav-link fw-bold" :to="{name:'Managerwatermark'}"> <font-awesome-icon icon="fa-signature" size="1x"/><span class="px-2"> Watermark </span></router-link>
                         </li> 
                     </ul>
                 </li>
