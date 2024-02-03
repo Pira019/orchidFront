@@ -1,5 +1,7 @@
 <template>
     <div>
+        
+      <ViewVideos></ViewVideos>
         <section class="container-fluid">
             <header class="text-center mb-5">
                 <h1 class="text-success">Tutoriels pour <mark> {{ countryDetail.name }} </mark></h1>
@@ -24,7 +26,7 @@
 
                     <spinner v-if="isDataLoaing" class="m-2"></spinner>
                     <AccordionComponent v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
-                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess">
+                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess">  
                     </AccordionComponent>
                 </AccordionComponent>
 
@@ -48,6 +50,7 @@ import AddTutoModal from './AddTutorialsToStep/AddTutoModal.vue';
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 import Spinner from '@/components/shared/Spinner.vue';
 import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
+import ViewVideos from '@/components/shared/ViewVideos.vue';
 
 export default {
     methods: {
@@ -121,7 +124,7 @@ export default {
         getTutosByStep(stepCountryId) {
             this.isDataLoaing = true
             this.$store.dispatch('tutorial/getByStepCountryId', stepCountryId).then((response) => {
-                this.isDataLoaing = false;
+                 this.isDataLoaing = false;
                 this.tutos = response.data
                 this.orderNewTuto = this.tutos.length + 1
             });
@@ -154,6 +157,6 @@ export default {
             this.$store.commit('tutorial/setCountryDetail', { name: response.data.name, short_name: response.data.short_name, flagUrl: response.data.flag_url });
         });
     },
-    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent }
+    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent,ViewVideos }
 }
 </script>
