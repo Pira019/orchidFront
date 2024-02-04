@@ -37,7 +37,7 @@
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
         </section>
         <confirmation-modal-component :closeModal="!openDeleteModal" @isConfirm="handleDeleteConfirmation">
-            <mark class="fw-bold"> un tutoriel </mark>
+            Supprimer le tutoriel <mark class="fw-bold">{{ tutoToDelete?.title?.toUpperCase() }}</mark> 
         </confirmation-modal-component>
     </div>
 </template>

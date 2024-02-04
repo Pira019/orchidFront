@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-  <div class="video-js">
-    <video ref="videoPlayer">
-      <source :src="videoSource"   class="embed-responsive-item" type="application/x-mpegURL"/>
-    </video>
+    <div class="video-js">
+      <video ref="videoPlayer">
+        <source :src="videoSource" class="embed-responsive-item" type="application/x-mpegURL" />
+      </video>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -27,6 +27,7 @@ export default {
       responsive: true,
       language:'fr',
       suppressNotSupportedError:true,
+      preload:"auto",
       controlBar: {
         skipButtons: {
           forward: 5,
@@ -47,5 +48,8 @@ export default {
 </script>
 
 <style scoped>
-/* Add any component-specific styles here */
+.video-js {
+  width: 100%;
+  height: auto;
+}
 </style>
