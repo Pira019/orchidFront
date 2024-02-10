@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <div class="video-js">
-      <video ref="videoPlayer">
-        <source :src="videoSource" class="embed-responsive-item" type="application/x-mpegURL" />
+    <div class="row">
+      <video ref="videoPlayer" class="video-js">
+        <source :src="videoSource" class="embed-responsive-item" type="application/x-mpegURL" /> 
       </video>
     </div>
   </div>
@@ -10,33 +10,41 @@
 
 <script>
 
-import videojs from 'video.js';
+
 import 'video.js/dist/video-js.css'; 
+import videojs from 'video.js'; 
+import videoFr from 'video.js/dist/lang/fr.json'; 
 export default {
+  props: ['videoToken'],
   name: 'VideoPlayer',
-  data() {
-    return {
-      videoSource:
-        'https://customer-r8ri4hho38gthy2c.cloudflarestream.com/e0be0d497e2846327160647f0db29947/manifest/video.m3u8',
-    };
+  
+  computed: {
+    videoSource() {
+      return `https://customer-r8ri4hho38gthy2c.cloudflarestream.com/${this.videoToken}/manifest/video.m3u8`;
+    }
+  },
+
+  watch: {
+    videoToken(newValue) {
+      // When videoToken prop changes, update the video source
+      this.player.src(this.videoSource);
+    }
   },
   mounted() {
     // Initialize Video.js when the component is mounted
-    this.player = videojs(this.$refs.videoPlayer, {
+    videojs.addLanguage('fr',videoFr)
+    this.player = videojs(this.$refs.videoPlayer, {      
       controls: true,
       responsive: true,
-      language:'fr',
-      suppressNotSupportedError:true,
-      preload:"auto",
+      language:'fr', 
+      preload:"metadata",
       controlBar: {
         skipButtons: {
           forward: 5,
           backward: 5
         }
       }
-    }, function () {
-
-    });
+    }); 
   },
   beforeDestroy() {
     // Dispose of the Video.js player when the component is destroyed
@@ -48,8 +56,8 @@ export default {
 </script>
 
 <style scoped>
-.video-js {
+.video--js {
   width: 100%;
-  height: auto;
+  height: auto;  
 }
 </style>

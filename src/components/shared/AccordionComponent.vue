@@ -1,7 +1,7 @@
 <template>
-    <div class="accordion" id="accordionExample">
+    <div class="accordion" :id="typeAccordion">
         <div class="accordion-item m-2" v-for="(data, index) in data" :key="index">
-            <h2 class="accordion-header" :id="typeAccordion + index" @click="isProgram && $emit('findProgram', data)"
+            <h2 class="accordion-header" :id="typeAccordion + index" @click="handleClickOnTitle(data)"
                 @mouseenter="data.isMouseOver = true" @mouseleave="data.isMouseOver = false">
                 <button class="accordion-button text-dark fw-bold text-center" type="button" data-bs-toggle="collapse"
                     :data-bs-target="'#_' + typeAccordion + index" aria-expanded="true"
@@ -12,17 +12,17 @@
 
                     <div class="ms-auto" v-show="data.isMouseOver" v-if="isProgram || showDetailBtn">
                         <div class="btn-group" role="group" aria-label="action group">
-                            <button type="button" class="btn btn-danger" title="supprimer un programme"
+                            <button type="button" class="btn btn-danger" title="Supprimer"
                             @click="handleBtnOnclick(data, false)"><font-awesome-icon
                                     icon="fa-solid fa-trash" /></button>
                             <button @click="handleBtnOnclick(data, true)" type="button" class="btn btn-warning"
-                                title="modifier un programme"><font-awesome-icon class="text-white"
+                                title="Modifier"><font-awesome-icon class="text-white"
                                     icon="fa-solid fa-pen" /></button>
                         </div>
                     </div>
                 </button>
             </h2>
-            <div :id="'_' + typeAccordion + index" data-bs-parent="#accordionExample" class="accordion-collapse collapse"
+            <div :id="'_' + typeAccordion + index" :data-bs-parent="'#'+ typeAccordion" class="accordion-collapse collapse"
                 :class="typeAccordion == 'step' && 'show'" :aria-labelledby="typeAccordion + index">
                 <div class="accordion-body">
                     <p class="text-justify"> {{ data?.description ?? 'Aucune description ' }} </p>
@@ -80,6 +80,17 @@ export default {
                 } else {
                     return this.$emit('deleteUniversityProgram', { name: data.program_name, id: data.id });
                 }
+            }
+        },
+
+        handleClickOnTitle(data) {
+            
+            if (this.isProgram) {
+                return this.$emit('findProgram', data);
+            }
+
+            if (this.showDetailBtn) {
+                return this.$emit('detailItem', data?.extra_tutos);
             }
         }
 

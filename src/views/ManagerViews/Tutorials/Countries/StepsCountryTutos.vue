@@ -1,7 +1,6 @@
 <template>
     <div>
-        
-      <ViewVideos></ViewVideos>
+         
         <section class="container-fluid">
             <header class="text-center mb-5">
                 <h1 class="text-success">Tutoriels pour <mark> {{ countryDetail.name }} </mark></h1>
@@ -25,8 +24,24 @@
                     </div>
 
                     <spinner v-if="isDataLoaing" class="m-2"></spinner>
-                    <AccordionComponent v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
-                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess">  
+                    <AccordionComponent  v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
+                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess" @detailItem="infoTuto = $event">  
+                        <div v-if="infoTuto.length" class="border p-2">
+                            <div class="row mt-5" v-for="(item,index) in infoTuto" :key="index">
+                                <div class="col-12 col-md-6">
+                                    <ViewVideos :video-token="item.isPrivate ? item.signature : item.token"></ViewVideos>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"> <strong>Visible : </strong>  {{  item.visibility ? "OUI" : "Non" }}</li> 
+                                        <li class="list-group-item"> <strong>Dernière modification : </strong>  {{ dateFormate(item.updated_at) }}</li> 
+                                        <li class="list-group-item"> <strong>Privé : </strong>  {{  item.isPrivate ? "OUI" : "Non" }}</li> 
+                                        <li class="list-group-item"> <strong>Créateur : </strong> {{ item.creator }}</li> 
+                                        <li class="list-group-item"> <strong>Commentaire : </strong> {{ item.commment }}</li> 
+                                     </ul>
+                                </div>
+                            </div>
+                        </div>
                     </AccordionComponent>
                 </AccordionComponent>
 
@@ -51,10 +66,14 @@ import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 import Spinner from '@/components/shared/Spinner.vue';
 import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
 import ViewVideos from '@/components/shared/ViewVideos.vue';
+import formattedDate from '@/Utils/formattedDate';
 
 export default {
     methods: {
-
+ 
+        dateFormate(date) {
+            return formattedDate(date);
+        },
         // Delete tuto process
         initiateDeleteProcess(tuto) {
             this.tutoToDelete = tuto;
@@ -140,6 +159,7 @@ export default {
             isEdit: false,
             tutoToDelete: {},
             openDeleteModal: false,
+            infoTuto : []
         }
     },
     computed: {
