@@ -17,16 +17,20 @@
                                     icon="fa-solid fa-trash" /></button>
                             <button @click="handleBtnOnclick(data, true)" type="button" class="btn btn-warning"
                                 title="Modifier"><font-awesome-icon class="text-white"
-                                    icon="fa-solid fa-pen" /></button>
+                                    icon="fa-solid fa-pen" /></button>  
                         </div>
                     </div>
                 </button>
             </h2>
             <div :id="'_' + typeAccordion + index" :data-bs-parent="'#'+ typeAccordion" class="accordion-collapse collapse"
                 :class="typeAccordion == 'step' && 'show'" :aria-labelledby="typeAccordion + index">
-                <div class="accordion-body">
-                    <p class="text-justify"> {{ data?.description ?? 'Aucune description ' }} </p>
+                <div class="accordion-body"> 
+                    <slot name="moreOptions"></slot>  
+                    <div class="mt-5">
+                        <p class="text-justify"> {{ data?.description ?? 'Aucune description ' }} </p> 
+                    </div>
 
+                   
                     <section v-if="detail" class="m-4" id="detail">
                         <header class="mb-3">
                             <h3 class="text-success fw-bold h5">Détails</h3>
