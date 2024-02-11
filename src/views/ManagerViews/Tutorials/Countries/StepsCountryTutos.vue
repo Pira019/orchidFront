@@ -25,7 +25,23 @@
 
                     <spinner v-if="isDataLoaing" class="m-2"></spinner>
                     <AccordionComponent  v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
-                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess" @detailItem="infoTuto = $event">  
+                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess" @detailItem="infoTuto = $event"> 
+
+                        <template #moreOptions>
+                            <section class="position-relative" id="ajouterTuto">
+                                    <div class="position-absolute top-0 end-0">
+                                        <div class="dropdown" title="Gérer les tutos ou les liens">
+                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Option
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li> <button class="dropdown-item"  @click="handleModalAddTutoVideo" title="Ajouter une vidéo tutoriel"> <font-awesome-icon icon="video" /> Ajouter une vidéo</button></li> 
+                                        </ul>
+                                        </div>
+                                    </div>
+                                </section>
+                        </template>
+
                         <div v-if="infoTuto.length" class="border p-2">
                             <div class="row mt-5" v-for="(item,index) in infoTuto" :key="index">
                                 <div class="col-12 col-md-6">
@@ -51,8 +67,9 @@
                 :stepTitle='detailStep.title' :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
         </section>
-        <confirmation-modal-component :closeModal="!openDeleteModal" @isConfirm="handleDeleteConfirmation">
-            Supprimer le tutoriel <mark class="fw-bold">{{ tutoToDelete?.title?.toUpperCase() }}</mark> 
+        <confirmation-modal-component :modalSize="isAddVideo ? 'modal-lg' : null" :title="isAddVideo ? 'Ajouter un tutoriel vidéo' : undefined" :closeModal="!openDeleteModal" @isConfirm="handleClickOnConfirmation" :isConfirmModal="!isAddVideo && true">
+            <section v-if="isAddVideo"> <add-tuto-video @isConfirm="handleClickOnConfirmation"></add-tuto-video> </section> 
+            <p v-else> Supprimer le tutoriel <mark class="fw-bold">{{ tutoToDelete?.title?.toUpperCase() }}</mark> </p> 
         </confirmation-modal-component>
     </div>
 </template>
@@ -67,6 +84,7 @@ import Spinner from '@/components/shared/Spinner.vue';
 import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
 import ViewVideos from '@/components/shared/ViewVideos.vue';
 import formattedDate from '@/Utils/formattedDate';
+import AddTutoVideo from '../AddTutoriel/AddTutoVideo.vue';
 
 export default {
     methods: {
@@ -80,8 +98,15 @@ export default {
             this.openDeleteModal = true;
         },
 
-        handleDeleteConfirmation(modalReponse) {
+        handleModalAddTutoVideo(){
+            this.openDeleteModal = true;
+            this.isAddVideo =  true;
+        },
+
+        handleClickOnConfirmation(modalReponse) {
             if (modalReponse) { this.deleteTuto(); return }
+            
+            this.isAddVideo = modalReponse;            
             this.openDeleteModal = modalReponse;
         },
 
@@ -159,7 +184,8 @@ export default {
             isEdit: false,
             tutoToDelete: {},
             openDeleteModal: false,
-            infoTuto : []
+            infoTuto : [],
+            isAddVideo : false,
         }
     },
     computed: {
@@ -177,6 +203,6 @@ export default {
             this.$store.commit('tutorial/setCountryDetail', { name: response.data.name, short_name: response.data.short_name, flagUrl: response.data.flag_url });
         });
     },
-    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent,ViewVideos }
+    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent,ViewVideos, AddTutoVideo }
 }
 </script>
