@@ -58,7 +58,7 @@ export default {
 
         async saveTuto({},newTuto) {
             return TutorialService.save(newTuto)
-        },
+        },        
         
         async editTutorial({},updatedTuto) {
             return TutorialService.editTuto(updatedTuto)
@@ -70,7 +70,11 @@ export default {
         
         async deleteTuto({},idTuto){
             return TutorialService.delete(idTuto);
-         }   
+         },         
+         
+        async addVideoTuto({},extraTuto) {
+            return TutorialService.addVideoTuto(extraTuto)
+        },
 
         
     },

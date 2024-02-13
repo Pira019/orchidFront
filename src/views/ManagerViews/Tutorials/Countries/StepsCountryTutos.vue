@@ -53,7 +53,7 @@
                                         <li class="list-group-item"> <strong>Dernière modification : </strong>  {{ dateFormate(item.updated_at) }}</li> 
                                         <li class="list-group-item"> <strong>Privé : </strong>  {{  item.isPrivate ? "OUI" : "Non" }}</li> 
                                         <li class="list-group-item"> <strong>Créateur : </strong> {{ item.creator }}</li> 
-                                        <li class="list-group-item"> <strong>Commentaire : </strong> {{ item.commment }}</li> 
+                                        <li class="list-group-item"> <strong>Commentaire : </strong> {{ item.comment }}</li> 
                                      </ul>
                                 </div>
                             </div>
