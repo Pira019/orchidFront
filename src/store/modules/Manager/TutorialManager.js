@@ -58,6 +58,11 @@ export default {
         extraTutos(state,extraTutos) {
             state.extraTutos = extraTutos;
         },
+
+        addExtraTuto(state,newTuto){
+            state.extraTutos.push(newTuto);
+        },
+
     },  
 
 

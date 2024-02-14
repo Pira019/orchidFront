@@ -23,7 +23,7 @@
         <div class="row mb-3">
             <div class="col-12 col-md">
                 <label :class="[v$.video.$error && 'text-danger']" for="video" class="my-2  fw-bold  fw-bold">Uploader la vidéo</label>
-                <input type="file" :class="[v$.video.$error && 'is-invalid']" class="form-control" id="video" accept="video/*" @change="handleFileUpload($event)">  
+                <input  ref="fileInput" type="file" :class="[v$.video.$error && 'is-invalid']" class="form-control" id="video" accept="video/*" @change="handleFileUpload($event)">  
                 
                 <div class="invalid-feedback" v-if="v$.video.$error"> 
                         <span v-for="(error, index) of v$.video.$errors" :key="index">
@@ -109,6 +109,7 @@ export default {
         resetForm() {
             Object.assign(this.state, { ...ExtraTuto }); //reset state   
             this.errors = null;
+            this.$refs.fileInput.value = null;
             this.file = '';
         },
 
@@ -126,9 +127,14 @@ export default {
             this.isLoading = true;
          
 
-            this.$store.dispatch('tutorial/addVideoTuto', this.state).then((response) => {
-                this.isRequestSucced = true; 
-                this.v$.$reset(); 
+            this.$store.dispatch('tutorial/addVideoTuto', this.state)
+            .then((response) => {
+                
+                this.isRequestSucced = true;
+                const { isPrivate, comment } = this.state;
+                const newToto = { ...response.data, isPrivate, comment };
+                this.$store.commit('tutorial/addExtraTuto', newToto)
+                this.v$.$reset();
                 this.resetForm();
 
             }).catch((error) => {
@@ -137,6 +143,7 @@ export default {
                     this.errors = "Erreur lors de la requête";
                     return;
                 }
+                
                 if (error.response && error.response.data && error.response.data.message) {
                     this.errors = error.response.data.message;  
                 } else {
