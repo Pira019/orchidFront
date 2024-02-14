@@ -2,7 +2,7 @@
     <form novalidate v-on:submit.prevent="submit" enctype="multipart/form-data">
        
        <SuccessAlert :show="isRequestSucced">La vidéo tutorielle a été ajoutée avec succès.</SuccessAlert>
-       <error-alert :show="errors?.length" :response="errors"></error-alert>
+       <error-alert-2 :show="hasErrors" :response="errors">Erreur</error-alert-2> 
 
         <div class="row mb-3">
             <div class="col-12 col-md">
@@ -64,8 +64,9 @@ import { computed, reactive } from 'vue';
 import { ExtraTuto } from '@/model/ExtraTuto';
 import useVuelidate from '@vuelidate/core';
 import customeMessage from '@/Utils/validationMessages';
-import SuccessAlert from '@/components/shared/Alert/SuccessAlert.vue';
-import ErrorAlert from '@/components/shared/Alert/ErrorAlert.vue';
+import SuccessAlert from '@/components/shared/Alert/SuccessAlert.vue'; 
+import ErrorAlert2 from '@/components/shared/Alert/ErrorAlert2.vue';
+import { mapGetters } from 'vuex';
 
 export default {
 
@@ -89,46 +90,67 @@ export default {
         return {
             file: '',
             isLoading : false,
-            errors : [],
+            errors :null,
             isRequestSucced:false
         }
     },
+
+    computed: {
+        hasErrors() {
+            return this.errors && true;
+        }, 
+        ...mapGetters('tutorial', {
+            tutorial_id: 'selectedTutoId', 
+        }),  
+    },
+
     methods: {
 
-        submit(){
-            this.state.tutorial_id =139;
+        resetForm() {
+            Object.assign(this.state, { ...ExtraTuto }); //reset state   
+            this.errors = null;
+            this.file = '';
+        },
+
+        submit()
+        { 
+            this.state.tutorial_id = this.tutorial_id;
+
             this.v$.$reset();
             this.v$.$validate();
 
-           if(this.v$.$error){
-            return;
-           }
+            if (this.v$.$error) {
+                return;
+            }
 
-           this.isLoading = true;
+            this.isLoading = true;
+         
 
-           this.$store.dispatch('tutorial/addVideoTuto',this.state).then((response) => {
-                this.isRequestSucced=true;
-                Object.assign(this.state, { ...ExtraTuto}); //reset state   
-                this.v$.$reset();
-                this.errors = []; 
-                this.file = '';
+            this.$store.dispatch('tutorial/addVideoTuto', this.state).then((response) => {
+                this.isRequestSucced = true; 
+                this.v$.$reset(); 
+                this.resetForm();
 
-            }).catch((error)=>{
+            }).catch((error) => {
 
-                this.isRequestSucced=false;
+                if (!error.response) {
+                    this.errors = "Erreur lors de la requête";
+                    return;
+                }
+                if (error.response && error.response.data && error.response.data.message) {
+                    this.errors = error.response.data.message;  
+                } else {
+                    this.errors = 'Erreur '+  error.response.status +' lors de la requête'; 
+                }
 
-                 if (!error.response) {
-                        this.errors = [["Erreur lors de la requête"]]
-                        return false
-                    }
-                    this.errors= error?.response?.data?.errors
-
-            }).finally(()=> {
+            }).finally(() => {
                 this.isLoading = false;
             });
         },
 
-        cancel() {
+        cancel()
+        {
+            this.resetForm();
             this.$emit('isConfirm', false);
         },
 
@@ -148,8 +170,9 @@ export default {
             this.previewVideo(); 
         },
 
-    },
-    props: {},
-    components: { SubmitBtnComponent, SuccessAlert, ErrorAlert }
+       
+
+    }, 
+    components: { SubmitBtnComponent, SuccessAlert, ErrorAlert2 }
 }
 </script>

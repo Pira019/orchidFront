@@ -93,8 +93,10 @@ export default {
                 return this.$emit('findProgram', data);
             }
 
-            if (this.showDetailBtn) {
-                return this.$emit('detailItem', data?.extra_tutos);
+            if (this.showDetailBtn)
+            {
+                this.$store.commit('tutorial/setSelectedTutoId', data.id);
+                this.$store.commit('tutorial/extraTutos', data?.extra_tutos); 
             }
         }
 

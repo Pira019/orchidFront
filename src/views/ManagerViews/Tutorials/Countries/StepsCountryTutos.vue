@@ -25,7 +25,7 @@
 
                     <spinner v-if="isDataLoaing" class="m-2"></spinner>
                     <AccordionComponent  v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
-                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess" @detailItem="infoTuto = $event"> 
+                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess"> 
 
                         <template #moreOptions>
                             <section class="position-relative" id="ajouterTuto">
@@ -183,16 +183,18 @@ export default {
             orderNewTuto: 0,
             isEdit: false,
             tutoToDelete: {},
-            openDeleteModal: false,
-            infoTuto : [],
+            openDeleteModal: false, 
             isAddVideo : false,
         }
     },
+
+    
     computed: {
         ...mapGetters('tutorial', {
             stepsList: 'getSteps',
             countryDetail: 'getCountryDetail',
-        }),
+            infoTuto: 'getExtraTutos',
+        }), 
     },
     created() {
         const idCountry = parseInt(this.$route.params.id)
