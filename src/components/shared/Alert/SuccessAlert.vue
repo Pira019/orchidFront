@@ -13,8 +13,7 @@ export default {
             type : Boolean
         },
         response : {
-            default : '',
-            required : true
+            default : '', 
         }
     },
     name : 'SuccessAlert'

@@ -1,5 +1,6 @@
 <template>
     <div>
+         
         <section class="container-fluid">
             <header class="text-center mb-5">
                 <h1 class="text-success">Tutoriels pour <mark> {{ countryDetail.name }} </mark></h1>
@@ -23,8 +24,40 @@
                     </div>
 
                     <spinner v-if="isDataLoaing" class="m-2"></spinner>
-                    <AccordionComponent v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
-                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess">
+                    <AccordionComponent  v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
+                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess"> 
+
+                        <template #moreOptions>
+                            <section class="position-relative" id="ajouterTuto">
+                                    <div class="position-absolute top-0 end-0">
+                                        <div class="dropdown" title="Gérer les tutos ou les liens">
+                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Option
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li> <button class="dropdown-item"  @click="handleModalAddTutoVideo" title="Ajouter une vidéo tutoriel"> <font-awesome-icon icon="video" /> Ajouter une vidéo</button></li> 
+                                        </ul>
+                                        </div>
+                                    </div>
+                                </section>
+                        </template>
+
+                        <div v-if="infoTuto.length" class="border p-2">
+                            <div class="row mt-5" v-for="(item,index) in infoTuto" :key="index">
+                                <div class="col-12 col-md-6">
+                                    <ViewVideos :video-token="item.isPrivate ? item.signature : item.token"></ViewVideos>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"> <strong>Visible : </strong>  {{  item.visibility ? "OUI" : "Non" }}</li> 
+                                        <li class="list-group-item"> <strong>Dernière modification : </strong>  {{ dateFormate(item.updated_at) }}</li> 
+                                        <li class="list-group-item"> <strong>Privé : </strong>  {{  item.isPrivate ? "OUI" : "Non" }}</li> 
+                                        <li class="list-group-item"> <strong>Créateur : </strong> {{ item.creator }}</li> 
+                                        <li class="list-group-item"> <strong>Commentaire : </strong> {{ item.comment }}</li> 
+                                     </ul>
+                                </div>
+                            </div>
+                        </div>
                     </AccordionComponent>
                 </AccordionComponent>
 
@@ -34,8 +67,9 @@
                 :stepTitle='detailStep.title' :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
         </section>
-        <confirmation-modal-component :closeModal="!openDeleteModal" @isConfirm="handleDeleteConfirmation">
-            <mark class="fw-bold"> un tutoriel </mark>
+        <confirmation-modal-component :modalSize="isAddVideo ? 'modal-lg' : null" :title="isAddVideo ? 'Ajouter un tutoriel vidéo' : undefined" :closeModal="!openDeleteModal" @isConfirm="handleClickOnConfirmation" :isConfirmModal="!isAddVideo && true">
+            <section v-if="isAddVideo"> <add-tuto-video @isConfirm="handleClickOnConfirmation"></add-tuto-video> </section> 
+            <p v-else> Supprimer le tutoriel <mark class="fw-bold">{{ tutoToDelete?.title?.toUpperCase() }}</mark> </p> 
         </confirmation-modal-component>
     </div>
 </template>
@@ -48,18 +82,31 @@ import AddTutoModal from './AddTutorialsToStep/AddTutoModal.vue';
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
 import Spinner from '@/components/shared/Spinner.vue';
 import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
+import ViewVideos from '@/components/shared/ViewVideos.vue';
+import formattedDate from '@/Utils/formattedDate';
+import AddTutoVideo from '../AddTutoriel/AddTutoVideo.vue';
 
 export default {
     methods: {
-
+ 
+        dateFormate(date) {
+            return formattedDate(date);
+        },
         // Delete tuto process
         initiateDeleteProcess(tuto) {
             this.tutoToDelete = tuto;
             this.openDeleteModal = true;
         },
 
-        handleDeleteConfirmation(modalReponse) {
+        handleModalAddTutoVideo(){
+            this.openDeleteModal = true;
+            this.isAddVideo =  true;
+        },
+
+        handleClickOnConfirmation(modalReponse) {
             if (modalReponse) { this.deleteTuto(); return }
+            
+            this.isAddVideo = modalReponse;            
             this.openDeleteModal = modalReponse;
         },
 
@@ -121,7 +168,7 @@ export default {
         getTutosByStep(stepCountryId) {
             this.isDataLoaing = true
             this.$store.dispatch('tutorial/getByStepCountryId', stepCountryId).then((response) => {
-                this.isDataLoaing = false;
+                 this.isDataLoaing = false;
                 this.tutos = response.data
                 this.orderNewTuto = this.tutos.length + 1
             });
@@ -136,14 +183,18 @@ export default {
             orderNewTuto: 0,
             isEdit: false,
             tutoToDelete: {},
-            openDeleteModal: false,
+            openDeleteModal: false, 
+            isAddVideo : false,
         }
     },
+
+    
     computed: {
         ...mapGetters('tutorial', {
             stepsList: 'getSteps',
             countryDetail: 'getCountryDetail',
-        }),
+            infoTuto: 'getExtraTutos',
+        }), 
     },
     created() {
         const idCountry = parseInt(this.$route.params.id)
@@ -154,6 +205,6 @@ export default {
             this.$store.commit('tutorial/setCountryDetail', { name: response.data.name, short_name: response.data.short_name, flagUrl: response.data.flag_url });
         });
     },
-    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent }
+    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent,ViewVideos, AddTutoVideo }
 }
 </script>
