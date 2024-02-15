@@ -24,6 +24,6 @@ export const ExtraTuto = {
     video: null, 
     isPrivate : false,
     tutorial_id : null,
-    visibility : null,
+    visibility : true,
 
 }
