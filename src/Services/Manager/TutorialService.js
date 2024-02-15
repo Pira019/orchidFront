@@ -48,5 +48,14 @@ export default class TutorialService{
         const endPoind = '/' + idTuto;
         return this.axiosInstance.delete(endPoind);  
     } 
+
+    static async addVideoTuto(extraTuto){
+        const endPoind = 'add-tuto-video'
+        return this.axiosInstance.post(endPoind,extraTuto,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });  
+    } 
  
 }

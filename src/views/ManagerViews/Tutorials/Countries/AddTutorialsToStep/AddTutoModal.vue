@@ -29,7 +29,7 @@
                         <div class="mb-3">
                             <label for="title" class="col-form-label"
                                 :class="[v$.title.$error ? 'text-danger' : '']">Titre*</label>
-                            <input type="text" class="form-control" id="title" v-model.trim="state.title"
+                            <input type="text" class="form-control" id="title" v-model.trim="state.title" maxlength="255"
                                 :class="[v$.title.$error ? 'is-invalid' : '']">
 
                             <div class="invalid-feedback" v-if="v$.title.$error">
@@ -127,10 +127,9 @@ export default {
                 this.$emit("updatedTuto",response.data);
 
             }).catch((error) => {
-
                 this.isSucced = false;
                 this.isError = true,
-                this.msg = error.message
+                this.msg = error?.response.data?.message;
                 this.btnLoading = false
             })
 

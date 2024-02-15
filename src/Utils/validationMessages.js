@@ -1,10 +1,14 @@
-import {email, helpers,required,url,maxLength, requiredIf} from '@vuelidate/validators'
+import {email, helpers,required,url,maxLength, requiredIf, integer} from '@vuelidate/validators'
 import validationMessage from '@/lang/fr.json'
 
 export default function customeMessage(attribute,validatorName,autre=null)
 {  
         if(validatorName === 'required'){
            return  helpers.withMessage(validationMessage[attribute] + validationMessage.validations.required, required)
+        } 
+        
+        if(validatorName === 'integer'){
+           return  helpers.withMessage(validationMessage[attribute] + validationMessage.validations.integer, integer)
         } 
         
         if(validatorName === 'requiredIf'){

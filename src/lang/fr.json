@@ -1,6 +1,9 @@
 
 {
 "name" : "Le nom ",
+"video" : "La vidéo ",
+"tutorial_id" : "L'Id de tutoriel ",
+"isPrivate" : "Veuillez préciser si cette vidéo doit rester privée ou non ",
 "program_name" : "Le nom du programme ",
 "disciplinary_sector" : "Le secteur disciplinaire ",
 "message" : "Le message ",
@@ -27,6 +30,7 @@
 "user-name" : "No indentification ",
 "validations":{
     "required" : "est obligatoire" ,
+    "integer" : "est obligatoire" ,
     "maxLength" : "ne doit pas dépasser {maxLength} caractère(s)" ,
     "email" : "Veuillez entrer une adresse e-mail valide" , 
     "goodPassword" : "Le mot de passe doit être fort : au moins 8 caractères avec une combinaison de lettres majuscules, lettres minuscules, chiffres et caractères spéciaux(#?!@$%^&*-)",
