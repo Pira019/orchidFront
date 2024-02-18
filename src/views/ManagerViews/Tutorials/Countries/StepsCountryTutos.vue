@@ -25,40 +25,57 @@
 
                     <spinner v-if="isDataLoaing" class="m-2"></spinner>
                     <AccordionComponent  v-if="!isDataLoaing" :data="tutos" id="tutos" :typeAccordion="'tutos'"
-                        @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess"> 
+                            @editTuto="editTutorial" :detail="true" :showDetailBtn="true" @tutoToDelete="initiateDeleteProcess"> 
 
-                        <template #moreOptions>
-                            <section class="position-relative" id="ajouterTuto">
-                                    <div class="position-absolute top-0 end-0">
+                            <template #moreOptions>
+                                <section class="position-relative" id="ajouterTuto">
+                                       <div class="position-absolute top-0 end-0">
                                         <div class="dropdown" title="Gérer les tutos ou les liens">
-                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Option
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li> <button class="dropdown-item"  @click="handleModalAddTutoVideo" title="Ajouter une vidéo tutoriel"> <font-awesome-icon icon="video" /> Ajouter une vidéo</button></li> 
-                                        </ul>
+                                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Option
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li> <button class="dropdown-item"  @click="handleModalAddTutoVideo" title="Ajouter une vidéo tutoriel"> <font-awesome-icon icon="video" /> Ajouter une vidéo</button></li> 
+                                            </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </section>
-                        </template>
+                                    </section>
+                            </template>
 
-                        <div v-if="infoTuto.length" class="border p-2">
-                            <div class="row mt-5" v-for="(item,index) in infoTuto" :key="index">
-                                <div class="col-12 col-md-6">
-                                    <ViewVideos :video-token="item.isPrivate ? item.signature : item.token"></ViewVideos>
+                            <div v-if="infoTuto.length">
+                                    <div class="row mt-5 border p-3" v-for="(item, index) in infoTuto" :key="index">
+                                       <div class="row">
+                                         <section class="position-relative">
+                                           <div class="position-absolute top-0 end-0">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <font-awesome-icon icon="ellipsis-vertical" />
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                                    <li> <button class="dropdown-item"  @click="extraTuto = item ; handleDeleteTutoVideo(); ">Supprimer une vidéo</button></li> 
+                                                </ul>
+                                                </div>
+                                            </div>
+                                        </section>
+                                      </div>
+                                     <div class="row mt-5">
+                                        <div class="col-12 col-md-6">
+                                            <ViewVideos :video-token="item.isPrivate ? item.signature : item.token"></ViewVideos>
+                                        </div>
+                                        <div class="col-12 col-md-6"> 
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"> <strong>Visible : </strong>  {{ item.visibility ? "OUI" : "Non" }}</li> 
+                                                <li class="list-group-item"> <strong>Dernière modification : </strong>  {{ dateFormate(item.updated_at) }}</li> 
+                                                <li class="list-group-item"> <strong>Privé : </strong>  {{ item.isPrivate ? "OUI" : "Non" }}</li> 
+                                                <li class="list-group-item"> <strong>Créateur : </strong> {{ item.creator }}</li> 
+                                                <li class="list-group-item"> <strong>Commentaire : </strong> {{ item.comment }}</li> 
+                                             </ul>
+                                        </div> 
+
+                                    </div>
+                                    </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"> <strong>Visible : </strong>  {{  item.visibility ? "OUI" : "Non" }}</li> 
-                                        <li class="list-group-item"> <strong>Dernière modification : </strong>  {{ dateFormate(item.updated_at) }}</li> 
-                                        <li class="list-group-item"> <strong>Privé : </strong>  {{  item.isPrivate ? "OUI" : "Non" }}</li> 
-                                        <li class="list-group-item"> <strong>Créateur : </strong> {{ item.creator }}</li> 
-                                        <li class="list-group-item"> <strong>Commentaire : </strong> {{ item.comment }}</li> 
-                                     </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </AccordionComponent>
+                        </AccordionComponent>
                 </AccordionComponent>
 
             </div>
@@ -67,8 +84,19 @@
                 :stepTitle='detailStep.title' :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
         </section>
-        <confirmation-modal-component :modalSize="isAddVideo ? 'modal-lg' : null" :title="isAddVideo ? 'Ajouter un tutoriel vidéo' : undefined" :closeModal="!openDeleteModal" @isConfirm="handleClickOnConfirmation" :isConfirmModal="!isAddVideo && true">
+        <confirmation-modal-component :isLoading="isLoading" :modalSize="isAddVideo ? 'modal-lg' : null" :title="isAddVideo ? 'Ajouter un tutoriel vidéo' : undefined" :closeModal="!openDeleteModal" @isConfirm="handleClickOnConfirmation" :isConfirmModal="!isAddVideo && true">
             <section v-if="isAddVideo"> <add-tuto-video @isConfirm="handleClickOnConfirmation"></add-tuto-video> </section> 
+            <div v-else-if="isDeleteTutoVideo">
+                <p>Supprimer la vidéo</p>
+                <!--Allert after confirm-->
+                <div class="alert alert-success" :class="isRequestSucced ? 'alert-success' : errors && 'alert-danger' " role="alert" v-if="isRequestSucced || errors"> 
+                    <h4 class="alert-heading">
+                        <span v-if="isRequestSucced">La vidéo a été supprimée avec succès 
+                    </span>
+                        <span v-if="errors">{{ errors}}</span>
+                    </h4>
+                 </div>
+            </div> 
             <p v-else> Supprimer le tutoriel <mark class="fw-bold">{{ tutoToDelete?.title?.toUpperCase() }}</mark> </p> 
         </confirmation-modal-component>
     </div>
@@ -84,10 +112,16 @@ import Spinner from '@/components/shared/Spinner.vue';
 import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
 import ViewVideos from '@/components/shared/ViewVideos.vue';
 import formattedDate from '@/Utils/formattedDate';
-import AddTutoVideo from '../AddTutoriel/AddTutoVideo.vue';
+import AddTutoVideo from '../AddTutoriel/AddTutoVideo.vue'; 
+import errorMessage from '@/Utils/ErrorMessage';
 
 export default {
     methods: {
+
+        handleDeleteTutoVideo(){
+            this.openDeleteModal = true; 
+            this.isDeleteTutoVideo = true;    
+        },
  
         dateFormate(date) {
             return formattedDate(date);
@@ -104,10 +138,39 @@ export default {
         },
 
         handleClickOnConfirmation(modalReponse) {
+
+            if(modalReponse && this.isDeleteTutoVideo)
+            { 
+                return this.deleteTutoVideo(); 
+            }
+            
             if (modalReponse) { this.deleteTuto(); return }
             
             this.isAddVideo = modalReponse;            
             this.openDeleteModal = modalReponse;
+            this.isDeleteTutoVideo = modalReponse;
+            this.errors = null;
+            this.isRequestSucced = false;
+        },
+
+        deleteTutoVideo()
+        {
+            this.isLoading = true;
+            const token = this.extraTuto.token;
+            const id = this.extraTuto.id;
+            this.$store.dispatch('ExtraTutorialManager/deleteVideoTuto', {id,token}).then(() => {   
+                this.isRequestSucced = true;
+                this.errors = null;
+                this.$store.commit('tutorial/deleteExtraTutoVideo', id);
+
+            }).catch((error) => {
+
+                this.isRequestSucced =false;
+                this.errors = errorMessage(error);
+
+            }).finally(()=> {
+                this.isLoading = false;
+            })
         },
 
         deleteTuto() {
@@ -185,6 +248,12 @@ export default {
             tutoToDelete: {},
             openDeleteModal: false, 
             isAddVideo : false,
+            isDeleteTutoVideo:false,
+            isLoading:false,
+            errors : null,
+            extraTuto: null,
+            isRequestSucced : false
+
         }
     },
 

@@ -27,7 +27,10 @@ export default {
   watch: {
     videoToken(newValue) {
       // When videoToken prop changes, update the video source
-      this.player.src(this.videoSource);
+      try {
+        this.player.src(this.videoSource);
+      } catch (e) { }
+
     }
   },
   mounted() {
@@ -53,11 +56,4 @@ export default {
     }
   },
 };
-</script>
-
-<style scoped>
-.video--js {
-  width: 100%;
-  height: auto;  
-}
-</style>
+</script> 

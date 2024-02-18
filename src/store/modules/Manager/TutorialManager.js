@@ -63,6 +63,11 @@ export default {
             state.extraTutos.push(newTuto);
         },
 
+        deleteExtraTutoVideo(state,id){
+            const index = state.extraTutos.findIndex(extraTuto => extraTuto.id === id);
+            index !== -1 &&  state.extraTutos.splice(index, 1); 
+        },
+
     },  
 
 
@@ -94,6 +99,10 @@ export default {
          
         async addVideoTuto({},extraTuto) {
             return TutorialService.addVideoTuto(extraTuto)
+        },
+
+        async deleteVideoTuto({}, {id,videoId}) { 
+            return TutorialService.deleteVideoTuto(id,videoId);
         },
 
         
