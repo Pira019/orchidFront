@@ -17,8 +17,8 @@
                     </div>
                     <div class="modal-footer" v-if="isConfirmModal">
                         <button type="button" class="btn btn-secondary"
-                            @click="close(), $emit('isConfirm', false)">Annuler</button>
-                        <button type="button" class="btn btn-danger" @click="$emit('isConfirm', true)">Supprimer</button>
+                            @click="close(), $emit('isConfirm', false)">Annuler</button> 
+                        <submit-btn-component  class="btn btn-danger" :loading="isLoading" @click="$emit('isConfirm', true)">Supprimer</submit-btn-component>
                     </div>
             </div>
         </div>
@@ -26,7 +26,9 @@
 </template>
 
 <script>
+import SubmitBtnComponent from '../shared/SubmitBtnComponent.vue';
 export default {
+  components: { SubmitBtnComponent },
     props: {
         closeModal:{ type : Boolean},
         isConfirmModal:{ 
@@ -40,6 +42,10 @@ export default {
         },
         subjet:{
             default: 'une étape'
+        }, 
+        isLoading:{
+            type : Boolean,
+            default: false
         } 
   },
     watch: {
