@@ -9,6 +9,7 @@ import universityManager from './modules/Manager/UniversityManager'
 import countryManager from './modules/Manager/CountryManager'
 import universityProgramManager from './modules/Manager/UniversityProgramManager'
 import settingManager from './modules/Manager/SettingManager'
+import ExtraTutorialManager from './modules/Manager/ExtraTutorialManager'
 
 export default new Vuex.Store({ 
     modules: {
@@ -21,7 +22,8 @@ export default new Vuex.Store({
         universityManager,
         countryManager,
         universityProgramManager,
-        settingManager
+        settingManager,
+        ExtraTutorialManager
     },
 
     getters: {
