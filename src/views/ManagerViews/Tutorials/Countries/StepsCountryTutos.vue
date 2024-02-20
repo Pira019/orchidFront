@@ -84,14 +84,14 @@
                 :stepTitle='detailStep.title' :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
         </section>
-        <confirmation-modal-component :isLoading="isLoading" :modalSize="isAddVideo ? 'modal-lg' : null" :title="isAddVideo ? 'Ajouter un tutoriel vidéo' : undefined" :closeModal="!openDeleteModal" @isConfirm="handleClickOnConfirmation" :isConfirmModal="!isAddVideo && true">
+        <confirmation-modal-component :isLoading="isLoading" :modalSize="isAddVideo ? 'modal-lg' : null" :title="isAddVideo ? 'Ajouter un tutoriel vidéo' : undefined" :closeModal="!openDeleteModal" @isConfirm="handleClickOnConfirmation" :isConfirmModal="!isRequestSucceeded && !isAddVideo">
             <section v-if="isAddVideo"> <add-tuto-video @isConfirm="handleClickOnConfirmation"></add-tuto-video> </section> 
             <div v-else-if="isDeleteTutoVideo">
                 <p>Supprimer la vidéo</p>
                 <!--Allert after confirm-->
-                <div class="alert alert-success" :class="isRequestSucced ? 'alert-success' : errors && 'alert-danger' " role="alert" v-if="isRequestSucced || errors"> 
+                <div class="alert alert-success" :class="isRequestSucceeded ? 'alert-success' : errors && 'alert-danger' " role="alert" v-if="isRequestSucceeded || errors"> 
                     <h4 class="alert-heading">
-                        <span v-if="isRequestSucced">La vidéo a été supprimée avec succès 
+                        <span v-if="isRequestSucceeded">La vidéo a été supprimée avec succès 
                     </span>
                         <span v-if="errors">{{ errors}}</span>
                     </h4>
@@ -150,7 +150,7 @@ export default {
             this.openDeleteModal = modalReponse;
             this.isDeleteTutoVideo = modalReponse;
             this.errors = null;
-            this.isRequestSucced = false;
+            this.isRequestSucceeded = false;
         },
 
         deleteTutoVideo()
@@ -159,13 +159,13 @@ export default {
             const token = this.extraTuto.token;
             const id = this.extraTuto.id;
             this.$store.dispatch('ExtraTutorialManager/deleteVideoTuto', {id,token}).then(() => {   
-                this.isRequestSucced = true;
+                this.isRequestSucceeded = true;
                 this.errors = null;
                 this.$store.commit('tutorial/deleteExtraTutoVideo', id);
 
             }).catch((error) => {
 
-                this.isRequestSucced =false;
+                this.isRequestSucceeded =false;
                 this.errors = errorMessage(error);
 
             }).finally(()=> {
@@ -252,7 +252,7 @@ export default {
             isLoading:false,
             errors : null,
             extraTuto: null,
-            isRequestSucced : false
+            isRequestSucceeded : false
 
         }
     },
