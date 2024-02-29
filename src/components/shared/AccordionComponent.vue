@@ -26,7 +26,7 @@
                 :class="typeAccordion == 'step' && 'show'" :aria-labelledby="typeAccordion + index">
                 <div class="accordion-body"> 
                     <slot name="moreOptions"></slot>  
-                    <div class="mt-5">
+                    <div class="mt-2">
                         <p class="text-justify"> {{ data?.description ?? 'Aucune description ' }} </p> 
                     </div>
 

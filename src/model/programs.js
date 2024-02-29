@@ -4,6 +4,7 @@
  * @property {string} program_description
  * @property {number} cycle
  * @property {number} duration
+ * @property {number} id
  * @property {number} nbrCredit
  * @property {string|string[]} languages
  * @property {string|string[]} admission_scheme
@@ -19,6 +20,7 @@
 export const programModel = {
  
     program_name: null,
+    id: null,
     cycle: null,
     duration: null,
     program_description: null,
