@@ -89,16 +89,39 @@
               </StaticbackdropModal>
 
               <AccordionComponent v-if="listOfPrograms?.length" class="col mt-5" :data="sortedListOfPrograms" :is-program="true" @editUniversityProgram="handleUpdateUniversityProgram" @deleteUniversityProgram="hadleDeleteUniversityProgram"
-                @findProgram="handleFindProgram" :typeAccordion="'no-step'">
+                  @findProgram="handleFindProgram" :typeAccordion="'no-step'"> 
+                 
+                  <template #default="{ index }">                
+                    <tap-component :tabNames="tabNames" :prefix="'_'+index">
 
-                <div>
-                  <p> <span class="fw-bold"> Cycle : </span> {{ program.cycle }} </p>
-                  <p> <span class="fw-bold"> Durée : </span> {{ program.duration }} </p>
-                  <p> <span class="fw-bold"> Langue(s) : </span> {{ program.languages }} </p>
-                  <p> <span class="fw-bold"> Chemin d'admission : </span> {{ program.admission_scheme }} </p>                  
-                  <p> <span class="fw-bold"> Secteur : </span> {{ program.discipline_name }} </p>
-                </div> 
-              </AccordionComponent>
+                      <template v-slot:[slotName(0)]> <!--Info university-->
+                        <div>
+                            <p> <span class="fw-bold"> Cycle : </span> {{ program.cycle }} </p>
+                            <p> <span class="fw-bold"> Durée : </span> {{ program.duration }} </p>
+                            <p> <span class="fw-bold"> Langue(s) : </span> {{ program.languages }} </p>
+                            <p> <span class="fw-bold"> Chemin d'admission : </span> {{ program.admission_scheme }} </p>                  
+                            <p> <span class="fw-bold"> Secteur : </span> {{ program.discipline_name }} </p>
+                        </div> 
+                      </template>
+
+                      <template v-slot:[slotName(1)] > <!--admission date university-->
+                         <div v-if=" program?.admission_date?.length">
+                          <p> <span class="fw-bold"> Lien : </span> <a :href="program?.admission_date[0].link" target="_blank"> Lien d'inscription</a> </p>
+                          <p> <span class="fw-bold"> Session admission : </span> {{ program?.admission_date[0].session_admission}} </p>
+                          <p> <span class="fw-bold"> Date début : </span> {{ program?.admission_date[0].start_at  }} </p>
+                          <p> <span class="fw-bold"> Date fin : </span> {{ program?.admission_date[0].end_at  }}  </p> 
+                          <p> <span class="fw-bold"> Dernière modification : </span>  {{ formattedDate_(program?.admission_date[0].updated_at) }} </p> 
+                         </div>
+
+                         <div v-else>
+                            <p>Aucune date pour cette session</p>
+                         </div>
+                      </template> 
+
+                      </tap-component> 
+                  </template>
+              
+                </AccordionComponent>
             </div>
           </div>
         </div>
@@ -127,9 +150,15 @@ import StaticbackdropModal from '@/components/modal/StaticbackdropModal.vue';
 import AddProgram from './program/addProgram.vue';
 import modalText from '@/Utils/json/TextModal.json';  
 import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';  
+import TapComponent from '@/components/shared/TapComponent.vue';
+import { DetailUniversityTabNames } from '@/enums';
 
 export default {
   methods: {
+
+    slotName(index){
+      return this.tabNames[index]
+    },
 
     handleUpdateUniversityProgram(programToEdit_){ 
       this.closeModal = false;
@@ -229,7 +258,8 @@ export default {
       showDeleteConfirmationModal : null, 
       programToDelete : null,
       errorMessages:[],
-      programToEdit : null
+      programToEdit : null,
+      tabNames : Object.values(DetailUniversityTabNames)
 
     }
   },
@@ -272,7 +302,7 @@ export default {
   },
 
   
-  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent },
+  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent },
 
 }
 </script>
