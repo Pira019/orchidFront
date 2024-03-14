@@ -27,7 +27,11 @@
 "password_confirmation" : "Le mot de passe de confirmation ",
 "address" : "L'adresse ",
 "code_postal" : "Le code postal ",
-"user-name" : "No indentification ",
+"link" : "Le lien ",
+"session_admission" : "Session d'admission ",
+"type" : "Le type ",
+"start_at" : "Date de début ",
+"end_at" : "Fin de début ",
 "validations":{
     "required" : "est obligatoire" ,
     "integer" : "est obligatoire" ,
