@@ -47,6 +47,12 @@
 },
 "messageSuccess":{
     "message" : "Nous vous remercions d'avoir pris le temps de nous contacter via ce formulaire. Nous souhaitons vous informer que nous avons bien reçu votre message et que nous l'étudierons avec attention dans les plus brefs délais."
+},
+
+"messageRequest" :{
+    "success" : {
+        "save" : "Enregistrement effectué avec succès !"
+    }
 }
 
 }

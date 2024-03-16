@@ -86,7 +86,7 @@
                   <p class="confirmation-message"> Cette action est irréversible. Êtes-vous sûr de vouloir continuer ? </p>      
                 </div>
 
-                <dateAdmissionForm v-if="isAddDateAdmission"></dateAdmissionForm>
+                <dateAdmissionForm v-if="isAddDateAdmission" :program-id="program.id"></dateAdmissionForm>
 
               </StaticbackdropModal>
 

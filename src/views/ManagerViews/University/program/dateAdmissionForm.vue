@@ -1,7 +1,7 @@
 <template>
     <div>
         <form novalidate v-on:submit.prevent="submit" id="addAdmissionForm">
-           
+            <RequestAlert :is-succeed="isSucceed" :response-message="requestResponse"  v-if="isSucceed != null"></RequestAlert>
             <div class="row mb-3">
                 <div class="col-12 col-md ">
                     <label for="sessionAdmission" class="my-2 fw-bold"  :class="[v$.session_admission.$error && 'text-danger']">Session d'admission*</label>
@@ -84,8 +84,8 @@
 
             <div class="row">
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button">Annuler </button> 
-                    <SubmitBtnComponent  class="btn btn-success" @click="submitForm">Enregistrer</SubmitBtnComponent>
+                    <button class="btn btn-secondary" type="button" @click="cancel">Annuler </button> 
+                    <SubmitBtnComponent  class="btn btn-success" @click="submitForm" :loading="isLoading">Enregistrer</SubmitBtnComponent>
                 </div>
             </div>
         </form>
@@ -101,19 +101,63 @@ import { UniversityAdmissionDate } from '@/model/UniversityAdmissionDate';
 import { computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import customeMessage from '@/Utils/validationMessages';
+import errorMessage from '@/Utils/ErrorMessage';
+import RequestAlert from '@/components/shared/Alert/RequestAlert.vue';
+import messageFr from '@/lang/fr.json'
 
 export default {
+    props:{
+        programId:{
+            type:Number,
+            required : true,
+        }
+    },
   methods: {
-    submitForm(){
-        console.log(this.state)
-        this.v$.$validate();
-
+    cancel(){
+        this.$emit('closePersiteModal'); 
+    },
+    submitForm(){ 
+         
+        this.v$.$validate(); 
         if(this.v$.$error){
             return;
         }
+        
+        this.isLoading = true;
+        this.prepareModel();
+
         console.log(this.state)
+        this.$store.dispatch('universityAdmissionManager/addAdmission',this.state)
+            .then((response) => {
+
+                this.isSucceed = true;    
+                this.requestResponse = messageFr.messageRequest.success.save
+                this.resetForm();
+
+            }).catch((error)=> {
+
+                this.isSucceed = false;              
+                this.requestResponse = errorMessage(error);
+
+            }).finally(()=>{
+                this.isLoading = false;
+            })
+
     },
-  },
+    resetForm(){
+        this.v$.$reset(); 
+    },
+
+    prepareModel(){
+        const {detail_program_id,session_admission,...rest} = this.state;
+        this.state = {
+            ...rest,
+            session_admission: session_admission ? session_admission.join()  : '',
+            detail_program_id : this.programId,
+        }
+    }
+   
+  }, 
     
     setup() {
         const state = reactive({
@@ -135,9 +179,11 @@ export default {
     },
     data() {
         return {
-            isModalClosed: true
+            isLoading: false,
+            requestResponse : 'null',
+            isSucceed : null
         }
     },
-    components: { SubmitBtnComponent },
+    components: { SubmitBtnComponent,RequestAlert },
 }
 </script>
