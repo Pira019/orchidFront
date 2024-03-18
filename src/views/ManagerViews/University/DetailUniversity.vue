@@ -86,7 +86,7 @@
                   <p class="confirmation-message"> Cette action est irréversible. Êtes-vous sûr de vouloir continuer ? </p>      
                 </div>
 
-                <dateAdmissionForm v-if="isAddDateAdmission" :program-id="program.id"></dateAdmissionForm>
+                <dateAdmissionForm v-if="isAddDateAdmission" :program-id="program.id" @newDateAdded="newAdmissionDate"  @closePersiteModal="closeModal=true"></dateAdmissionForm>
 
               </StaticbackdropModal>
 
@@ -96,7 +96,7 @@
                   <template #default="{ index }">                
                     <tap-component :tabNames="tabNames" :prefix="'_'+index">
 
-                      <template v-slot:[slotName(0)]> <!--Info university-->
+                      <template v-slot:[slotName(0)]> <!--Info university voir DetailUniversityTabNames Enum-->
                         <div>
                             <p> <span class="fw-bold"> Cycle : </span> {{ program.cycle }} </p>
                             <p> <span class="fw-bold"> Durée : </span> {{ program.duration }} </p>
@@ -164,6 +164,10 @@ export default {
     {
       this.isAddDateAdmission = true,
       this.closeModal = false 
+    },
+
+    newAdmissionDate(admission){
+      this.program.admission_date[0]=admission; 
     },
     slotName(index){
       return this.tabNames[index]

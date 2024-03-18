@@ -114,24 +114,26 @@ export default {
     },
   methods: {
     cancel(){
-        this.$emit('closePersiteModal'); 
+        
+       
+        this.isSucceed=null;
+        this.$emit('closePersiteModal') ;
     },
     submitForm(){ 
-         
+        
         this.v$.$validate(); 
         if(this.v$.$error){
             return;
         }
         
         this.isLoading = true;
-        this.prepareModel();
-
-        console.log(this.state)
-        this.$store.dispatch('universityAdmissionManager/addAdmission',this.state)
+     
+        this.$store.dispatch('universityAdmissionManager/addAdmission',this.prepareModel())
             .then((response) => {
 
                 this.isSucceed = true;    
                 this.requestResponse = messageFr.messageRequest.success.save
+                this.$emit('newDateAdded',response.data) ;
                 this.resetForm();
 
             }).catch((error)=> {
@@ -144,20 +146,26 @@ export default {
             })
 
     },
-    resetForm(){
-        this.v$.$reset(); 
+    resetForm()
+    {
+        this.v$.$reset();
+        Object.assign(this.state,{...UniversityAdmissionDate}); 
     },
 
-    prepareModel(){
-        const {detail_program_id,session_admission,...rest} = this.state;
-        this.state = {
-            ...rest,
-            session_admission: session_admission ? session_admission.join()  : '',
-            detail_program_id : this.programId,
-        }
-    }
-   
+     prepareModel() {
+          const { session_admission, ...rest } = this.state;
+          const updatedSessionAdmission = Array.isArray(session_admission) ? session_admission.join() : '';
+          return  {
+              ...rest,
+              session_admission: updatedSessionAdmission,
+              detail_program_id: this.programId
+          };
+ 
+      }
+       
   }, 
+
+   
     
     setup() {
         const state = reactive({
@@ -165,7 +173,6 @@ export default {
         });
         const rules = computed(() => {
             return {
-                /*detail_program_id: null,*/
                 link: { required : customeMessage('link','required'), url : customeMessage('', 'url')} ,
                 session_admission:  { maxLength: customeMessage('session_admission', 'maxLength', 55), required: customeMessage('session_admission', 'required') },
                 type: { maxLength: customeMessage('type', 'maxLength', 55), required: customeMessage('type', 'required') },
