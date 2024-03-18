@@ -3,5 +3,6 @@
         "ajout" : "Ajouter un programme",
         "delete" : "Supprimer un programme",
         "edit" : "Modifier un programme"
-    }
+    },
+    "addAdmissionDate" : "Ajouter la date d'admission"
 }

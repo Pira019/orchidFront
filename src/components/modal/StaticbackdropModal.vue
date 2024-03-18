@@ -35,7 +35,7 @@ export default {
             default:true,
         },
         modalSize : {
-            default : null
+            
         },
         title:{
             default: 'Confirmation de Suppression'
