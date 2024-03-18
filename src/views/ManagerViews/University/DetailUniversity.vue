@@ -78,13 +78,15 @@
               <button  @click="closeModal = false" class="btn btn-success"><font-awesome-icon icon="fa-plus" class="text-white"/></button>
               <!--Persiste modal add program-->
               <StaticbackdropModal :is-confirm-modal="showDeleteConfirmationModal" :closeModal="closeModal" :title="modalTitle" @isConfirm="handlePersistModal" :modalSize="'modal-lg'">
-                <add-program v-if="!showDeleteConfirmationModal" :programToEdit="programToEdit"  @closePersiteModal="closeModal=true;programToEdit=null;" :isModalClosed="closeModal" @showPersistModalResponse=handlePersisteRequestModal></add-program> 
+                <add-program v-if="!showDeleteConfirmationModal && !isAddDateAdmission" :programToEdit="programToEdit"  @closePersiteModal="closeModal=true;programToEdit=null;" :isModalClosed="closeModal" @showPersistModalResponse=handlePersisteRequestModal></add-program> 
                
                 <div v-if="showDeleteConfirmationModal" >
                   <p> <span class="text-white bg-danger">Attention</span> Vous êtes sur le point de supprimer définitivement le programme</p>
                   <p class="fw-bold text-uppercase"> {{programNameToDelete}}</p>
                   <p class="confirmation-message"> Cette action est irréversible. Êtes-vous sûr de vouloir continuer ? </p>      
                 </div>
+
+                <dateAdmissionForm v-if="isAddDateAdmission" :program-id="program.id" @newDateAdded="newAdmissionDate"  @closePersiteModal="closeModal=true"></dateAdmissionForm>
 
               </StaticbackdropModal>
 
@@ -94,7 +96,7 @@
                   <template #default="{ index }">                
                     <tap-component :tabNames="tabNames" :prefix="'_'+index">
 
-                      <template v-slot:[slotName(0)]> <!--Info university-->
+                      <template v-slot:[slotName(0)]> <!--Info university voir DetailUniversityTabNames Enum-->
                         <div>
                             <p> <span class="fw-bold"> Cycle : </span> {{ program.cycle }} </p>
                             <p> <span class="fw-bold"> Durée : </span> {{ program.duration }} </p>
@@ -113,7 +115,8 @@
                           <p> <span class="fw-bold"> Dernière modification : </span>  {{ formattedDate_(program?.admission_date[0].updated_at) }} </p> 
                          </div>
 
-                         <div v-else>
+                         <div v-else> 
+                          <button class="btn btn-danger" @click="addAdmissionDate">Ajouter</button>
                             <p>Aucune date pour cette session</p>
                          </div>
                       </template> 
@@ -152,10 +155,20 @@ import modalText from '@/Utils/json/TextModal.json';
 import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessModalComponent.vue';  
 import TapComponent from '@/components/shared/TapComponent.vue';
 import { DetailUniversityTabNames } from '@/enums';
+import dateAdmissionForm from './program/dateAdmissionForm.vue';
 
 export default {
   methods: {
 
+    addAdmissionDate()
+    {
+      this.isAddDateAdmission = true,
+      this.closeModal = false 
+    },
+
+    newAdmissionDate(admission){
+      this.program.admission_date[0]=admission; 
+    },
     slotName(index){
       return this.tabNames[index]
     },
@@ -182,7 +195,8 @@ export default {
         this.showDeleteConfirmationModal && this.handleDeleteProgram();
       }
       this.showDeleteConfirmationModal = false;
-      this.programToEdit = null;      
+      this.programToEdit = null;
+      this.isAddDateAdmission = false      
     },
 
     handleDeleteProgram() {
@@ -259,7 +273,8 @@ export default {
       programToDelete : null,
       errorMessages:[],
       programToEdit : null,
-      tabNames : Object.values(DetailUniversityTabNames)
+      tabNames : Object.values(DetailUniversityTabNames),
+      isAddDateAdmission : false
 
     }
   },
@@ -279,6 +294,8 @@ export default {
         ? modalText.program.delete
         : this.programToEdit
         ? modalText.program.edit
+        : this.isAddDateAdmission 
+        ? modalText.addAdmissionDate
         : modalText.program.ajout;
     },
 
@@ -302,7 +319,7 @@ export default {
   },
 
   
-  components: { ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent },
+  components: { dateAdmissionForm, ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent },
 
 }
 </script>

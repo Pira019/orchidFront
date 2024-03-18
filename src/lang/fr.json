@@ -27,7 +27,11 @@
 "password_confirmation" : "Le mot de passe de confirmation ",
 "address" : "L'adresse ",
 "code_postal" : "Le code postal ",
-"user-name" : "No indentification ",
+"link" : "Le lien ",
+"session_admission" : "Session d'admission ",
+"type" : "Le type ",
+"start_at" : "Date de début ",
+"end_at" : "Fin de début ",
 "validations":{
     "required" : "est obligatoire" ,
     "integer" : "est obligatoire" ,
@@ -43,6 +47,12 @@
 },
 "messageSuccess":{
     "message" : "Nous vous remercions d'avoir pris le temps de nous contacter via ce formulaire. Nous souhaitons vous informer que nous avons bien reçu votre message et que nous l'étudierons avec attention dans les plus brefs délais."
+},
+
+"messageRequest" :{
+    "success" : {
+        "save" : "Enregistrement effectué avec succès !"
+    }
 }
 
 }
