@@ -35,13 +35,10 @@ export default {
             default:true,
         },
         modalSize : {
-            
+            type:String         
         },
         title:{
             default: 'Confirmation de Suppression'
-        },
-        subjet:{
-            default: 'une étape'
         }, 
         isLoading:{
             type : Boolean,
