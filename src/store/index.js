@@ -11,6 +11,7 @@ import universityProgramManager from './modules/Manager/UniversityProgramManager
 import settingManager from './modules/Manager/SettingManager'
 import ExtraTutorialManager from './modules/Manager/ExtraTutorialManager'
 import universityAdmissionManager from './modules/Manager/UniversityAdmissionManager'
+import serviceManager from './modules/Manager/ServiceManager' 
 
 export default new Vuex.Store({ 
     modules: {
@@ -25,7 +26,8 @@ export default new Vuex.Store({
         universityProgramManager,
         settingManager,
         ExtraTutorialManager,
-        universityAdmissionManager
+        universityAdmissionManager,
+        serviceManager
     },
 
     getters: {

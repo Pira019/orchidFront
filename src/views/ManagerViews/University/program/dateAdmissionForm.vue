@@ -114,8 +114,6 @@ export default {
     },
   methods: {
     cancel(){
-        
-       
         this.isSucceed=null;
         this.$emit('closePersiteModal') ;
     },
@@ -164,8 +162,8 @@ export default {
       }
        
   }, 
-
-   
+}
+  
     
     setup() {
         const state = reactive({
