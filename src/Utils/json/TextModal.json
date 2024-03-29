@@ -4,5 +4,8 @@
         "delete" : "Supprimer un programme",
         "edit" : "Modifier un programme"
     },
+    "service": {
+        "ajout" : "Ajouter un service" 
+    },
     "addAdmissionDate" : "Ajouter la date d'admission"
 }

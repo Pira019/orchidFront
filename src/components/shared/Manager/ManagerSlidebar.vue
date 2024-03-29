@@ -7,15 +7,15 @@
                 <li class="nav-item ">
                     <a class="nav-link m-1 fw-bold " href="#">Active</a>
                 </li> 
-                <li class="nav-item ">
+                <li class="nav-item">
                     <router-link class="nav-link fw-bold" :to="{name:'ManagerCountries'}"> <font-awesome-icon icon="fa-list" size="1x"/><span class="px-2"> Etape par pays</span> </router-link>
                 </li> 
                 <li>                     
-                    <a data-toggle="collapse" aria-expanded="false" href="#homeSubmenu"  class="nav-link m-1 fw-bold dropdown-toggle">
+                    <a data-toggle="collapse" aria-expanded="false" href="#homeSubmenu" :class="{active : isActive('homeSubmenu')}"  class="nav-link m-1 fw-bold dropdown-toggle">
                         <font-awesome-icon icon="fa-person-chalkboard" size="1x"/>
                         <span class="px-2">Tutoriels</span>
                     </a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <ul class="collapse list-unstyled" id="homeSubmenu" @click="handleActiveStyleClick">
                         <li class="nav-item">
                             <router-link class="nav-link fw-bold" :to="{name:'ManagerTutoCountry'}"> <font-awesome-icon icon="fa-globe" size="1x"/><span class="px-2"> Par pays </span></router-link>
                         </li>
@@ -32,15 +32,24 @@
                
                  <!---->
                 <li class="nav-item">
-                    <a class="nav-link m-1 fw-bold" ><font-awesome-icon icon="fa-solid fa-gear" /> Nos services</a>
+                    <a class="dropdown-toggle nav-link m-1 fw-bold" :class="{active : isActive('serviceMenu')}" href="#serviceMenu"  data-toggle="collapse" aria-expanded="false" ><font-awesome-icon icon="fa-solid fa-gear" /> Services</a>
+                    <ul class="collapse list-unstyled" id="serviceMenu" @click="handleActiveStyleClick">
+                        <li class="nav-item">
+                            <router-link  class="nav-link fw-bold" :to="{name:'ManagerService'}"> <font-awesome-icon icon="fa-briefcase" size="1x"/><span class="px-2"> Nos services </span></router-link>
+                            <a  class="nav-link fw-bold" :to="{name:'ManagerService'}"> <font-awesome-icon icon="fa-briefcase" size="1x"/><span class="px-2"> Statistiques </span></a>
+                            <a  class="nav-link fw-bold" :to="{name:'ManagerService'}"> <font-awesome-icon icon="fa-briefcase" size="1x"/><span class="px-2"> Historique </span></a> 
+                        </li>
+                        
+                         
+                    </ul>
                 </li>
 
                 <li>                     
-                    <a data-toggle="collapse" aria-expanded="false" href="#setting"  class="nav-link m-1 fw-bold dropdown-toggle">
+                    <a data-toggle="collapse" aria-expanded="false" href="#setting" :class="{active : isActive('setting')}" class="nav-link m-1 fw-bold dropdown-toggle">
                         <font-awesome-icon icon="fa-person-chalkboard" size="1x"/>
                         <span class="px-2">Paramètres</span>
                     </a>
-                    <ul class="collapse list-unstyled" id="setting">
+                    <ul class="collapse list-unstyled" id="setting" @click="handleActiveStyleClick">
                         <li class="nav-item">
                             <router-link class="nav-link fw-bold" :to="{name:'Managerwatermark'}"> <font-awesome-icon icon="fa-signature" size="1x"/><span class="px-2"> Watermark </span></router-link>
                         </li> 
@@ -61,6 +70,20 @@
 </template>
 <script>
 export default {
+  data () {
+    return {
+        collabseBtnActive : false,
+    }
+  },
+  methods: {
+    handleActiveStyleClick(event){ 
+        this.collabseBtnActive = event.currentTarget.id
+  // return idUlCollapse;
+  },
+  isActive(idToCheck) {
+      return this.collabseBtnActive === idToCheck;
+    }
+  },
     props: {
         isSidebarActive: Boolean
     },
@@ -68,7 +91,7 @@ export default {
 }
 </script>  
 <style scope>
-#homeSubmenu li a{
+#sidebar li a{
     background-color: transparent
 }
 </style>

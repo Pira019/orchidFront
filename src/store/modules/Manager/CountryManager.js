@@ -7,6 +7,10 @@ export default {
         async countriesWithUniversities({}) {
             return CountryService.countriesWithUniversities();
         },
+
+        async countries({}) {
+            return CountryService.countries();
+        },
     }, 
 
 }

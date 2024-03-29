@@ -4,6 +4,29 @@ let routes = [
 
     //setting route
     {
+        path: prefix + 'service', component: () => import('@/views/ManagerViews/Service/ServiceLayout.vue'),
+        beforeEnter: guardMyroute, 
+        redirect: { name: "ManagerService" },
+        meta: {
+            title: 'Services',
+        },
+        // setting route children
+        children: [
+            {
+            path: '', name: 'ManagerService', component: () => import('@/views/ManagerViews/Service/ServiceHome.vue'),
+           
+        }, 
+        {
+            path: 'ajouter', name: 'ManagerServiceAdd', component: () => import('@/views/ManagerViews/Setting/WaterMark.vue'),
+            mata: {
+                title: 'Ajouter un service', 
+            }, 
+        }, 
+        ]
+    },
+
+    //setting route
+    {
         path: prefix + 'paramettre', component: () => import('@/views/ManagerViews/Setting/SettingManagerIndex.vue'),
         beforeEnter: guardMyroute, 
         meta: {
