@@ -114,8 +114,6 @@ export default {
     },
   methods: {
     cancel(){
-        
-       
         this.isSucceed=null;
         this.$emit('closePersiteModal') ;
     },
@@ -165,10 +163,7 @@ export default {
        
   }, 
 }
-year : { required : customeMessage('year','required'), integer : customeMessage('year', 'integer')},
-              price : { required : customeMessage('price','required'), integer : customeMessage('price', 'integer')},
-              service_disciplinaries : { required: customeMessage('country_id', 'required')},
-              country_id : { required: customeMessage('country_id', 'required') }
+  
     
     setup() {
         const state = reactive({

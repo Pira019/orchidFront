@@ -23,6 +23,11 @@ export default class CountryService{
     static async countriesWithUniversities(){
         const endPoind = 'countries-universities'
         return this.axiosInstance.get(endPoind);  
+    }
+
+    static async countries(){
+        const endPoind = 'countries'
+        return this.axiosInstance.get(endPoind);  
     }  
  
 }

@@ -2,7 +2,7 @@
  * @typedef {Object} ServiceModel 
  * 
  * @property {number} price  
- * @property {number} year 
+ * @property {string} year 
  * @property {number} country_id  
  * @property {string[]} service_disciplinaries  
  */ 

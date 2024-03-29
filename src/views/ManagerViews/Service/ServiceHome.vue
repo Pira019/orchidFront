@@ -1,6 +1,6 @@
 <template> 
         <StaticbackdropModal :title="modalTitle" @isConfirm="handleModal" :is-confirm-modal="false" :close-modal="!isModalHidden" :modalSize="'modal-lg'" v-show="isModalHidden != null">
-            <service-form-persistance></service-form-persistance>
+            <service-form-persistance @closeModal="isModalHidden=!true" :is-close-modal="isModalHidden"></service-form-persistance>
         </StaticbackdropModal>
        <button class="btn btn-success" @click="handlePersistanceBtn">Ajouter</button>     
 </template>
@@ -12,12 +12,12 @@ import ServiceFormPersistance from './ServiceFormPersistance.vue';
 import TextModal from '@/Utils/json/TextModal'
 
 export default{
+    
     methods: {
 
-        handleModal(confirmAction) {
-           
+        handleModal() {           
             this.isModalHidden = false;
-        },
+                },
         // when click in "Ajouter btn show modal"
         handlePersistanceBtn(isNew = true) {
             if (isNew) {

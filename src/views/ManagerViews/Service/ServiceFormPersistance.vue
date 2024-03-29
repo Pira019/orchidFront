@@ -1,13 +1,14 @@
 <template>
     <form novalidate v-on:submit.prevent="submit">
+        <RequestAlert :is-succeed="isRequestResponseSucceed" :response-message="requestResponse" v-if="isRequestResponseSucceed != null"></RequestAlert>
         <div class="row mb-3">
             <div class="form-group  col-md-6">
-                <label for="pays" class="my-2  fw-bold fw-bold"
-                    :class="[v$.country_id.$error && 'text-danger']">Pays*</label>
+                <label for="pays" class="my-2 fw-bold" :class="[v$.country_id.$error && 'text-danger']">Pays*</label>
                 <select class="form-select" id="pays" :class="[v$.country_id.$error && 'is-invalid']"
                     v-model="state.country_id">
-                    <option value="">4</option>
-                    <option value="">2</option>
+                    <option selected value="" v-if="!countries?.isFail">Sélectionnez un pays</option>  
+                    <option v-if="countries?.isFail">Une erreur s'est produite</option>  
+                    <option v-else :value="item.id" v-for="(item,index) in countries" :key="index">{{ item.name}}</option>  
                 </select>
 
                 <div class="invalid-feedback" v-if="v$.country_id.$error">
@@ -19,12 +20,11 @@
 
 
             <div class=" col-md-6 form-group">
-                <label for="discipline" class="my-2  fw-bold  fw-bold"
+                <label for="disciplines" class="my-2 fw-bold"
                     :class="[v$.service_disciplinaries.$error && 'text-danger']">Disciplines*</label>
-                <select class="form-control" multiple="multiple" id="disciplines"
-                    v-model="state.service_disciplinaries">
-                    <option value="1">4</option>
-                    <option value="2">2</option>
+                <select class="form-control" multiple="multiple" id="disciplines" :disabled="countries?.isFail"
+                    :class="[v$.service_disciplinaries.$error && 'is-invalid']" v-model="state.service_disciplinaries"> 
+                    <option v-for="(item,index) in disciplinaries" :key="index" :value="item.id">{{ item.name}}</option>
                 </select>
 
                 <div class="text-danger" v-if="v$.service_disciplinaries.$error">
@@ -37,9 +37,8 @@
 
         <div class="row mb-3">
             <div class="form-group  col-md-6">
-                <label for="Prix" class="my-2  fw-bold  fw-bold"
-                    :class="[v$.price.$error && 'text-danger']">Prix*</label>
-                <input type="number" placeholder="Ex: 100.00" id="Prix" class="form-control" min="1"
+                <label for="Prix" class="my-2 fw-bold" :class="[v$.price.$error && 'text-danger']">Prix*</label>
+                <input type="number" placeholder="Ex: 100.00" id="Prix" class="form-control" min="1" name="price"
                     :class="[v$.price.$error && 'is-invalid']" v-model.number="state.price">
 
                 <div class="invalid-feedback" v-if="v$.price.$error">
@@ -50,10 +49,9 @@
             </div>
 
             <div class=" col-md-6 form-group">
-                <label for="annee" class="my-2  fw-bold  fw-bold"
-                    :class="[v$.year.$error && 'text-danger']">Année*</label>
-                <input type="text" placeholder="Ex: 2022" id="annee" class="form-control"
-                    :class="[v$.year.$error && 'is-invalid']" v-model.number="state.year">
+                <label for="annee" class="my-2 fw-bold" :class="[v$.year.$error && 'text-danger']">Année*</label>
+                <input type="text" placeholder="Ex: 2022" id="annee" class="form-control"  @focus="updateYear"
+                    :class="[v$.year.$error && 'is-invalid']" v-model="state.year" autocomplete="off">
                 <div class="invalid-feedback" v-if="v$.year.$error">
                     <span v-for="(error, index) of v$.year.$errors" :key="index">
                         {{ error.$message }}
@@ -63,8 +61,9 @@
         </div>
         <div class="row">
             <div class="modal-footer">
-                <button class="btn btn-secondary">Annuler</button>
-                <SubmitBtnComponent class="btn btn-success" @click="submitForm">Enregistrer</SubmitBtnComponent>
+                <button class="btn btn-secondary" @click="cancel">Annuler</button>
+                <SubmitBtnComponent :loading="isLoading" class="btn btn-success" @click="submitForm">Enregistrer
+                </SubmitBtnComponent>
             </div>
 
         </div>
@@ -76,23 +75,108 @@ import SubmitBtnComponent from '@/components/shared/SubmitBtnComponent.vue';
 import { computed, reactive } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import customeMessage from '@/Utils/validationMessages';
+import messageFr from '@/lang/fr.json';
+import errorMessage from '@/Utils/ErrorMessage';
+import RequestAlert from '@/components/shared/Alert/RequestAlert.vue';
 
 
 export default {
-    methods: {
-        submitForm() {
-            this.v$.$validate();
-            console.log(this.state)
+    props: {
+        isCloseModal: {
+            type: Boolean
+        },
+
+    },
+
+    watch: {
+        isCloseModal() {
+            this.isRequestResponseSucceed = null;
+            this.resetForm();
+        },
+    }, 
+    data() {
+        return {
+            isLoading: false,
+            countries : null,
+            disciplinaries : [],
+            requestResponse : 'null',
+            isRequestResponseSucceed : null
         }
     },
+    methods: {
+
+        updateYear(event) {
+        this.state.year = event.target.value;
+    },
+
+    cancel(){
+        this.isSucceed=null;
+        this.resetForm();        
+        this.$emit('closeModal') ;
+    },
+
+    resetForm()
+    {
+        this.v$.$reset();
+        Object.assign(this.state,{...ServiceModel}); 
+    },
+
+
+        submitForm() {
+           
+            this.v$.$validate();
+
+            if (this.v$.$error) {
+                return;
+            }
+            
+            this.isLoading = true;
+            this.$store.dispatch('serviceManager/addService',this.prepareData())
+
+            .then((response) =>
+            { 
+                this.isRequestResponseSucceed = true;
+                this.requestResponse =  messageFr.messageRequest.success.save;
+                this.resetForm();
+
+            }).catch((error)=> {
+
+                this.isRequestResponseSucceed = false;              
+                this.requestResponse = errorMessage(error);
+
+            }).finally(()=>{
+                this.isLoading = false;
+            })
+        },
+        //To store
+        prepareData(){
+           return {
+            ...this.state,
+            service_disciplinaries : this.state.service_disciplinaries.join(',')
+           }
+        },
+
+        getCoutries() {
+            this.$store.dispatch('countryManager/countries').then((response) => {
+               this.countries = response.data.countries;
+               this.disciplinaries = response.data.disciplinarySector;
+            }).catch(()=> {
+                this.countries = {
+                    isFail : true
+                }
+            });
+        }
+    },
+
     mounted() {
-        $('#annee').datepicker({
+       $('#annee').datepicker({
             format: "yyyy",
             viewMode: "years",
+            minViewMode: "years",
             startDate: new Date(),
-            minViewMode: "years"
-        }); 
-
+            forceParse : true
+        })
+        this.getCoutries();
     },
     setup() {
         const state = reactive({
@@ -101,7 +185,7 @@ export default {
         const rules = computed(() => {
             return {
                 year: { required: customeMessage('year', 'required'), integer: customeMessage('year', 'integer') },
-                price: { required: customeMessage('price', 'required'), integer: customeMessage('price', 'integer') },
+                price: { required: customeMessage('price', 'required') },
                 service_disciplinaries: { required: customeMessage('service_disciplinaries', 'required') },
                 country_id: { required: customeMessage('country_id', 'required') }
             }
@@ -110,7 +194,7 @@ export default {
         return { state, v$ }
     },
 
-    components: { SubmitBtnComponent },
+    components: { SubmitBtnComponent,RequestAlert },
 
-}
+    }
 </script>
