@@ -132,7 +132,6 @@ export default {
             
             this.isLoading = true;
             this.$store.dispatch('serviceManager/addService',this.prepareData())
-
             .then((response) =>
             { 
                 this.isRequestResponseSucceed = true;

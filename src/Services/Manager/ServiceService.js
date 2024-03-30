@@ -24,5 +24,10 @@ export default class ServiceService{
         const endPoind = ""; 
         return await this.axiosInstance.post(endPoind,newService);
     } 
+
+    static async getAll(){
+        const endPoind = ""; 
+        return await this.axiosInstance.get(endPoind);
+    } 
  
 }
