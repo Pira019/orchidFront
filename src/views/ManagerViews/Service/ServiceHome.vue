@@ -25,8 +25,11 @@
                     </tr>
                     <tr v-else v-for="(item, index) in data?.data" :key="index">
                         <th scope="row">
-                            <p>{{ item.country.name }}</p>
-                            <img :src="item.country.flag_url" alt="" width="45">
+                            <p>
+                                <router-link :to="{name:'ManagerServiceDetail'}" class="text-decoration-none link-success">{{ item.country.name }}</router-link> 
+                            </p>
+                           
+                            <img :src="item.country.flag_url" alt="" width="45"  >
                         </th>
                         <td>{{ item.year }}</td>
                         <td>{{ item.price }} $</td>
@@ -34,7 +37,6 @@
                         <td>{{ item.status }}</td>
                     </tr>
                 </template>
-
 
             </table-component>
         </section>
