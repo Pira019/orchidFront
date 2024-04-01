@@ -8,5 +8,9 @@ export default {
         async addService({}, newService) { 
             return ServiceService.store(newService);
         },
+
+        async getServices({}) { 
+            return ServiceService.getAll();
+        },
     },
 }
