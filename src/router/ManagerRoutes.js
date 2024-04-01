@@ -17,9 +17,14 @@ let routes = [
            
         }, 
         {
-            path: 'ajouter', name: 'ManagerServiceAdd', component: () => import('@/views/ManagerViews/Setting/WaterMark.vue'),
+            path: 'detail', name: 'ManagerServiceDetail', component: () => import('@/views/ManagerViews/Service/ServiceDetail.vue'),
             mata: {
-                title: 'Ajouter un service', 
+                title: 'Detail service', 
+                metaTags: [
+                    {
+                        name: 'Detail service', 
+                    }
+                ]
             }, 
         }, 
         ]
