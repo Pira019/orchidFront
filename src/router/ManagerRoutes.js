@@ -17,12 +17,12 @@ let routes = [
            
         }, 
         {
-            path: 'detail', name: 'ManagerServiceDetail', component: () => import('@/views/ManagerViews/Service/ServiceDetail.vue'),
+            path: ':id', name: 'ManagerServiceDetail', component: () => import('@/views/ManagerViews/Service/ServiceDetail.vue'),
             mata: {
-                title: 'Detail service', 
+                title: 'Détail service', 
                 metaTags: [
                     {
-                        name: 'Detail service', 
+                        name: 'Détail service', 
                     }
                 ]
             }, 

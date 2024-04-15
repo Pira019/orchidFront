@@ -1,4 +1,5 @@
 <template>
+    <div>
     <StaticbackdropModal :title="modalTitle" @isConfirm="handleModal" :is-confirm-modal="false"
         :close-modal="!isModalHidden" :modalSize="'modal-lg'" v-show="isModalHidden != null">
         <service-form-persistance @closeModal="isModalHidden = !true"
@@ -17,16 +18,11 @@
                     <th scope="col">Status</th>
                 </template>
 
-                <template #TableBody>
-                    <tr v-if="isLoading">
-                        <th colspan="5">
-                            <Spinner></Spinner>
-                        </th>
-                    </tr>
-                    <tr v-else v-for="(item, index) in data?.data" :key="index">
+                <template #TableBody> 
+                    <tr   v-for="(item, index) in data?.data" :key="index">
                         <th scope="row">
                             <p>
-                                <router-link :to="{name:'ManagerServiceDetail'}" class="text-decoration-none link-success">{{ item.country.name }}</router-link> 
+                                <router-link :to="{name:'ManagerServiceDetail', params:{id:item.id  }}" class="text-decoration-none link-success">{{ item.country.name }}</router-link> 
                             </p>
                            
                             <img :src="item.country.flag_url" alt="" width="45"  >
@@ -41,17 +37,16 @@
             </table-component>
         </section>
     </div>
-
-
-
+ 
+        
+</div>
 </template>
 <script>
 import StaticbackdropModal from '@/components/modal/StaticbackdropModal.vue';
 import PageTitle from '@/components/shared/Manager/PageTitle.vue';
 import ServiceFormPersistance from './ServiceFormPersistance.vue';
 import TextModal from '@/Utils/json/TextModal'
-import TableComponent from '@/components/shared/TableComponent.vue';
-import Spinner from '@/components/shared/Spinner.vue';
+import TableComponent from '@/components/shared/TableComponent.vue'; 
 import formattedDate from '@/Utils/formattedDate';
 
 export default {
@@ -77,8 +72,7 @@ export default {
     data() {
         return {
             isModalHidden: null,
-            modalTitle: null,
-            isLoading: true,
+            modalTitle: null, 
             data: []
         }
     },
@@ -91,9 +85,9 @@ export default {
             }).catch()
 
             .finally(() => {
-                this.isLoading = false
+                this.$store.commit('serviceManager/finishDataLoading');
             })
     },
-    components: { PageTitle, StaticbackdropModal, ServiceFormPersistance, TableComponent, Spinner },
+    components: { PageTitle, StaticbackdropModal, ServiceFormPersistance, TableComponent },
 }
 </script>
