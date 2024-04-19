@@ -48,20 +48,20 @@
 import TableComponent from '@/components/shared/TableComponent.vue'
 
 export default {
+  props: {
+    id : {type : String, required: true}
+  },
   data () {
     return {
         service : null
     }
   },
     methods: {
-        toggleLoading(newState) {
-
-        }
+      
     },
 
-      mounted() {
-        const serviceId = this.$route.params.id;
-        this.$store.dispatch('serviceManager/findService', serviceId)
+      mounted() { 
+        this.$store.dispatch('serviceManager/findService', this.id)
             .then((response) => {
                 this.service = response.data
             }).catch()

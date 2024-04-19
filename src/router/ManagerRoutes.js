@@ -17,7 +17,7 @@ let routes = [
            
         }, 
         {
-            path: ':id', name: 'ManagerServiceDetail', component: () => import('@/views/ManagerViews/Service/ServiceDetail.vue'),
+            path: ':id', name: 'ManagerServiceDetail', props:true, component: () => import('@/views/ManagerViews/Service/ServiceDetail.vue'),
             mata: {
                 title: 'Détail service', 
                 metaTags: [
