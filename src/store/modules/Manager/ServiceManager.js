@@ -1,15 +1,23 @@
-import ServiceService from "@/Services/Manager/ServiceService";
- 
+import ServiceService from "@/Services/Manager/ServiceService"; 
+
 export default {
     namespaced: true,
     state: {
         isDataLoading:false,  
+        isShowServiceDetailHeader:false,   
+        service: null,   
     },
 
     getters: {        
         isDataLoadingState(state) {
         return state.isDataLoading;
-    }
+    },
+       toggleServiceDetailHeader(state) {
+        return state.isShowServiceDetailHeader;
+    },
+        getService(state) {
+            return state.service;
+        }
     },
 
     mutations: {
@@ -19,6 +27,18 @@ export default {
         },
         finishDataLoading(state) {
             state.isDataLoading = false;
+        },
+        showServiceDetailHeader(state) {
+            state.isShowServiceDetailHeader = true;
+        },
+        hideServiceDetailHeader(state) {
+            state.isShowServiceDetailHeader = false;
+            state.service = null;
+        },
+        setService(state,service) {
+            const { price,year,created_at,updated_at,status} = service
+            const ServiceInfo = { price,year,created_at,updated_at,status}
+            state.service = ServiceInfo;
         },
     },
     actions: { 
@@ -33,6 +53,7 @@ export default {
         },
         async findService({commit},id) { 
             commit('startDataLoading');
+            commit('showServiceDetailHeader');
             return ServiceService.findService(id);
         },
     },
