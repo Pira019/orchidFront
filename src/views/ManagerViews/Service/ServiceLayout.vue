@@ -4,7 +4,7 @@
             Nos services
             <template #content v-if="showServiceDetailHeader"> 
                 <!-- Show detail service-->
-                <ServiceDetailHeader :service="service"></ServiceDetailHeader>
+                <ServiceDetailHeader :service="service" class="mt-3"></ServiceDetailHeader>
             </template>
         </page-title> 
         <Spinner class="mt-5" v-if="isDataLoading"></Spinner>
