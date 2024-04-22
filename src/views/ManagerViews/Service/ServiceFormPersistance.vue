@@ -99,7 +99,7 @@ export default {
             isLoading: false,
             countries : null,
             disciplinaries : [],
-            requestResponse : 'null',
+            requestResponse : '',
             isRequestResponseSucceed : null
         }
     },

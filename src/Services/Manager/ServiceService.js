@@ -29,5 +29,10 @@ export default class ServiceService{
         const endPoind = ""; 
         return await this.axiosInstance.get(endPoind);
     } 
+
+    static async findService(serviceId){
+        const endPoind = "/"+ parseInt(serviceId); 
+        return await this.axiosInstance.get(endPoind);
+    }
  
 }

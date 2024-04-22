@@ -1,13 +1,21 @@
-export function navigateToRoute(codeStatus,routeName){
- 
+import router from "@/router";
+import store from "@/store";
 
-    if(codeStatus == 401){
-        this.$store.commit('setError401');      
-        this.$router.push({name:"managerLogin" })
-    
-    }else if(codeStatus == 403){
-        this.$store.commit('setError401');  
-        this.$router.push({name:'manager403' })
-    } 
+const error403 = import.meta.env.VITE_ROUTE403;
+const errorLogin = import.meta.env.VITE_ROUTELOGIN;
+// Errors
+const errors = {
+    401: errorLogin,
+    403: error403, 
+};
+
+
+export function navigateToRoute(codeStatus)
+{ 
+    if (errors[codeStatus]) {
+        store.commit('setError401');
+        // Assuming this function is called within a Vue component, you can use this.$router
+        return router.push({ name: errors[codeStatus] });
+    }
  
 }

@@ -50,12 +50,11 @@ export default ({
     methods: {
         toggleSidebar() {
             this.isSidebarActive = !this.isSidebarActive;
-            this.$emit('isSidebarActive', this.isSidebarActive)
         },
 
         logout() {
             localStorage.removeItem("authUserToken");
-            this.$store.commit('authManager/userAuth', { token: '' });
+            this.$store.commit('authManager/userAuth', { token: null });
             this.$router.push({ name: 'managerLogin' });
         }
     },
