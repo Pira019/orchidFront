@@ -2,8 +2,8 @@ import AuthManagerService from "@/Services/Manager/AuthManagerService"
 export default {
     namespaced: true,
     state: {
-        authUserToken : '',
-        authUserName : '',
+        authUserToken : null,
+        authUserName : null
     },
 
     actions: {
