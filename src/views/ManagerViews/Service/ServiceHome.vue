@@ -1,13 +1,13 @@
 <template>
-    <div>
+    <div >
     <StaticbackdropModal :title="modalTitle" @isConfirm="handleModal" :is-confirm-modal="false"
         :close-modal="!isModalHidden" :modalSize="'modal-lg'" v-show="isModalHidden != null">
         <service-form-persistance @closeModal="isModalHidden = !true"
             :is-close-modal="isModalHidden"></service-form-persistance>
-    </StaticbackdropModal>
+    </StaticbackdropModal> 
 
-    <div class="container-fluid">
-        <button class="btn btn-success" @click="handlePersistanceBtn">Ajouter</button>
+    <div class="container-fluid" v-show="!requestResponse">
+        <button class="btn btn-success" @click="handlePersistanceBtn" title="Ajouter un service">Ajouter</button>
         <section class="mt-5">
             <table-component>
                 <template #TableHeader>
@@ -37,7 +37,6 @@
             </table-component>
         </section>
     </div>
- 
         
 </div>
 </template>
@@ -48,8 +47,10 @@ import ServiceFormPersistance from './ServiceFormPersistance.vue';
 import TextModal from '@/Utils/json/TextModal'
 import TableComponent from '@/components/shared/TableComponent.vue'; 
 import formattedDate from '@/Utils/formattedDate';
+import errorMessage from '@/Utils/ErrorMessage';
 
 export default {
+  props: ['requestResponse'],
      
     methods: {
 
@@ -82,12 +83,17 @@ export default {
         this.$store.dispatch('serviceManager/getServices')
             .then((response) => {
                 this.data = response.data
-            }).catch()
-
+            }).catch((error)=>{
+                this.$store.commit('serviceManager/responseMessage', errorMessage(error,true));
+            })
             .finally(() => {
                 this.$store.commit('serviceManager/finishDataLoading');
             })
     },
+
+    unmounted() { 
+    this.$store.commit('serviceManager/resetResponseMessage');
+  },
     components: { PageTitle, StaticbackdropModal, ServiceFormPersistance, TableComponent },
 }
 </script>

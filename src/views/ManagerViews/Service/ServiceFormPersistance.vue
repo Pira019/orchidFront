@@ -4,11 +4,10 @@
         <div class="row mb-3">
             <div class="form-group  col-md-6">
                 <label for="pays" class="my-2 fw-bold" :class="[v$.country_id.$error && 'text-danger']">Pays*</label>
-                <select class="form-select" id="pays" :class="[v$.country_id.$error && 'is-invalid']"
-                    v-model="state.country_id">
-                    <option selected value="" v-if="!countries?.isFail">Sélectionnez un pays</option>  
+                <select class="form-select" id="pays" :class="[v$.country_id.$error && 'is-invalid']" v-model="state.country_id">
+                    <option value="" v-if="!countries?.isFail" selected>Sélectionnez un pays</option>  
                     <option v-if="countries?.isFail">Une erreur s'est produite</option>  
-                    <option v-else :value="item.id" v-for="(item,index) in countries" :key="index">{{ item.name}}</option>  
+                    <option v-else :value="item.id" v-for="(item,index) in countries" :key="index" :title="item.short_name">{{ item.name}}</option>  
                 </select>
 
                 <div class="invalid-feedback" v-if="v$.country_id.$error">
@@ -16,15 +15,13 @@
                         {{ error.$message }}
                     </span>
                 </div>
-            </div>
-
-
-            <div class=" col-md-6 form-group">
+            </div>  
+           <div class=" col-md-6 form-group">
                 <label for="disciplines" class="my-2 fw-bold"
                     :class="[v$.service_disciplinaries.$error && 'text-danger']">Disciplines*</label>
-                <select class="form-control" multiple="multiple" id="disciplines" :disabled="countries?.isFail"
+                <select class="form-control" multiple="multiple" id="disciplines" :disabled="countries?.isFail || !getSectors(state.country_id)"
                     :class="[v$.service_disciplinaries.$error && 'is-invalid']" v-model="state.service_disciplinaries"> 
-                    <option v-for="(item,index) in disciplinaries" :key="index" :value="item.id">{{ item.name}}</option>
+                    <option v-for="(item,index) in getSectors(state.country_id)" :key="index" :value="item.id">{{ item.label}}</option> 
                 </select>
 
                 <div class="text-danger" v-if="v$.service_disciplinaries.$error">
@@ -32,7 +29,7 @@
                         {{ error.$message }}
                     </span>
                 </div>
-            </div>
+            </div> 
         </div>
 
         <div class="row mb-3">
@@ -92,13 +89,12 @@ export default {
         isCloseModal() {
             this.isRequestResponseSucceed = null;
             this.resetForm();
-        },
+        }, 
     }, 
     data() {
         return {
             isLoading: false,
-            countries : null,
-            disciplinaries : [],
+            countries : null, 
             requestResponse : '',
             isRequestResponseSucceed : null
         }
@@ -108,6 +104,11 @@ export default {
         updateYear(event) {
         this.state.year = event.target.value;
     },
+
+        getSectors(idCountry) {
+            if (idCountry)
+                return this.countries.find(country => country.id === idCountry).disciplinaries;
+        },
 
     cancel(){
         this.isSucceed=null;
@@ -155,10 +156,9 @@ export default {
            }
         },
 
-        getCoutries() {
+        getCountries() {
             this.$store.dispatch('countryManager/countries').then((response) => {
-               this.countries = response.data.countries;
-               this.disciplinaries = response.data.disciplinarySector;
+               this.countries = response.data
             }).catch(()=> {
                 this.countries = {
                     isFail : true
@@ -175,7 +175,7 @@ export default {
             startDate: new Date(),
             forceParse : true
         })
-        this.getCoutries();
+        this.getCountries();
     },
     setup() {
         const state = reactive({

@@ -1,10 +1,10 @@
 import { navigateToRoute } from './Navigation';
-export default function errorMessage(error) { 
+export default function errorMessage(error,redirect=false) { 
     if (!error.response) {
         return "Erreur lors de la requête";
     }
 
-    navigateToRoute(error.response.status);
+     redirect && navigateToRoute(error.response.status);
 
     const responseData = error.response.data;
 

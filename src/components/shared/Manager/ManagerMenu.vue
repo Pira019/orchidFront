@@ -50,6 +50,7 @@ export default ({
     methods: {
         toggleSidebar() {
             this.isSidebarActive = !this.isSidebarActive;
+            this.$emit('isSidebarActive', this.isSidebarActive)
         },
 
         logout() {
