@@ -6,6 +6,7 @@ export default {
         isDataLoading:false,  
         isShowServiceDetailHeader:false,   
         service: null,   
+        requestResponseMessage : null
     },
 
     getters: {        
@@ -17,6 +18,9 @@ export default {
     },
         getService(state) {
             return state.service;
+        },
+        geResponseMessage(state) {
+            return state.requestResponseMessage;
         }
     },
 
@@ -34,6 +38,13 @@ export default {
         hideServiceDetailHeader(state) {
             state.isShowServiceDetailHeader = false;
             state.service = null;
+            state.requestResponseMessage = null; 
+        },
+        responseMessage(state,message) {
+            state.requestResponseMessage = message; 
+        },
+        resetResponseMessage(state) {
+            state.requestResponseMessage = null; 
         },
         setService(state,service) {
             const { price,year,created_at,updated_at,status} = service

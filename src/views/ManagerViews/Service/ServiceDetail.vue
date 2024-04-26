@@ -1,8 +1,6 @@
 <template>
-  <div class="container-fluid">
-    <request-alert :isSucceed="false" :responseMessage="requestErrorMessage" v-if="requestErrorMessage"></request-alert>
-
-    <div v-show="!requestErrorMessage">
+  <div class="container-fluid" > 
+    <div v-show="!requestResponse">
     <div class="d-flex justify-content-center">
       <div class="text-center">
         <img :src="service?.countries.flag_url" :alt="service?.countries.name" class="img-fluid img-thumbnail" width="150">
@@ -42,7 +40,7 @@
       </div>
     </div> 
   </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -52,12 +50,13 @@ import errorMessage from '@/Utils/ErrorMessage'
 
 export default {
   props: {
-    id: { type: String, required: true }
+    id: { type: String, required: true },
+    requestResponse:{}
   },
   data() {
     return {
       service: null,
-      requestErrorMessage: '',
+
     }
   },
   mounted() {
@@ -68,7 +67,7 @@ export default {
         this.$store.commit('serviceManager/setService', this.service);
 
       }).catch((error)=>{ 
-          this.requestErrorMessage = errorMessage(error)
+        this.$store.commit('serviceManager/responseMessage', errorMessage(error,true));
       }).finally(() => {
         this.$store.commit('serviceManager/finishDataLoading');
       })
