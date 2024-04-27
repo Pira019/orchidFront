@@ -44,7 +44,7 @@
 
   <!-- Copyright -->
   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-    © 2022 :
+    © 2024 
     <span class="text-reset fw-bold">Orchid-campus</span>
   </div>
 
