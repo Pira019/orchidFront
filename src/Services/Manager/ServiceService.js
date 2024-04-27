@@ -25,10 +25,12 @@ export default class ServiceService{
         return await this.axiosInstance.post(endPoind,newService);
     } 
 
-    static async getAll(){
-        const endPoind = ""; 
-        return await this.axiosInstance.get(endPoind);
+    static async getAll(pageNumber){
+        const pageNumber_ = parseInt(pageNumber);        
+        const endpoint = pageNumber_ ? `?page=${pageNumber_}` : ""; 
+        return await this.axiosInstance.get(endpoint);
     } 
+    
 
     static async findService(serviceId){
         const endPoind = "/"+ parseInt(serviceId); 

@@ -1,4 +1,5 @@
 <template>
+    <div class="table-responsive-sm">
     <table class="table table-hover table-bordered">
         <thead>
             <tr>
@@ -17,6 +18,7 @@
         </slot>
         </tbody>
     </table>
+</div>
 </template>
 
 <script>

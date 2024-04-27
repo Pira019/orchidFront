@@ -13,14 +13,14 @@
             <p title="Dérniere modification" class="h5"> <font-awesome-icon icon="pen-to-square" /> <span class="px-2">{{ formatDate(service.updated_at)}}</span></p> 
         </div>         
         <div class="col-md">
-            <p title="Status" class="h5" :class="getStatusColor(service.status)"> <font-awesome-icon icon="signal" /> <span class="px-2">{{ service.status}}</span></p> 
+            <p title="Status" class="h5" > <font-awesome-icon icon="signal" /> <span class="px-2 text-white rounded" :class="getStatusColor(service.status)">{{statusName(service.status)}}</span></p> 
         </div>         
     </div>
 </template>
 
 <script>  
 import formattedDate from '@/Utils/formattedDate';
-import {getColorForStaus} from '@/Utils/statusColor.js'
+import {getColorForStatus,getStatusName} from '@/Utils/statusEnum.js'
 export default{
   props: {
     service : { 
@@ -32,7 +32,10 @@ export default{
         return formattedDate(date)
     },
     getStatusColor(status){
-        return getColorForStaus(status)
+        return getColorForStatus(status)
+    },
+    statusName(status){
+        return getStatusName(status)
     }
   }
 
