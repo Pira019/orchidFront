@@ -58,9 +58,9 @@ export default {
             return ServiceService.store(newService);
         },
 
-        async getServices({commit}) { 
-            commit('startDataLoading');
-            return ServiceService.getAll();
+        async getServices({commit},pageNumber = 0) { 
+            !pageNumber &&  commit('startDataLoading');
+            return ServiceService.getAll(pageNumber);
         },
         async findService({commit},id) { 
             commit('startDataLoading');

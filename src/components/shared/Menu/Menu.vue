@@ -12,7 +12,7 @@
         <router-link class="nav-link" :to="{name:'about-us'}">Qui sommes-nous?</router-link> 
       </li>
       <li class="nav-item">
-        <router-link :to="{name:'managerHome'}" class="nav-link" title="Questions populaires">Nos services</router-link>
+        <a href="#" class="nav-link" title="Questions populaires">Services</a>
       </li>  
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -25,9 +25,9 @@
           <a class="dropdown-item" href="#">Procédures d'inscription</a>
         </div>
       </li>  
-      <li class="nav-item">
+  <!--   <li class="nav-item">
         <router-link :to="{name:'faq'}" class="nav-link" title="Questions populaires">Domaines d'études</router-link>
-      </li>      
+      </li>      --> 
       <li class="nav-item">
         <router-link :to="{name:'faq'}" class="nav-link" title="Questions populaires">Faq</router-link>
       </li>      
