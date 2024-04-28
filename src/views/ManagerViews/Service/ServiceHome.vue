@@ -2,7 +2,7 @@
     <div>
         <StaticbackdropModal :title="modalTitle" @isConfirm="handleModal" :is-confirm-modal="false"
             :close-modal="!isModalHidden" :modalSize="'modal-lg'" v-show="isModalHidden != null">
-            <service-form-persistance @closeModal="isModalHidden = !true"
+            <service-form-persistance @closeModal="isModalHidden = !true" @newService="addNewServiceToArray"
                 :is-close-modal="isModalHidden"></service-form-persistance>
         </StaticbackdropModal> 
         <div class="container-fluid" v-show="!requestResponse">
@@ -66,6 +66,9 @@ export default {
   props: ['requestResponse'],
      
     methods: {
+        addNewServiceToArray(newService) { 
+            this.services?.data.unshift(newService)
+        },
         handlePaginationClick(pageNumber){
           this.getServivices(pageNumber);
         },

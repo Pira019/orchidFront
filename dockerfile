@@ -17,5 +17,5 @@ COPY . /client-orchid
 # build app for production with minification
 RUN npm run dev
 
-EXPOSE 8080
+EXPOSE 30000
 CMD [ "http-server", "dist" ]

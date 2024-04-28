@@ -74,7 +74,8 @@ import useVuelidate from '@vuelidate/core';
 import customeMessage from '@/Utils/validationMessages';
 import messageFr from '@/lang/fr.json';
 import errorMessage from '@/Utils/ErrorMessage';
-import RequestAlert from '@/components/shared/Alert/RequestAlert.vue';
+import RequestAlert from '@/components/shared/Alert/RequestAlert.vue'; 
+import { getStatusKeyByValue, StatusServiceEnum } from '@/Utils/statusEnum';
 
 
 export default {
@@ -110,58 +111,76 @@ export default {
                 return this.countries.find(country => country.id === idCountry).disciplinaries;
         },
 
-    cancel(){
+        getSelectedCountry(idCountry) { 
+                return this.countries.find(country => country.id === idCountry);
+        },
+
+        cancel(){
         this.isSucceed=null;
         this.resetForm();        
         this.$emit('closeModal') ;
     },
 
-    resetForm()
-    {
-        this.v$.$reset();
-        Object.assign(this.state,{...ServiceModel}); 
-    },
+        resetForm() {
+            this.v$.$reset();
+            Object.assign(this.state, { ...ServiceModel });
+        },
 
+        generateModelService(data){
 
+            const {price,country_id,year} = this.state;
+            const newCountry = {
+                price : price, 
+                year : year,
+                id : data.id,
+                created_at : data.created_at ,
+                status :  getStatusKeyByValue(StatusServiceEnum.NON_PUBLIE),
+                country : {
+                    flag_url : this.getSelectedCountry(country_id).flag_url,
+                    name : this.getSelectedCountry(country_id).name
+                }
+            };
+            this.$emit('newService',newCountry);            
+        },
         submitForm() {
-           
+
             this.v$.$validate();
 
             if (this.v$.$error) {
                 return;
             }
-            
+
             this.isLoading = true;
-            this.$store.dispatch('serviceManager/addService',this.prepareData())
-            .then((response) =>
-            { 
-                this.isRequestResponseSucceed = true;
-                this.requestResponse =  messageFr.messageRequest.success.save;
-                this.resetForm();
+            this.$store.dispatch('serviceManager/addService', this.prepareData())
+                .then((response) => {
+                    this.isRequestResponseSucceed = true;
+                    this.requestResponse = messageFr.messageRequest.success.save;  
+                    this.generateModelService(response.data);           
+                    this.resetForm();
 
-            }).catch((error)=> {
+                }).catch((error) => {
 
-                this.isRequestResponseSucceed = false;              
-                this.requestResponse = errorMessage(error);
+                    this.isRequestResponseSucceed = false;
+                    this.requestResponse = errorMessage(error);
 
-            }).finally(()=>{
-                this.isLoading = false;
-            })
+                }).finally(() => {
+                    this.isLoading = false;
+                })
         },
         //To store
-        prepareData(){
-           return {
-            ...this.state,
-            service_disciplinaries : this.state.service_disciplinaries.join(',')
-           }
+        prepareData() {
+            return {
+                ...this.state,
+                service_disciplinaries: this.state.service_disciplinaries.join(',')
+            }
         },
 
         getCountries() {
             this.$store.dispatch('countryManager/countries').then((response) => {
-               this.countries = response.data
-            }).catch(()=> {
+                this.countries = response.data
+            }).catch(() => {
                 this.countries = {
-                    isFail : true
+                    isFail: true
                 }
             });
         }

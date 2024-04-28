@@ -1,4 +1,4 @@
-const StatusServiceEnum = Object.freeze({
+export const StatusServiceEnum = Object.freeze({
     PUBLIE: "PUBLIBLIE",
     DESACTIVEE: "DESACTIVE",
     NON_PUBLIE: "NON PUBLIE"
@@ -17,4 +17,9 @@ export function getColorForStatus(status){
 
 export function getStatusName(status){
     return StatusServiceEnum[status];
+}
+
+export function getStatusKeyByValue(value) {
+    const entry = Object.entries(StatusServiceEnum).find(([,val]) => val === value);
+    return entry ? entry[0] : null;
 }
