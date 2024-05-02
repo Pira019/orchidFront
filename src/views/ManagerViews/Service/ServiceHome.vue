@@ -61,6 +61,7 @@ import errorMessage from '@/Utils/ErrorMessage';
 import PaginationComponent from '@/components/shared/PaginationComponent.vue';
 import { getStatusName,getColorForStatus } from '@/Utils/statusEnum';
 import Spinner from '@/components/shared/Spinner.vue';
+import lang from '@/lang/fr.json'
 
 export default {
   props: ['requestResponse'],
@@ -118,7 +119,9 @@ export default {
     },
 
     mounted() {
-       this.getServivices()
+       this.getServivices();
+       const pageTitle= lang.page.servives.ourServices
+       this.$store.commit('serviceManager/setPageTitle',pageTitle);
     },
 
     unmounted() { 

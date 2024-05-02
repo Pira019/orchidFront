@@ -6,7 +6,8 @@ export default {
         isDataLoading:false,  
         isShowServiceDetailHeader:false,   
         service: null,   
-        requestResponseMessage : null
+        requestResponseMessage : null,
+        pageTitle : null,
     },
 
     getters: {        
@@ -21,11 +22,17 @@ export default {
         },
         geResponseMessage(state) {
             return state.requestResponseMessage;
+        },
+        getPageTitle(state) {
+            return state.pageTitle;
         }
     },
 
     mutations: {
         
+        setPageTitle(state,pageTitle) {
+            state.pageTitle = pageTitle;
+        },
         startDataLoading(state) {
             state.isDataLoading = true;
         },
@@ -61,7 +68,8 @@ export default {
         async getServices({commit},pageNumber = 0) { 
             !pageNumber &&  commit('startDataLoading');
             return ServiceService.getAll(pageNumber);
-        },
+        },      
+
         async findService({commit},id) { 
             commit('startDataLoading');
             commit('showServiceDetailHeader');

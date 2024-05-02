@@ -1,7 +1,7 @@
 <template>
     <div >
         <page-title>
-            Nos services
+            {{ pageTitle }}
             <template #content v-if="showServiceDetailHeader"> 
                 <!-- Show detail service-->
                 <ServiceDetailHeader :service="service" class="mt-3"></ServiceDetailHeader>
@@ -20,13 +20,14 @@ import ServiceDetailHeader from '@/components/shared/Manager/Service/ServiceDeta
 import Spinner from '@/components/shared/Spinner.vue';
 import { mapGetters } from 'vuex';
 import RequestAlert from '@/components/shared/Alert/RequestAlert.vue';
-export default{
+export default{ 
     computed: {
         ...mapGetters('serviceManager', {
             isDataLoading: 'isDataLoadingState',
             showServiceDetailHeader: 'toggleServiceDetailHeader',
             service: 'getService',
             requestResponse: 'geResponseMessage',
+            pageTitle: 'getPageTitle',
         })
     },
  
