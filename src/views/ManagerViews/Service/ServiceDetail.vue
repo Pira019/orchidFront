@@ -84,6 +84,7 @@ export default {
       service: null,
       isShowUniversityDetail:false,
       modalTitle : null,    
+      servieYear : null,    
       university: {
         id : null,
         name : null,

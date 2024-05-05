@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid">        
         <Spinner v-if="isDataLoading"></Spinner>
         <div v-else>
             <div class="text-center">
@@ -15,41 +15,39 @@
                             <button class="accordion-button collapsed text-uppercase fw-bolder" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#flush-collapseThree" aria-expanded="false"
                                 aria-controls="flush-collapseThree">
-                                {{  program.label }}
+                                {{  program.label }} 
+                                    <span title="cycle" class="bg-secondary text-white p-1 rounded">{{ program.cycle}}</span>     
                             </button>
                         </h2>
                         <div id="flush-collapseThree" class="accordion-collapse collapse"
                             aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
+                                <p class="text-center">Date d'admission <span class="fw-bold">{{ serviceYear }}</span></p>
+                                <div class="table-responsive-sm">
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
+                                            
                                             <th scope="col">#</th>
                                             <th scope="col">Début</th>
                                             <th scope="col">Fin</th>
                                             <th scope="col">Session</th>
+                                            <th scope="col"> {{ state.checkedDataAdmission }}  </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td colspan="2">Larry the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
+                                        <tr v-for="(admissionDate,index) in program.admission_date" :key="index">
+                                            <th  scope="row">{{ index + 1}}</th>
+                                            <td>{{ admissionDate.start_at}}</td> 
+                                            <td>{{ admissionDate.end_at}}</td> 
+                                            <td>{{ admissionDate.session_admission}}</td>  
+                                            <td>
+                                                <input type="checkbox" :id="'date_' + index" class="form-check" :value="admissionDate.id" v-model="state.checkedDataAdmission">
+                                            </td>
+                                        </tr> 
                                     </tbody>
                                 </table>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -66,13 +64,28 @@ import AccordionDefaultComponent from '@/components/shared/AccordionDefaultCompo
 import Spinner from '@/components/shared/Spinner.vue';
 import {UniversityProgram} from '@/model/Manager/UniversityProgram'
 import formattedDate from '@/Utils/formattedDate';
+import { mapGetters } from 'vuex';
+import { reactive } from 'vue';
 export default {
+   
+    setup()
+    {
+        const state = reactive({
+            checkedDataAdmission : []
+        })
+        return {state}
+    },
   data () {
     return {
         isDataLoading : false,
         universityProgram : {...UniversityProgram}
     }
   },
+  computed: {
+        ...mapGetters('serviceManager', {
+            serviceYear: 'getServiceYear', 
+        })
+    },
     components: { AccordionDefaultComponent,Spinner },
     methods: {
         dateFormatted(date)
@@ -86,8 +99,7 @@ export default {
             this.isDataLoading = true;
             this.$store.dispatch('universityManager/getProgramAndAdmissionDate',universityId)
             .then((response)=>{
-                this.universityProgram = {...response.data}    
-                console.log(this.universityProgram.programs)
+                this.universityProgram = {...response.data}     
             }).catch((error)=> {
 
             })
@@ -112,7 +124,6 @@ export default {
         universityShortName: {
             type: String
         }
-    },
-
+    },   
 }
 </script>

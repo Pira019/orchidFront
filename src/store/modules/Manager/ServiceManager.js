@@ -20,6 +20,9 @@ export default {
         getService(state) {
             return state.service;
         },
+        getServiceYear(state) {
+            return state.service?.year;
+        },
         geResponseMessage(state) {
             return state.requestResponseMessage;
         },
