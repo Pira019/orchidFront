@@ -1,6 +1,7 @@
 <template>
     <div class="container-fluid">        
         <Spinner v-if="isDataLoading"></Spinner>
+        <RequestAlert v-if="requestResponse && !isDataLoading" :response-message="requestResponse" :is-succeed="false"></RequestAlert>
         <div v-else>
             <div class="text-center">
                 <img :src="universityProgram.logo" :alt="'Logo_' + universityShortName" class="img-fluid mb-2">
@@ -66,6 +67,8 @@ import {UniversityProgram} from '@/model/Manager/UniversityProgram'
 import formattedDate from '@/Utils/formattedDate';
 import { mapGetters } from 'vuex';
 import { reactive } from 'vue';
+import RequestAlert from '@/components/shared/Alert/RequestAlert.vue';
+import errorMessage from '@/Utils/ErrorMessage';
 export default {
    
     setup()
@@ -78,7 +81,8 @@ export default {
   data () {
     return {
         isDataLoading : false,
-        universityProgram : {...UniversityProgram}
+        universityProgram : {...UniversityProgram},
+        requestResponse : null,
     }
   },
   computed: {
@@ -86,7 +90,7 @@ export default {
             serviceYear: 'getServiceYear', 
         })
     },
-    components: { AccordionDefaultComponent,Spinner },
+    components: { AccordionDefaultComponent,Spinner,RequestAlert },
     methods: {
         dateFormatted(date)
         {
@@ -94,14 +98,15 @@ export default {
         },
 
         findServiceUniversityProgram(universityId)
-        { 
-            console.log(universityId)
+        {             
             this.isDataLoading = true;
             this.$store.dispatch('universityManager/getProgramAndAdmissionDate',universityId)
-            .then((response)=>{
-                this.universityProgram = {...response.data}     
+            .then((response)=>
+            {
+                this.universityProgram = {...response.data}  
+                this.requestResponse = null;   
             }).catch((error)=> {
-
+                this.requestResponse = errorMessage(error);
             })
             .finally(()=>{
                 this.isDataLoading = false
