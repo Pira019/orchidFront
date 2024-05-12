@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div v-show="!requestResponse">
       <StaticbackdropModal v-show="isShowUniversityDetail" :title="modalTitle" :is-confirm-modal="false" :close-modal="!isShowUniversityDetail" :modalSize="'modal-lg'" @isConfirm="r => isShowUniversityDetail = r"> 
-       <service-program :universityId="university.id" :university-name="university.name" :universityShortName="university.shortName"></service-program>
+       <service-program :serviceId="id" :universityId="university.id" :university-name="university.name" :universityShortName="university.shortName"></service-program>
       </StaticbackdropModal>
       <div class="d-flex justify-content-center">
         <div class="text-center">
@@ -57,8 +57,7 @@
 </template>
 
 <script>
-import TableComponent from '@/components/shared/TableComponent.vue'
-import RequestAlert from '@/components/shared/Alert/RequestAlert.vue'
+import TableComponent from '@/components/shared/TableComponent.vue' 
 import errorMessage from '@/Utils/ErrorMessage';
 import lang from '@/lang/fr.json'
 import StaticbackdropModal from '@/components/modal/StaticbackdropModal.vue';
@@ -112,7 +111,7 @@ export default {
   unmounted() {
     this.$store.commit('serviceManager/hideServiceDetailHeader');
   },
-  components: { TableComponent,RequestAlert,StaticbackdropModal, ServiceProgram },
+  components: { TableComponent,StaticbackdropModal, ServiceProgram },
 }
 </script>
 

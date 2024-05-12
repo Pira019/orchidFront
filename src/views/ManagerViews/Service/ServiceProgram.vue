@@ -33,7 +33,9 @@
                                             <th scope="col">Début</th>
                                             <th scope="col">Fin</th>
                                             <th scope="col">Session</th>
-                                            <th scope="col"> {{ state.checkedDataAdmission }}  </th>
+                                            <th scope="col"> 
+                                               <BtnConfirmModal @isModalConfirm="saveAdmissionDate"></BtnConfirmModal>
+                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,6 +71,7 @@ import { mapGetters } from 'vuex';
 import { reactive } from 'vue';
 import RequestAlert from '@/components/shared/Alert/RequestAlert.vue';
 import errorMessage from '@/Utils/ErrorMessage';
+import BtnConfirmModal from '@/components/modal/BtnConfirmModal.vue';
 export default {
    
     setup()
@@ -90,8 +93,13 @@ export default {
             serviceYear: 'getServiceYear', 
         })
     },
-    components: { AccordionDefaultComponent,Spinner,RequestAlert },
+    components: { AccordionDefaultComponent,Spinner,RequestAlert,BtnConfirmModal },
     methods: {
+        saveAdmissionDate()
+        {
+           const admissionDateIds = this.state.checkedDataAdmission;
+            this.$store.dispatch('serviceManager/saveServiceAdmissionDates', {serviceId:this.serviceId,admissionDateIds})
+        },
         dateFormatted(date)
         {
             return formattedDate(date)
@@ -120,6 +128,9 @@ export default {
         }
     },
     props: {
+        serviceId : {
+            type : String
+        },
         universityId: {
             type: Number
         },

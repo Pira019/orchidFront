@@ -68,6 +68,13 @@ export default {
             return ServiceService.store(newService);
         },
 
+        //data represent serviverId,admissionDateIds
+        async saveServiceAdmissionDates({}, data)
+        {  
+            console.log(data)
+            return ServiceService.saveServiceAdmissionDates(data.serviceId,data);
+        },
+
         async getServices({commit},pageNumber = 0) { 
             !pageNumber &&  commit('startDataLoading');
             return ServiceService.getAll(pageNumber);
