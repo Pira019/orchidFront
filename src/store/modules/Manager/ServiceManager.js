@@ -70,8 +70,7 @@ export default {
 
         //data represent serviverId,admissionDateIds
         async saveServiceAdmissionDates({}, data)
-        {  
-            console.log(data)
+        {              
             return ServiceService.saveServiceAdmissionDates(data.serviceId,data);
         },
 

@@ -23,7 +23,7 @@
                         <div id="flush-collapseThree" class="accordion-collapse collapse"
                             aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                <p class="text-center">Date d'admission <span class="fw-bold">{{ serviceYear }}</span></p>
+                                <p class="text-center">Date d'admission : <span class="fw-bold">{{ serviceYear }}</span></p>
                                 <div class="table-responsive-sm">
                                 <table class="table table-striped table-hover">
                                     <thead>
@@ -34,7 +34,16 @@
                                             <th scope="col">Fin</th>
                                             <th scope="col">Session</th>
                                             <th scope="col"> 
-                                               <BtnConfirmModal @isModalConfirm="saveAdmissionDate"></BtnConfirmModal>
+                                               <BtnConfirmModal :message="requestResponseSaveAdmissionDate" :is-request-loading="isServiceAdmissionRequestLoading" @isModalConfirm="saveAdmissionDate" v-show="state.checkedDataAdmission.length">
+                                                <div v-if="showAdmissionResponse">
+                                                    <div :class="requestResponseAdmision ? 'bg-danger' : 'bg-success' " class="p-1">
+                                                        <p class="text-white">
+                                                            <span v-if="requestResponseAdmision"> {{ requestResponseAdmision }}</span>
+                                                            <span v-else> Programme ajouté avec succés</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                             </BtnConfirmModal>
                                              </th>
                                         </tr>
                                     </thead>
@@ -84,8 +93,12 @@ export default {
   data () {
     return {
         isDataLoading : false,
+        isServiceAdmissionRequestLoading : false,
         universityProgram : {...UniversityProgram},
         requestResponse : null,
+        requestResponseAdmision : null,
+        requestResponseSaveAdmissionDate : null,
+        showAdmissionResponse : false,
     }
   },
   computed: {
@@ -95,10 +108,23 @@ export default {
     },
     components: { AccordionDefaultComponent,Spinner,RequestAlert,BtnConfirmModal },
     methods: {
-        saveAdmissionDate()
+        saveAdmissionDate(isUserComfirm)
         {
+            if(!isUserComfirm){
+             return  this.showAdmissionResponse = false;
+            }
+           this.isServiceAdmissionRequestLoading=true;
            const admissionDateIds = this.state.checkedDataAdmission;
-            this.$store.dispatch('serviceManager/saveServiceAdmissionDates', {serviceId:this.serviceId,admissionDateIds})
+         
+            this.$store.dispatch('serviceManager/saveServiceAdmissionDates', {serviceId:this.serviceId,admissionDateIds}).then(()=>{
+                this.requestResponseAdmision =null;
+            })
+            .catch((error)=>{
+                this.requestResponseAdmision = errorMessage(error);
+            }).finally(()=>{
+                this.isServiceAdmissionRequestLoading = false;
+                this.showAdmissionResponse = true;
+            })
         },
         dateFormatted(date)
         {
