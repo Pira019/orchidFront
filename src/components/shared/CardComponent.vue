@@ -1,10 +1,11 @@
 <template>
      <div class="container-fluid"> 
-        <div class="row justify-content-evenly" v-if="list.lenght !== 0">
-            <div class="card col-md-4 mb-3 " v-for="(list, index) in list" :key="index" style="width: 15rem;">
-              <img class="card img-fluid" :src="list?.flag_url" alt="Drapeau ou logo" style="width: 50%;">
-                <div class="card-body">
-                    <h5 class="card-title" v-if="!onlyHeader">{{ list?.name }}</h5>
+        <div class="row justify-content-start" v-if="list.lenght !== 0">
+            <div class="col-md-2"  v-for="(list, index) in list" :key="index">
+            <div class="card my-2 "  style="width: 15rem;">
+              <img class="card img-fluid" :src="list?.flag_url" alt="Drapeau ou logo" style="width: 100%;">
+                <div class="card-body text-center">
+                    <h5 class="card-title " v-if="!onlyHeader">{{ list?.name }}</h5>
                     <router-link  v-if="onlyHeader" :to="{ name: routeName, params:{id: list?.id  } }" class="text-decoration-none text-black fw-bolder">{{ list?.name }}</router-link>  
                 </div>                
                 <ul class="list-group list-group-flush" v-if="!onlyHeader || isUniversityList" >
@@ -22,6 +23,7 @@
                 
                 
             </div>            
+        </div>
         </div>
 
         <div class="row justify-content-evenly" v-else>
