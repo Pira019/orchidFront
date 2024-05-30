@@ -1,10 +1,10 @@
 <template>
-    <div>
-         
-        <section class="container-fluid">
-            <header class="text-center mb-5">
-                <h1 class="text-success">Tutoriels pour <mark> {{ countryDetail.name }} </mark></h1>
-            </header>
+    <div  class="container-fluid">   
+            <page-title :isLoading="isDataCountryStepsLoading"  :requestResponseMessage="errorRequestMessage">
+                Tutoriels <span v-show="countryDetail && !isDataCountryStepsLoading">pour <strong> {{ countryDetail.name }} </strong></span> 
+            </page-title>
+          
+           <section class="mt-5" v-if="countryDetail && !isDataCountryStepsLoading">
             <div class="row  mt-3">
                 <div class="col-md-2 overflow-auto">
                     <div class="mb-3">
@@ -79,11 +79,11 @@
                 </AccordionComponent>
 
             </div>
+        </section>
             <!--Modal-->
             <add-tuto-modal @updatedTuto="updatedTuto" @addedTuto="addedTutoToAccordionComponent_" :country="countryDetail"
                 :stepTitle='detailStep.title' :stepId="detailStep.id" :isEdit="isEdit" :orderNbr="detailStep.order"
                 :new-tuto-order="orderNewTuto"></add-tuto-modal>
-        </section>
         <confirmation-modal-component :isLoading="isLoading" :modalSize="isAddVideo ? 'modal-lg' : null" :title="isAddVideo ? 'Ajouter un tutoriel vidéo' : undefined" :closeModal="!openDeleteModal" @isConfirm="handleClickOnConfirmation" :isConfirmModal="!isRequestSucceeded && !isAddVideo">
             <section v-if="isAddVideo"> <add-tuto-video @isConfirm="handleClickOnConfirmation"></add-tuto-video> </section> 
             <div v-else-if="isDeleteTutoVideo">
@@ -108,12 +108,13 @@ import VerticalMenuComponent from '@/components/shared/VerticalMenuComponent.vue
 import { mapGetters } from 'vuex';
 import AddTutoModal from './AddTutorialsToStep/AddTutoModal.vue';
 import AccordionComponent from '@/components/shared/AccordionComponent.vue';
-import Spinner from '@/components/shared/Spinner.vue';
 import ConfirmationModalComponent from '@/components/modal/StaticbackdropModal.vue';
 import ViewVideos from '@/components/shared/ViewVideos.vue';
 import formattedDate from '@/Utils/formattedDate';
 import AddTutoVideo from '../AddTutoriel/AddTutoVideo.vue'; 
 import errorMessage from '@/Utils/ErrorMessage';
+import PageTitle from '@/components/shared/Manager/PageTitle.vue';
+import Spinner from '@/components/shared/Spinner.vue';
 
 export default {
     methods: {
@@ -252,7 +253,9 @@ export default {
             isLoading:false,
             errors : null,
             extraTuto: null,
-            isRequestSucceeded : false
+            isRequestSucceeded : false,
+            isDataCountryStepsLoading : false,
+            errorRequestMessage : null
 
         }
     },
@@ -265,15 +268,24 @@ export default {
             infoTuto: 'getExtraTutos',
         }), 
     },
-    created() {
+    created()
+     {
+        this.isDataCountryStepsLoading = true
         const idCountry = parseInt(this.$route.params.id)
-        this.$store.dispatch('tutorial/getCountryStepsByCountryId_', idCountry).then((response) => {
+        this.$store.dispatch('tutorial/getCountryStepsByCountryId_', idCountry)
+       
+        .then((response) => {
             this.detailStep = response.data.country_steps[0];
             this.getTutosByStep(this.detailStep?.id)
             this.$store.commit('tutorial/setSteps', response.data.country_steps);
             this.$store.commit('tutorial/setCountryDetail', { name: response.data.name, short_name: response.data.short_name, flagUrl: response.data.flag_url });
+        }).catch((error)=>{
+            this.errorRequestMessage = errorMessage(error,true)
+        }).finally(()=>{
+            this.isDataCountryStepsLoading = false;
         });
     },
-    components: { VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, Spinner, ConfirmationModalComponent,ViewVideos, AddTutoVideo }
+    components: {Spinner, VerticalMenuComponent, CollapseComponent, AddTutoModal, AccordionComponent, ConfirmationModalComponent,ViewVideos, AddTutoVideo,PageTitle }
 }
-</script>
+</script>,
+        PageTitle

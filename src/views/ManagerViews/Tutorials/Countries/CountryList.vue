@@ -2,27 +2,21 @@
 
     <div>     
        
-        <PageTitle>Pays</PageTitle> 
-
-        <request-alert class="container-fluid" :isSucceed="false" :responseMessage="requestResponse" v-show="!isDataLoading && requestResponse "></request-alert>
-
+        <PageTitle :isLoading="isDataLoading" :requestResponseMessage="requestResponse">
+          Pays</PageTitle>    
         <section>
-            <card-component :list="data" v-if="data && !isDataLoading" :onlyHeader="true" :routeName="routeName"></card-component>
-            <Spinner v-if="isDataLoading"></Spinner>
+            <card-component :list="data" v-if="data && !isDataLoading" :onlyHeader="true" :routeName="routeName"></card-component> 
         </section>   
     </div>
  
 </template>
 
-<script>
-import Spinner from '@/components/shared/Spinner.vue';
-import CardComponent from '@/components/shared/CardComponent.vue';
-import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
+<script> 
+import CardComponent from '@/components/shared/CardComponent.vue'; 
 import PageTitle from './../../../../components/shared/Manager/PageTitle.vue'
-import errorMessage from '@/Utils/ErrorMessage';
-import RequestAlert from '@/components/shared/Alert/RequestAlert.vue';
+import errorMessage from '@/Utils/ErrorMessage'; 
 export default{
-  components: { Spinner, CardComponent, ErrorModalComponent, PageTitle, RequestAlert },
+  components: {  CardComponent, PageTitle },
   data () {
     return {
       isDataLoading : false,

@@ -1,7 +1,10 @@
 <template>
  
     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"> 
-        <a class="nav-link text-black"  v-for="(item, index) in data" :key="index" :href="'#tab' + index" data-toggle="pill" role="tab" aria-selected="false" @click="$emit('getStep', item)">Etape {{ item.order }}</a>
+        <p class="fw-bold">Etapes:</p>
+        <a class="nav-link text-black"  v-for="(item, index) in data" :key="index" :href="'#tab' + index" data-toggle="pill" role="tab" aria-selected="false" @click="$emit('getStep', item)">          
+            <span class="fw-bold">  Etape {{ item.order }}</span>
+        </a>
    
     </div>
 </template>
