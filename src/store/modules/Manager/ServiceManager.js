@@ -6,7 +6,8 @@ export default {
         isDataLoading:false,  
         isShowServiceDetailHeader:false,   
         service: null,   
-        requestResponseMessage : null
+        requestResponseMessage : null,
+        pageTitle : null,
     },
 
     getters: {        
@@ -19,13 +20,22 @@ export default {
         getService(state) {
             return state.service;
         },
+        getServiceYear(state) {
+            return state.service?.year;
+        },
         geResponseMessage(state) {
             return state.requestResponseMessage;
+        },
+        getPageTitle(state) {
+            return state.pageTitle;
         }
     },
 
     mutations: {
         
+        setPageTitle(state,pageTitle) {
+            state.pageTitle = pageTitle;
+        },
         startDataLoading(state) {
             state.isDataLoading = true;
         },
@@ -58,10 +68,17 @@ export default {
             return ServiceService.store(newService);
         },
 
+        //data represent serviverId,admissionDateIds
+        async saveServiceAdmissionDates({}, data)
+        {              
+            return ServiceService.saveServiceAdmissionDates(data.serviceId,data);
+        },
+
         async getServices({commit},pageNumber = 0) { 
             !pageNumber &&  commit('startDataLoading');
             return ServiceService.getAll(pageNumber);
-        },
+        },      
+
         async findService({commit},id) { 
             commit('startDataLoading');
             commit('showServiceDetailHeader');

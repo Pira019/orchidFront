@@ -1,5 +1,6 @@
 
 {
+"add_service" : "Ajouter un service",
 "year" : "L'année ",
 "price" : "Le prix ",
 "service_disciplinaries" : "Ce champ ",
@@ -55,6 +56,12 @@
 "messageRequest" :{
     "success" : {
         "save" : "Enregistrement effectué avec succès !"
+    }
+},
+"page" :{
+    "servives" : {
+        "ourServices" : "Nos services",
+        "service" : "Détail service"
     }
 }
 

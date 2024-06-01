@@ -1,55 +1,45 @@
 <template>
 
     <div>     
-        <error-modal-component v-if="errors?.isError">
-            <h5>Erreur {{ errors?.code }} inattendue</h5>
-        </error-modal-component>
-        <section id="header">
-            <h1 class="text-lg-subtitle-2">Liste des Pays avec Étapes de Tutoriels</h1>
-            <p class="text-muted">
-                Cette page répertorie les pays avec les étapes de tutoriels pour chaque pays. Utilisez cette liste pour trouver des tutoriels spécifiques à un pays
-            </p>
-        </section>   
-
-        <section class="mt-5">
-            <card-component :list="data" v-if="loadingData" :onlyHeader="true" :routeName="routeName"></card-component>
-            <Spinner v-else></Spinner>
+       
+        <PageTitle :isLoading="isDataLoading" :requestResponseMessage="requestResponse">
+          Pays</PageTitle>    
+        <section>
+            <card-component :list="data" v-if="data && !isDataLoading" :onlyHeader="true" :routeName="routeName"></card-component> 
         </section>   
     </div>
  
 </template>
 
-<script>
-import Spinner from '@/components/shared/Spinner.vue';
-import CardComponent from '@/components/shared/CardComponent.vue';
-import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue';
-import { navigateToRoute } from '@/Utils/Navigation';
+<script> 
+import CardComponent from '@/components/shared/CardComponent.vue'; 
+import PageTitle from './../../../../components/shared/Manager/PageTitle.vue'
+import errorMessage from '@/Utils/ErrorMessage'; 
 export default{
-  components: { Spinner, CardComponent, ErrorModalComponent },
+  components: {  CardComponent, PageTitle },
   data () {
     return {
-        loadingData : false,
-        data:'',
+      isDataLoading : false,
+        data: null,
         routeName : "ManagerTutoCountrySteps",
-        errors: {
-        isError : false,
-        code:'',
-      }
+        requestResponse : null
     }
   },
-  created () {
-    this.$store.dispatch('tutorial/getFlagUrlAndNameOfCountriesWithSteps').then((response)=> {
+  mounted() {
+
+    this.isDataLoading = true;
+    this.$store.dispatch('tutorial/getFlagUrlAndNameOfCountriesWithSteps')
+      .then((response) => {
+      
         this.data = response.data
-        this.loadingData = true 
-    }).catch((error)=> {
-        this.loadingData = false
-        navigateToRoute.call(this, error.response?.status, 'manager403');
-        this.errors = {
-        isError: true,
-        code : error?.response?.status
-      }
-    
-    }); 
+
+      }).catch((error) => {
+       
+       this.requestResponse = errorMessage(error,true);
+
+      }).finally(()=>{
+        this.isDataLoading = false
+      });
   },
 
 }

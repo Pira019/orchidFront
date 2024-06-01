@@ -10,6 +10,11 @@ export default {
 
     actions: {
 
+        async getProgramAndAdmissionDate({},universityId)
+        {  
+            return UniversityService.getProgramAndAdmissionDate(universityId);
+        },
+
         async saveUniversity({ }, newUniversity) {
             return UniversityService.save(newUniversity)
         },

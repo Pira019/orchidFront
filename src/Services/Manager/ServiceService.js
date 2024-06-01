@@ -29,12 +29,16 @@ export default class ServiceService{
         const pageNumber_ = parseInt(pageNumber);        
         const endpoint = pageNumber_ ? `?page=${pageNumber_}` : ""; 
         return await this.axiosInstance.get(endpoint);
-    } 
-    
+    }  
 
     static async findService(serviceId){
         const endPoind = "/"+ parseInt(serviceId); 
         return await this.axiosInstance.get(endPoind);
+    }
+
+    static async saveServiceAdmissionDates(serviceId,admissionDateIds){
+        const endPoind = "admission_dates/"+ parseInt(serviceId); 
+        return await this.axiosInstance.post(endPoind,admissionDateIds);
     }
  
 }
