@@ -12,7 +12,7 @@
     
 </template>
 
-<script>
+<script> 
 import RequestAlert from '../Alert/RequestAlert.vue'
 import Spinner from './../Spinner.vue'
 export default {
@@ -25,6 +25,7 @@ export default {
             type : String
         }, 
         
-    }
+    },
+  
 }
 </script>

@@ -1,35 +1,26 @@
 <template>
-  <section>
-    <header class="mb-3">
-    <div class="mb-5 justify-content-between d-flex">
-      <h1 class="text-success">{{ title }}</h1>
-      <div v-if="isShowBtn">
-        <router-link
-          :to="{ name: 'ManagerUniversiteAdd' }"
-          class="btn btn-success"
-        >
-          <font-awesome-icon icon="fa-plus" size="1x" />Ajouter
-        </router-link>
-      </div>
+  <div>
+    <div>
+      <page-title :isLoading="isDataLoading" :requestResponseMessage="requestResponse">
+        {{ pageTitle || 'Universités' }}
+      </page-title>
     </div>
-  </header>
-    
-  <body class="p-3 border rounded">
-    <slot></slot>
-  </body>
-  </section>
- 
+    <router-view v-show="!isDataLoading && !requestResponse" :requestResponse="requestResponse"></router-view>
+  </div> 
 </template>
 
 <script>
+import PageTitle from '@/components/shared/Manager/PageTitle.vue';
+import { mapGetters } from 'vuex';
 export default {
-  props: {
-    title: {
-      default: "Liste des Universités",
+  components: { PageTitle }, 
+  computed: {
+        ...mapGetters('ManagerStore', {
+            isDataLoading: 'isDataLoading',
+            requestResponse: 'requestResponse', 
+            pageTitle: 'getPageTitle', 
+        })
     },
-    isShowBtn: {
-      default: false,
-    },
-  },
+  
 };
 </script>

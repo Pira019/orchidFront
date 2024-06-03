@@ -216,7 +216,7 @@ let routes = [
 
     // routes university
     {
-        path: prefix + 'tutoriel/universite',
+        path: prefix + 'tutoriel/universite', component: () => import('@/views/ManagerViews/University/UniversityLayout.vue'),
         beforeEnter: guardMyroute,
         meta: {
             title: 'Parametres universités'

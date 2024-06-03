@@ -1,18 +1,13 @@
 <template>
-  <div class="container-fluid">
-    <error-modal-component v-if="unexpectedError"></error-modal-component>
-    <university-layout :isShowBtn="true" :title="'Détail de l\'université'">
-      <spinner class="m-2" v-if="isLoading"></spinner>
-
-      <div>
-
+  <div class="container-fluid"> 
+      <div>  
         <div id="info" class="mb-5">
-          <h2 class="display-6"> {{ university.name }} <span v-if="university.shortName">( {{
+          <h2 class="display-6 fw-bolder"> {{ university.name }} <span v-if="university.shortName">( {{
             university.shortName?.toUpperCase() }}
               )</span></h2>
         </div>
 
-        <div v-if="!isLoading">
+        <div>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
               <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
@@ -129,8 +124,7 @@
           </div>
         </div>
 
-      </div>
-    </university-layout> 
+      </div> 
     <!--Modals-->
     <RegisterSuccessModalComponent :handle-modal="false" :isSuccess="isPersistSuccessful" :codeErreur="codeErreur">
       <p>L'opération a été effectuée avec succès</p> 
@@ -138,13 +132,9 @@
   </div>
 </template>
 
-<script>
-import ErrorModalComponent from '@/components/modal/ErrorModalComponent.vue'
-import UniversityLayout from './UniversityLayout.vue'
-import Spinner from '@/components/shared/Spinner.vue';
+<script> 
 import formattedDate from '@/Utils/formattedDate'
-import AddUniversity from './AddUniversity.vue';
-import { navigateToRoute } from '@/Utils/Navigation';
+import AddUniversity from './AddUniversity.vue'; 
 import AddAddress from './AddAddress.vue';
 import { mapGetters } from 'vuex'; 
 import { programModel } from '@/model/programs'
@@ -156,6 +146,7 @@ import RegisterSuccessModalComponent from '@/components/modal/RegisterSuccessMod
 import TapComponent from '@/components/shared/TapComponent.vue';
 import { DetailUniversityTabNames } from '@/enums';
 import dateAdmissionForm from './program/dateAdmissionForm.vue';
+import errorMessage from '@/Utils/ErrorMessage';
 
 export default {
   methods: {
@@ -216,7 +207,7 @@ export default {
           return;
         }        
         codeErreur = error.response?.status;
-        navigateToRoute.call(this, codeErreur, 'manager403');
+        this.errorMessages(error);
         
       }).finally(() => {
         this.handlePersisteRequestModal(isSuccessed, codeErreur);  
@@ -224,28 +215,21 @@ export default {
 
     },
 
-    getPrograms() {
+    getPrograms()
+    {
 
       this.$store.dispatch('universityManager/getUniversityPrograms', this.universityId)
         .then((response) => {
           this.$store.commit('universityManager/setPrograms', response.data)
 
         }).catch((error) => {
-          this.handleError(error);
+          this.errorMessages(error);
         });
-
     },
 
     handleFindProgram(programDetail) {
       this.program = programDetail;
-    },
-
-    handleError(error) {
-      navigateToRoute.call(this, error.status, 'manager403');
-      this.isLoading = false;
-      this.unexpectedError = true; 
-    } ,
-
+    }, 
     handlePersisteRequestModal(n,codeErreur){
       this.isPersistSuccessful = n;
       this.codeErreur = codeErreur;
@@ -257,10 +241,8 @@ export default {
 
   },
   data() {
-    return {
-      unexpectedError: false,
+    return { 
       university: {},
-      isLoading: false,
       isEdit: false,
       program: programModel,
       isEditAdress: false,
@@ -306,20 +288,25 @@ export default {
   },
 
   mounted() {
-
-    this.isLoading = true;
-
-    this.$store.dispatch('universityManager/findUniversity', this.universityId).then((response) => {
-      this.university = response.data;
-      this.isLoading = false;
-
+  
+    this.$store.commit('ManagerStore/startDataLoading'); 
+    this.$store.dispatch('universityManager/findUniversity', this.universityId)
+    .then((response) => {
+      this.university = response.data;       
     }).catch((error) => {
-      this.handleError(error);
+      this.$store.commit('ManagerStore/responseMessage', errorMessage(error,true)); 
+    }).finally(()=>{
+      this.$store.commit('ManagerStore/finishDataLoading')
     });
+    this.$store.commit('ManagerStore/setPageTitle',"Détail université"); 
+  },
+
+  unmounted() { 
+    this.$store.commit('ManagerStore/resetResponseMessage');
   },
 
   
-  components: { dateAdmissionForm, ErrorModalComponent, UniversityLayout, Spinner, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent },
+  components: { dateAdmissionForm, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent },
 
 }
 </script>
