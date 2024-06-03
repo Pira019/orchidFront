@@ -12,6 +12,7 @@ import settingManager from './modules/Manager/SettingManager'
 import ExtraTutorialManager from './modules/Manager/ExtraTutorialManager'
 import universityAdmissionManager from './modules/Manager/UniversityAdmissionManager'
 import serviceManager from './modules/Manager/ServiceManager' 
+import ManagerStore from './modules/Manager/ManagerStore'
 
 export default new Vuex.Store({ 
     modules: {
@@ -27,7 +28,8 @@ export default new Vuex.Store({
         settingManager,
         ExtraTutorialManager,
         universityAdmissionManager,
-        serviceManager
+        serviceManager,
+        ManagerStore
     },
 
     getters: {
@@ -37,14 +39,14 @@ export default new Vuex.Store({
 
         getError(state) {
             return state.isError;
-        }, 
+        },  
     },
 
     state: {
-        isSucceed: '',
+        isSucceed: null,
         response : '',
         routhPath : '',
-        isError : false 
+        isError : false, 
     },
     
     mutations: {
@@ -62,6 +64,6 @@ export default new Vuex.Store({
 
         setError401(state) {
             state.isError = true
-        }, 
+        },  
     },
 })
