@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form novalidate v-on:submit.prevent="submit" id="addAdmissionForm">
+        <form novalidate v-on:submit.prevent="submitForm" id="addAdmissionForm">
             <RequestAlert :is-succeed="isSucceed" :response-message="requestResponse"  v-if="isSucceed != null"></RequestAlert>
             <div class="row mb-3">
                 <div class="col-12 col-md ">
@@ -59,6 +59,17 @@
                     </div> 
                 </div>
             </div>
+            <div class="row mb-2">
+                <div class="col-12 col-md">
+                    <label for="Type" class="my-2 fw-bold" :class="[v$.year.$error && 'text-danger']">Année*</label>
+                    <input type="text" :class="[v$.year.$error && 'is-invalid']" id="annee" @focus="updateYearForm" maxlength="4" class="form-control" v-model.trim="state.year">
+                    <div class="invalid-feedback" v-if="v$.year.$error">
+                        <span v-for="(error, index) of v$.year.$errors" :key="index">
+                            {{ error.$message }}
+                        </span>
+                    </div> 
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12 col-md">
                     <label for="debut" :class="[v$.start_at.$error && 'text-danger']" class="my-2 fw-bold">Début d'admission*</label>
@@ -85,7 +96,7 @@
             <div class="row">
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" @click="cancel">Annuler </button> 
-                    <SubmitBtnComponent  class="btn btn-success" @click="submitForm" :loading="isLoading">Enregistrer</SubmitBtnComponent>
+                    <SubmitBtnComponent  class="btn btn-success" :loading="isLoading">Enregistrer</SubmitBtnComponent>
                 </div>
             </div>
         </form>
@@ -113,6 +124,10 @@ export default {
         }
     },
   methods: {
+    
+    updateYearForm(event) {
+        this.state.year = event.target.value;
+    },
     cancel(){
         this.isSucceed=null;
         this.$emit('closePersiteModal') ;
@@ -175,6 +190,7 @@ export default {
                 type: { maxLength: customeMessage('type', 'maxLength', 55), required: customeMessage('type', 'required') },
                 start_at: { maxLength: customeMessage('start_at', 'maxLength', 55), required: customeMessage('start_at', 'required') },
                 end_at: { maxLength: customeMessage('end_at', 'maxLength', 55), required: customeMessage('end_at', 'required') },
+                year: { maxLength: customeMessage('year', 'maxLength', 4), required: customeMessage('year', 'required') },
             }
         })
 
@@ -187,6 +203,15 @@ export default {
             requestResponse : 'null',
             isSucceed : null
         }
+    },
+    mounted(){
+        $('#annee').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            startDate: new Date(),
+            forceParse : true
+        })
     },
     components: { SubmitBtnComponent,RequestAlert },
 }

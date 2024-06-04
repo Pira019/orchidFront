@@ -7,6 +7,7 @@
  * @property {string} type 
  * @property {string} start_at 
  * @property {string} end_at  
+ * @property {string} year  
  */ 
  
  
@@ -23,5 +24,6 @@ export const UniversityAdmissionDate = {
     type: null, 
     start_at : null, 
     end_at : null,
+    year : null,
 
 }

@@ -102,6 +102,9 @@
                       </template>
 
                       <template v-slot:[slotName(1)] > <!--admission date university-->
+                        <admission-date-table  v-if=" program?.admission_date?.length">
+
+                        </admission-date-table>
                          <div v-if=" program?.admission_date?.length">
                           <p> <span class="fw-bold"> Lien : </span> <a :href="program?.admission_date[0].link" target="_blank"> Lien d'inscription</a> </p>
                           <p> <span class="fw-bold"> Session admission : </span> {{ program?.admission_date[0].session_admission}} </p>
@@ -147,6 +150,7 @@ import TapComponent from '@/components/shared/TapComponent.vue';
 import { DetailUniversityTabNames } from '@/enums';
 import dateAdmissionForm from './program/dateAdmissionForm.vue';
 import errorMessage from '@/Utils/ErrorMessage';
+import AdmissionDateTable from '@/model/Manager/admissionDate/admissionDateTable.vue';
 
 export default {
   methods: {
@@ -207,7 +211,7 @@ export default {
           return;
         }        
         codeErreur = error.response?.status;
-        this.errorMessages(error);
+        errorMessage(error);
         
       }).finally(() => {
         this.handlePersisteRequestModal(isSuccessed, codeErreur);  
@@ -223,7 +227,7 @@ export default {
           this.$store.commit('universityManager/setPrograms', response.data)
 
         }).catch((error) => {
-          this.errorMessages(error);
+          errorMessage(error);
         });
     },
 
@@ -306,7 +310,7 @@ export default {
   },
 
   
-  components: { dateAdmissionForm, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent },
+  components: { dateAdmissionForm, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent, AdmissionDateTable },
 
 }
 </script>
