@@ -138,7 +138,7 @@ export default {
         if(this.v$.$error){
             return;
         }
-        
+        this.requestResponse = null;
         this.isLoading = true;
      
         this.$store.dispatch('universityAdmissionManager/addAdmission',this.prepareModel())

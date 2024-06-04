@@ -102,21 +102,9 @@
                       </template>
 
                       <template v-slot:[slotName(1)] > <!--admission date university-->
-                        <admission-date-table  v-if=" program?.admission_date?.length">
-
-                        </admission-date-table>
-                         <div v-if=" program?.admission_date?.length">
-                          <p> <span class="fw-bold"> Lien : </span> <a :href="program?.admission_date[0].link" target="_blank"> Lien d'inscription</a> </p>
-                          <p> <span class="fw-bold"> Session admission : </span> {{ program?.admission_date[0].session_admission}} </p>
-                          <p> <span class="fw-bold"> Date début : </span> {{ program?.admission_date[0].start_at  }} </p>
-                          <p> <span class="fw-bold"> Date fin : </span> {{ program?.admission_date[0].end_at  }}  </p> 
-                          <p> <span class="fw-bold"> Dernière modification : </span>  {{ formattedDate_(program?.admission_date[0].updated_at) }} </p> 
-                         </div>
-
-                         <div v-else> 
-                          <button class="btn btn-danger" @click="addAdmissionDate">Ajouter</button>
-                            <p>Aucune date pour cette session</p>
-                         </div>
+                        <button class="btn btn-danger mb-2" @click="addAdmissionDate">Ajouter</button>                           
+                        <admission-date-table  :data="program?.admission_date" v-if=" program?.admission_date?.length"/> 
+                                                
                       </template> 
 
                       </tap-component> 
@@ -162,7 +150,8 @@ export default {
     },
 
     newAdmissionDate(admission){
-      this.program.admission_date[0]=admission; 
+     this.program.admission_date.push(admission); ;
+   
     },
     slotName(index){
       return this.tabNames[index]
@@ -247,6 +236,7 @@ export default {
   data() {
     return { 
       university: {},
+      admisionDates : [],
       isEdit: false,
       program: programModel,
       isEditAdress: false,
