@@ -32,7 +32,8 @@ let routes = [
 
     //setting route
     {
-        path: prefix + 'paramettre', component: () => import('@/views/ManagerViews/Setting/SettingManagerIndex.vue'),
+        path: prefix + 'paramettre', 
+        component: () => import('@/views/ManagerViews/Setting/SettingManagerIndex.vue'),
         beforeEnter: guardMyroute, 
         meta: {
             title: 'Paramètres',
@@ -45,8 +46,18 @@ let routes = [
                 title: 'Watermark Orchid-campus',
                 metaTags: [
                     {
-                        name: 'description',
-                        content: 'Ajouter tutoriels'
+                        name: 'Watermark Orchid-campus', 
+                    }
+                ]
+            }
+        }, 
+            {
+            path: 'paiement', name: 'ManagerPaiement', component: () => import('@/views/ManagerViews/Setting/PaymentManager.vue'),
+            mata: {
+                title: 'Paiement Orchid-campus',
+                metaTags: [
+                    {
+                        name: 'Paiement Orchid-campus', 
                     }
                 ]
             }

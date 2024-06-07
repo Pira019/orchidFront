@@ -53,6 +53,9 @@
                         <li class="nav-item">
                             <router-link class="nav-link fw-bold" :to="{name:'Managerwatermark'}"> <font-awesome-icon icon="fa-signature" size="1x"/><span class="px-2"> Watermark </span></router-link>
                         </li> 
+                        <li class="nav-item">
+                            <router-link class="nav-link fw-bold" :to="{name:'ManagerPaiement'}"> Paiement </router-link>
+                        </li> 
                     </ul>
                 </li>
 
