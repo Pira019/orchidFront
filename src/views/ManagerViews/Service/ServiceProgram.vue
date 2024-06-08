@@ -7,6 +7,7 @@
                 <img :src="universityProgram.logo" :alt="'Logo_' + universityShortName" class="img-fluid mb-2">
                 <h4 class="fw-bold">{{ universityName }} <span v-show="universityShortName">({{universityShortName}})</span></h4>
                 <p>Dérnière mise à jour : {{ dateFormatted(universityProgram.updated_at) }} </p>
+                <p class="text-center">Programme rentrée : <span class="fw-bold">{{ serviceYear }}</span></p>
             </div>
             <div class="row">
                 <div class="accordion accordion-flush" id="accordionUniversityProgram">
@@ -22,8 +23,7 @@
                         </h2>
                         <div id="flush-collapseThree" class="accordion-collapse collapse"
                             aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                <p class="text-center">Date d'admission : <span class="fw-bold">{{ serviceYear }}</span></p>
+                            <div class="accordion-body">                               
                                 <div class="table-responsive-sm">
                                 <table class="table table-striped table-hover">
                                     <thead>
@@ -115,9 +115,10 @@ export default {
             }
            this.isServiceAdmissionRequestLoading=true;
            const admissionDateIds = this.state.checkedDataAdmission;
+           this.requestResponseAdmision =null;
          
             this.$store.dispatch('serviceManager/saveServiceAdmissionDates', {serviceId:this.serviceId,admissionDateIds}).then(()=>{
-                this.requestResponseAdmision =null;
+               
             })
             .catch((error)=>{
                 this.requestResponseAdmision = errorMessage(error);
@@ -134,7 +135,7 @@ export default {
         findServiceUniversityProgram(universityId)
         {             
             this.isDataLoading = true;
-            this.$store.dispatch('universityManager/getProgramAndAdmissionDate',universityId)
+            this.$store.dispatch('universityManager/getProgramAndAdmissionDate',{universityId:universityId,year:this.serviceYear})
             .then((response)=>
             {
                 this.universityProgram = {...response.data}  
