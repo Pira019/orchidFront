@@ -10,9 +10,9 @@ export default {
 
     actions: {
 
-        async getProgramAndAdmissionDate({},universityId)
+        async getProgramAndAdmissionDate({},{ universityId, year })
         {  
-            return UniversityService.getProgramAndAdmissionDate(universityId);
+            return UniversityService.getProgramAndAdmissionDate(universityId,year);
         },
 
         async saveUniversity({ }, newUniversity) {

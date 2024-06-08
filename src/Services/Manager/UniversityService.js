@@ -63,9 +63,9 @@ export default class UniversityService{
        // this.axiosInstance.post(endPoint, newProgram);
     } 
 
-    static async getProgramAndAdmissionDate(id){
-        const universityId = parseInt(id);        
-        const endpoint = universityId + "/programs-date"; 
+    static async getProgramAndAdmissionDate(univetsityId,year){
+        const universityId = parseInt(univetsityId);      
+        const endpoint = universityId + "/programs-date/" + parseInt(year); 
         return await this.axiosInstance.get(endpoint);
     } 
     
