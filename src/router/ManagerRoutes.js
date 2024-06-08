@@ -2,6 +2,16 @@ let prefix = '/manager/'
 
 let routes = [
 
+    {
+        path: prefix + 'profil', 
+        name: 'ManagerUserProfile',
+        component: () => import('@/views/ManagerViews/Profile/UserProfile.vue'),
+        beforeEnter: guardMyroute, 
+        meta: {
+            title: 'Profil',
+        },
+    },
+
     //setting route
     {
         path: prefix + 'service', component: () => import('@/views/ManagerViews/Service/ServiceLayout.vue'),

@@ -60,7 +60,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link m-1 fw-bold " href="#">Disabled</a>
+                    <router-link  class="nav-link fw-bold" :to="{name:'ManagerUserProfile'}"><font-awesome-icon icon="fa-solid fa-user"></font-awesome-icon><span class="px-2"> Profil </span></router-link>
+
                 </li>
             </ul> 
         </nav>
