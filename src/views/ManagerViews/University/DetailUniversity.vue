@@ -102,18 +102,9 @@
                       </template>
 
                       <template v-slot:[slotName(1)] > <!--admission date university-->
-                         <div v-if=" program?.admission_date?.length">
-                          <p> <span class="fw-bold"> Lien : </span> <a :href="program?.admission_date[0].link" target="_blank"> Lien d'inscription</a> </p>
-                          <p> <span class="fw-bold"> Session admission : </span> {{ program?.admission_date[0].session_admission}} </p>
-                          <p> <span class="fw-bold"> Date début : </span> {{ program?.admission_date[0].start_at  }} </p>
-                          <p> <span class="fw-bold"> Date fin : </span> {{ program?.admission_date[0].end_at  }}  </p> 
-                          <p> <span class="fw-bold"> Dernière modification : </span>  {{ formattedDate_(program?.admission_date[0].updated_at) }} </p> 
-                         </div>
-
-                         <div v-else> 
-                          <button class="btn btn-danger" @click="addAdmissionDate">Ajouter</button>
-                            <p>Aucune date pour cette session</p>
-                         </div>
+                        <button class="btn btn-danger mb-2" @click="addAdmissionDate">Ajouter</button>                           
+                        <admission-date-table  :data="program?.admission_date" v-if=" program?.admission_date?.length"/> 
+                                                
                       </template> 
 
                       </tap-component> 
@@ -147,6 +138,7 @@ import TapComponent from '@/components/shared/TapComponent.vue';
 import { DetailUniversityTabNames } from '@/enums';
 import dateAdmissionForm from './program/dateAdmissionForm.vue';
 import errorMessage from '@/Utils/ErrorMessage';
+import AdmissionDateTable from '@/model/Manager/admissionDate/admissionDateTable.vue';
 
 export default {
   methods: {
@@ -158,7 +150,8 @@ export default {
     },
 
     newAdmissionDate(admission){
-      this.program.admission_date[0]=admission; 
+     this.program.admission_date.push(admission); ;
+   
     },
     slotName(index){
       return this.tabNames[index]
@@ -207,7 +200,7 @@ export default {
           return;
         }        
         codeErreur = error.response?.status;
-        this.errorMessages(error);
+        errorMessage(error);
         
       }).finally(() => {
         this.handlePersisteRequestModal(isSuccessed, codeErreur);  
@@ -223,7 +216,7 @@ export default {
           this.$store.commit('universityManager/setPrograms', response.data)
 
         }).catch((error) => {
-          this.errorMessages(error);
+          errorMessage(error);
         });
     },
 
@@ -243,6 +236,7 @@ export default {
   data() {
     return { 
       university: {},
+      admisionDates : [],
       isEdit: false,
       program: programModel,
       isEditAdress: false,
@@ -306,7 +300,7 @@ export default {
   },
 
   
-  components: { dateAdmissionForm, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent },
+  components: { dateAdmissionForm, AddUniversity, AddAddress, AccordionComponent, StaticbackdropModal, AddProgram, RegisterSuccessModalComponent, TapComponent, AdmissionDateTable },
 
 }
 </script>

@@ -2,6 +2,16 @@ let prefix = '/manager/'
 
 let routes = [
 
+    {
+        path: prefix + 'profil', 
+        name: 'ManagerUserProfile',
+        component: () => import('@/views/ManagerViews/Profile/UserProfile.vue'),
+        beforeEnter: guardMyroute, 
+        meta: {
+            title: 'Profil',
+        },
+    },
+
     //setting route
     {
         path: prefix + 'service', component: () => import('@/views/ManagerViews/Service/ServiceLayout.vue'),
@@ -32,7 +42,8 @@ let routes = [
 
     //setting route
     {
-        path: prefix + 'paramettre', component: () => import('@/views/ManagerViews/Setting/SettingManagerIndex.vue'),
+        path: prefix + 'paramettre', 
+        component: () => import('@/views/ManagerViews/Setting/SettingManagerIndex.vue'),
         beforeEnter: guardMyroute, 
         meta: {
             title: 'Paramètres',
@@ -45,8 +56,18 @@ let routes = [
                 title: 'Watermark Orchid-campus',
                 metaTags: [
                     {
-                        name: 'description',
-                        content: 'Ajouter tutoriels'
+                        name: 'Watermark Orchid-campus', 
+                    }
+                ]
+            }
+        }, 
+            {
+            path: 'paiement', name: 'ManagerPaiement', component: () => import('@/views/ManagerViews/Setting/PaymentManager.vue'),
+            mata: {
+                title: 'Paiement Orchid-campus',
+                metaTags: [
+                    {
+                        name: 'Paiement Orchid-campus', 
                     }
                 ]
             }

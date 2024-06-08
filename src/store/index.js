@@ -13,6 +13,7 @@ import ExtraTutorialManager from './modules/Manager/ExtraTutorialManager'
 import universityAdmissionManager from './modules/Manager/UniversityAdmissionManager'
 import serviceManager from './modules/Manager/ServiceManager' 
 import ManagerStore from './modules/Manager/ManagerStore'
+import profileManager from './modules/Manager/ProfileManager'
 
 export default new Vuex.Store({ 
     modules: {
@@ -29,7 +30,8 @@ export default new Vuex.Store({
         ExtraTutorialManager,
         universityAdmissionManager,
         serviceManager,
-        ManagerStore
+        ManagerStore,
+        profileManager
     },
 
     getters: {
